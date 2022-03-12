@@ -1,0 +1,36 @@
+.productList {
+  flex: 4;
+}
+
+.sellerSellerProduct {
+  display: flex;
+  align-items: center;
+}
+
+.productImage {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.productListApprove {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: green;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.productListDecline {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: red;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+}

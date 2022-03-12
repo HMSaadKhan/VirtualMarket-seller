@@ -1,0 +1,157 @@
+.seller {
+  flex: 4;
+  padding: 20px;
+}
+
+.sellerTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sellerAddButton {
+  width: 80px;
+  border: none;
+  padding: 5px;
+  color: white;
+  font-size: 16px;
+  background-color: red;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.sellerContainer {
+  display: flex;
+  margin-top: 20px;
+}
+
+.sellerDisplay {
+  flex: 1;
+  padding: 20px;
+  box-shadow: 10px 8px 24px -7px rgba(0, 0, 0, 0.39);
+  -webkit-box-shadow: 10px 8px 24px -7px rgba(0, 0, 0, 0.39);
+  -moz-box-shadow: 10px 8px 24px -7px rgba(0, 0, 0, 0.39);
+}
+
+.sellerUpdate {
+  flex: 2;
+  padding: 20px;
+  box-shadow: 10px 8px 24px -7px rgba(0, 0, 0, 0.39);
+  -webkit-box-shadow: 10px 8px 24px -7px rgba(0, 0, 0, 0.39);
+  -moz-box-shadow: 10px 8px 24px -7px rgba(0, 0, 0, 0.39);
+
+  margin-left: 20px;
+}
+
+.sellerDisplayTop {
+  display: flex;
+  align-items: center;
+}
+
+.sellerDisplayImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sellerDisplayTopTitle {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.sellerDisplaySellerName {
+  font-weight: 600;
+}
+
+.sellerDisplaySellerTitle {
+  font-weight: 300;
+}
+
+.sellerDisplayBottom {
+  margin-top: 20px;
+}
+
+.sellerDisplayTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(99, 97, 97);
+}
+
+.sellerDisplayInfo {
+  display: flex;
+  align-items: center;
+  margin: 20px 0px;
+  color: #444;
+}
+
+.sellerDisplayIcon {
+  font-size: 16px !important;
+}
+
+.sellerDisplayInfoTitle {
+  margin-left: 10px;
+}
+
+.sellerUpdateInput {
+  border: none;
+  width: 250px;
+  height: 30px;
+  border-bottom: 1px solid gray;
+}
+
+.sellerUpdateRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sellerUpdateUpload {
+  display: flex;
+  align-items: center;
+}
+
+.sellerUpdateImg {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.sellerUpdateTitle {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.sellerUpdateForm {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.sellerUpdateItem {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.sellerUpdateItem > label {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.sellerUpdateIcon {
+  cursor: pointer;
+}
+
+.sellerUpdateButton {
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  background-color: red;
+  color: white;
+  font-weight: 600;
+}
