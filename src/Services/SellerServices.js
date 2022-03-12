@@ -79,8 +79,7 @@ class SellerServices extends GenericService {
 
   getUserDetails = () =>
     new Promise((resolve, reject) => {
-      axios
-        .get("sellers/getDetails")
+      this.get("sellers/getDetails")
         .then((data) => {
           resolve(data);
         })

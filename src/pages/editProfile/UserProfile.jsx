@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   LocationSearching,
   MailOutline,
@@ -5,14 +6,46 @@ import {
   PhoneAndroid,
   CardGiftcardstandard,
 } from "@material-ui/icons";
+import sellerService from "../../Services/SellerServices";
 import { Publish, Shop2standard } from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import React from "react";
 import "./userprofile.css";
+import { toast } from "react-toastify";
 
 export default function UserProfile() {
+  const getData = () => {
+    sellerService
+      .getUserDetails()
+      .then((data) => {
+        console.log(data.fName);
+        setfName(data.fName);
+        setlName(data.lName);
+        setCity(data.city);
+        setCnic(data.cnic);
+        setAddress(data.address);
+        setPhone(data.phone);
+        setStoreName(data.storeName);
+        setDeliveryCharge(data.deliveryCharge);
+        setPaymentDetails(data.paymentDetails);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(getData, []);
+
+  const [fName, setfName] = useState("");
+  const [lName, setlName] = useState("");
+  const [cnic, setCnic] = useState("");
+  const [city, setCity] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [storeName, setStoreName] = useState();
+  const [paymentDetails, setPaymentDetails] = useState("");
+  const [deliveryCharge, setDeliveryCharge] = useState(0);
   return (
     <div className="seller">
       <div className="sellerTitleContainer">
@@ -27,77 +60,104 @@ export default function UserProfile() {
                 <Box
                   component="form"
                   sx={{
-                    "& > :not(style)": { m: 1, width: "25ch" },
+                    "& > :not(style)": { m: 1, width: "30ch" },
                   }}
                   noValidate
                   autoComplete="off"
                 >
                   <TextField
-                    id="standard-basic"
+                    defaultValue={fName}
                     label="First Name"
                     variant="standard"
+                    onChange={(e) => {
+                      setfName(e.target.value);
+                    }}
                   />
                   <TextField
-                    id="standard-basic"
                     label="Last Name"
+                    defaultValue={lName}
                     variant="standard"
+                    onChange={(e) => {
+                      setlName(e.target.value);
+                    }}
                   />
                 </Box>
               </div>
 
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
                   label="CNIC"
+                  defaultValue={cnic}
                   variant="standard"
+                  onChange={(e) => {
+                    setCnic(e.target.value);
+                  }}
                 />
               </div>
 
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
                   label="Store Name"
                   variant="standard"
+                  defaultValue={storeName}
+                  onChange={(e) => {
+                    setStoreName(e.target.value);
+                  }}
                 />
               </div>
 
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
                   label="Shop Address"
                   variant="standard"
+                  defaultValue={address}
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                  }}
                 />
               </div>
 
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
                   label="City"
                   variant="standard"
+                  defaultValue={city}
+                  onChange={(e) => {
+                    setCity(e.target.value);
+                  }}
                 />
               </div>
 
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
                   label="Phone No"
                   variant="standard"
+                  defaultValue={phone}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                  }}
                 />
               </div>
 
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
                   label="Payment Details"
                   variant="standard"
+                  defaultValue={paymentDetails}
+                  onChange={(e) => {
+                    setPaymentDetails(e.target.value);
+                  }}
                 />
               </div>
 
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
                   label="Delivery Charges"
                   variant="standard"
+                  defaultValue={deliveryCharge}
+                  onChange={(e) => {
+                    setDeliveryCharge(e.target.value);
+                  }}
                 />
               </div>
             </div>
@@ -116,7 +176,48 @@ export default function UserProfile() {
               </div>
               <div>
                 {/* <button className="sellerUpdateButton">Update\</button> */}
-                <Button className="sellerUpdateButton" variant="contained">
+                <Button
+                  className="sellerUpdateButton"
+                  variant="contained"
+                  onClick={(e) => {
+                    console.log(
+                      fName,
+                      lName,
+                      phone,
+                      address,
+                      city,
+                      storeName,
+                      deliveryCharge,
+                      cnic,
+                      paymentDetails
+                    );
+                    sellerService
+                      .editUserDetails({
+                        fName,
+                        lName,
+                        phone,
+                        address,
+                        city,
+                        storeName,
+                        deliveryCharge,
+                        cnic,
+                        paymentDetails,
+                      })
+                      .then((data) => {
+                        console.log(data);
+
+                        toast.success("Changes Saved Successfully", {
+                          position: toast.POSITION.BOTTOM_LEFT,
+                        });
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                        toast.error(err.response.data, {
+                          position: toast.POSITION.BOTTOM_LEFT,
+                        });
+                      });
+                  }}
+                >
                   Update
                 </Button>
               </div>

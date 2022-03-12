@@ -33,8 +33,8 @@ const Form = styled.form`
 `;
 
 const Login = (props) => {
-  const [email, setEmail] = React.useState("saad@gmail.com");
-  const [password, setPassword] = React.useState("saad12345");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
   const history = useHistory();
   return (
     <LoginAuth>
