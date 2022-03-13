@@ -8,18 +8,29 @@ import {
 } from "@material-ui/icons";
 import sellerService from "../../Services/SellerServices";
 import { Publish, Shop2standard } from "@mui/icons-material";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+import { TextField, Button, Box, Paper } from "@mui/material";
 import "./userprofile.css";
 import { toast } from "react-toastify";
+import styled from "styled-components";
+import axios from "axios";
 
 export default function UserProfile() {
-  const getData = () => {
+  const [fName, setfName] = useState("");
+  const [lName, setlName] = useState("");
+  const [cnic, setCnic] = useState("");
+  const [city, setCity] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [storeName, setStoreName] = useState();
+  const [paymentDetails, setPaymentDetails] = useState("");
+  const [deliveryCharge, setDeliveryCharge] = useState(0);
+  const [image, setImage] = useState("");
+
+  React.useEffect(() => {
     sellerService
       .getUserDetails()
       .then((data) => {
-        console.log(data.fName);
+        console.log(data);
         setfName(data.fName);
         setlName(data.lName);
         setCity(data.city);
@@ -33,19 +44,8 @@ export default function UserProfile() {
       .catch((err) => {
         console.log(err);
       });
-  };
+  }, []);
 
-  useEffect(getData, []);
-
-  const [fName, setfName] = useState("");
-  const [lName, setlName] = useState("");
-  const [cnic, setCnic] = useState("");
-  const [city, setCity] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [storeName, setStoreName] = useState();
-  const [paymentDetails, setPaymentDetails] = useState("");
-  const [deliveryCharge, setDeliveryCharge] = useState(0);
   return (
     <div className="seller">
       <div className="sellerTitleContainer">
@@ -66,7 +66,7 @@ export default function UserProfile() {
                   autoComplete="off"
                 >
                   <TextField
-                    defaultValue={fName}
+                    value={fName}
                     label="First Name"
                     variant="standard"
                     onChange={(e) => {
@@ -75,7 +75,7 @@ export default function UserProfile() {
                   />
                   <TextField
                     label="Last Name"
-                    defaultValue={lName}
+                    value={lName}
                     variant="standard"
                     onChange={(e) => {
                       setlName(e.target.value);
@@ -87,7 +87,7 @@ export default function UserProfile() {
               <div className="sellerUpdateItem">
                 <TextField
                   label="CNIC"
-                  defaultValue={cnic}
+                  value={cnic}
                   variant="standard"
                   onChange={(e) => {
                     setCnic(e.target.value);
@@ -99,7 +99,7 @@ export default function UserProfile() {
                 <TextField
                   label="Store Name"
                   variant="standard"
-                  defaultValue={storeName}
+                  value={storeName}
                   onChange={(e) => {
                     setStoreName(e.target.value);
                   }}
@@ -110,7 +110,7 @@ export default function UserProfile() {
                 <TextField
                   label="Shop Address"
                   variant="standard"
-                  defaultValue={address}
+                  value={address}
                   onChange={(e) => {
                     setAddress(e.target.value);
                   }}
@@ -121,7 +121,7 @@ export default function UserProfile() {
                 <TextField
                   label="City"
                   variant="standard"
-                  defaultValue={city}
+                  value={city}
                   onChange={(e) => {
                     setCity(e.target.value);
                   }}
@@ -132,7 +132,7 @@ export default function UserProfile() {
                 <TextField
                   label="Phone No"
                   variant="standard"
-                  defaultValue={phone}
+                  value={phone}
                   onChange={(e) => {
                     setPhone(e.target.value);
                   }}
@@ -143,7 +143,7 @@ export default function UserProfile() {
                 <TextField
                   label="Payment Details"
                   variant="standard"
-                  defaultValue={paymentDetails}
+                  value={paymentDetails}
                   onChange={(e) => {
                     setPaymentDetails(e.target.value);
                   }}
@@ -154,7 +154,7 @@ export default function UserProfile() {
                 <TextField
                   label="Delivery Charges"
                   variant="standard"
-                  defaultValue={deliveryCharge}
+                  value={deliveryCharge}
                   onChange={(e) => {
                     setDeliveryCharge(e.target.value);
                   }}
@@ -163,16 +163,38 @@ export default function UserProfile() {
             </div>
             <div className="sellerUpdateRight">
               <div className="sellerUpdateUpload">
-                <img
+                {/* <img
                   src="https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
                   alt=""
                   className="sellerUpdateImg"
-                />
+                /> */}
+                <Paper
+                  sx={{
+                    height: 500,
+                    width: 500,
+                    maxHeight: { xs: 500, md: 167 },
+                    maxWidth: { xs: 350, md: 250 },
+                  }}
+                  variant="outlined"
+                >
+                  <img
+                    className="sellerUpdateImg"
+                    src="https://res.cloudinary.com/ddpdr9nvh/image/upload/v1647166033/ytcawo2qafzf0fsv99dx.jpg"
+                  />
+                </Paper>
 
-                <label htmlFor="file">
+                {/* <label htmlFor="file">
                   <Publish className="sellerUpdateIcon" />
-                </label>
-                <input type="file" id="file" style={{ display: "none" }} />
+                </label> */}
+                <Box>
+                  <input
+                    type="file"
+                    id="file"
+                    onChange={(e) => {
+                      setImage(e.target.files[0]);
+                    }}
+                  />
+                </Box>
               </div>
               <div>
                 {/* <button className="sellerUpdateButton">Update\</button> */}
@@ -180,32 +202,11 @@ export default function UserProfile() {
                   className="sellerUpdateButton"
                   variant="contained"
                   onClick={(e) => {
-                    console.log(
-                      fName,
-                      lName,
-                      phone,
-                      address,
-                      city,
-                      storeName,
-                      deliveryCharge,
-                      cnic,
-                      paymentDetails
-                    );
                     sellerService
-                      .editUserDetails({
-                        fName,
-                        lName,
-                        phone,
-                        address,
-                        city,
-                        storeName,
-                        deliveryCharge,
-                        cnic,
-                        paymentDetails,
-                      })
+                      .AddAvatar(image)
                       .then((data) => {
                         console.log(data);
-
+                        // window.location.reload();
                         toast.success("Changes Saved Successfully", {
                           position: toast.POSITION.BOTTOM_LEFT,
                         });
@@ -216,6 +217,32 @@ export default function UserProfile() {
                           position: toast.POSITION.BOTTOM_LEFT,
                         });
                       });
+
+                    //   sellerService
+                    //     .editUserDetails({
+                    //       fName,
+                    //       lName,
+                    //       phone,
+                    //       address,
+                    //       city,
+                    //       storeName,
+                    //       deliveryCharge,
+                    //       cnic,
+                    //       paymentDetails,
+                    //     })
+                    //     .then((data) => {
+                    //       console.log(data);
+                    //       // window.location.reload();
+                    //       toast.success("Changes Saved Successfully", {
+                    //         position: toast.POSITION.BOTTOM_LEFT,
+                    //       });
+                    //     })
+                    //     .catch((err) => {
+                    //       console.log(err);
+                    //       toast.error(err.response.data, {
+                    //         position: toast.POSITION.BOTTOM_LEFT,
+                    //       });
+                    //     });
                   }}
                 >
                   Update

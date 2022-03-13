@@ -1,20 +1,20 @@
-import { Publish, Shop2standard } from "@mui/icons-material";
+import * as React from "react";
+import "./addproduct.css";
 import TextField from "@mui/material/TextField";
+import { Publish } from "@material-ui/icons";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import React from "react";
-import "./productupdate.css";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
-export default function Productupdate() {
+export default function AddProduct() {
   return (
     <div className="seller">
       <div className="sellerTitleContainer">
-        <h1 className="sellerTitle">Update Product</h1>
+        <h1 className="sellerTitle">Add Product</h1>
       </div>
 
       <div className="sellerContainer">
@@ -34,11 +34,15 @@ export default function Productupdate() {
                     id="standard-basic"
                     label="Product Name"
                     variant="standard"
+                    placeholder="e.g. S21 Ultra"
+                    defaultValue=""
                   />
                   <TextField
                     id="standard-basic"
                     label="Product Brand"
                     variant="standard"
+                    placeholder="e.g. Samsung"
+                    defaultValue=""
                   />
                 </Box>
               </div>
@@ -48,6 +52,8 @@ export default function Productupdate() {
                   id="standard-basic"
                   label="Product Category"
                   variant="standard"
+                  placeholder="e.g. Electronics"
+                  defaultValue=""
                 />
               </div>
 
@@ -57,9 +63,10 @@ export default function Productupdate() {
                   label="Quantity"
                   type="number"
                   variant="standard"
+                  placeholder="e.g. 10"
+                  defaultValue=""
                 />
               </div>
-
               <br></br>
 
               <FormControl>
@@ -90,6 +97,8 @@ export default function Productupdate() {
                   id="standard-basic"
                   label="Warranty Period"
                   variant="standard"
+                  placeholder="e.g. 2 Years"
+                  defaultValue=""
                 />
               </div>
 
@@ -100,27 +109,11 @@ export default function Productupdate() {
                   variant="standard"
                 />
               </div>
-
-              <div className="sellerUpdateItem">
-                <TextField
-                  id="standard-basic"
-                  label="Payment Details"
-                  variant="standard"
-                />
-              </div>
-
-              <div className="sellerUpdateItem">
-                <TextField
-                  id="standard-basic"
-                  label="Delivery Charges"
-                  variant="standard"
-                />
-              </div>
             </div>
             <div className="sellerUpdateRight">
               <div className="sellerUpdateUpload">
                 <img
-                  src="https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                  src="https://www.orissapost.com/wp-content/uploads/2019/05/AIR-CONDITIONERS-1024x860.jpg"
                   alt=""
                   className="sellerUpdateImg"
                 />
@@ -128,11 +121,16 @@ export default function Productupdate() {
                 <label htmlFor="file">
                   <Publish className="sellerUpdateIcon" />
                 </label>
-                <input type="file" id="file" style={{ display: "none" }} />
+                <input
+                  type="file"
+                  id="file"
+                  multiple
+                  style={{ display: "none" }}
+                />
               </div>
               <div>
                 <Button className="sellerUpdateButton" variant="contained">
-                  Update
+                  Add
                 </Button>
               </div>
             </div>

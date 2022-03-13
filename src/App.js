@@ -12,7 +12,8 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-import Productupdate from "./pages/productUpdate/Productupdate";
+import AddProduct from "./pages/AddProducts/AddProduct";
+import ProductUpdate from "./pages/productUpdate/Productupdate";
 import Login from "./pages/LoginPage/Login";
 import SignUp from "./pages/SignUpPage/SignUp";
 import ForgotPassword from "./pages/SignUpPage/ForgotPassword";
@@ -35,7 +36,8 @@ function App() {
           <Route path="/orders" component={SellerList} />
           <Route path="/product" component={SellerProduct} />
           <Route path="/sellerprofile" component={UserProfile} />
-          <Route path="/productupdate" component={Productupdate} />
+          <Route path="/productupdate" component={AddProduct} />
+          <Route path="/updateProduct" component={ProductUpdate} />
           <Route path="/Login" exact component={Login} />
           <Route path="/signup" exact component={SignUp} />
           <Route path="/forgotpassword" component={ForgotPassword} />
