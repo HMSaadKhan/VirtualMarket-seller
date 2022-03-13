@@ -1,16 +1,33 @@
-import * as React from "react";
+import React, { useState } from "react";
 import "./addproduct.css";
-import TextField from "@mui/material/TextField";
+import {
+  TextField,
+  Box,
+  Radio,
+  Button,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+} from "@mui/material";
 import { Publish } from "@material-ui/icons";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
+import { toast } from "react-toastify";
+import sellerService from "../../Services/SellerServices";
 
 export default function AddProduct() {
+  const [name, setName] = useState("");
+  const [brand, setBrand] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [sampleOrder, setSampleOrder] = useState("true");
+  const [stock, setStock] = useState();
+  const [warrantyPeriod, setWarrantyPeriod] = useState();
+  const [minOrder, setMinOrder] = useState();
+  const [price, setPrice] = useState(0);
+  const handleChange = (event) => {
+    setSampleOrder(event.target.value);
+    console.log(sampleOrder);
+  };
   return (
     <div className="seller">
       <div className="sellerTitleContainer">
@@ -31,61 +48,78 @@ export default function AddProduct() {
                   autoComplete="off"
                 >
                   <TextField
-                    id="standard-basic"
                     label="Product Name"
                     variant="standard"
                     placeholder="e.g. S21 Ultra"
-                    defaultValue=""
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
                   />
                   <TextField
-                    id="standard-basic"
                     label="Product Brand"
                     variant="standard"
                     placeholder="e.g. Samsung"
-                    defaultValue=""
+                    value={brand}
+                    onChange={(e) => {
+                      setBrand(e.target.value);
+                    }}
                   />
                 </Box>
               </div>
-
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
+                  label="Product Category"
+                  type="number"
+                  variant="standard"
+                  placeholder="e.g. Electronics"
+                  value={price}
+                  onChange={(e) => {
+                    setPrice(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="sellerUpdateItem">
+                <TextField
                   label="Product Category"
                   variant="standard"
                   placeholder="e.g. Electronics"
-                  defaultValue=""
+                  value={category}
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                  }}
                 />
               </div>
 
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
                   label="Quantity"
                   type="number"
                   variant="standard"
                   placeholder="e.g. 10"
-                  defaultValue=""
+                  value={minOrder}
+                  onChange={(e) => {
+                    setMinOrder(e.target.value);
+                  }}
                 />
               </div>
               <br></br>
 
               <FormControl>
-                <FormLabel id="demo-radio-buttons-group-label">
-                  Sample
-                </FormLabel>
+                <FormLabel>Sample</FormLabel>
                 <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="female"
-                  name="radio-buttons-group"
+                  defaultValue="included"
+                  value={sampleOrder}
+                  onChange={handleChange}
                 >
                   <FormControlLabel
-                    value="included"
+                    value="true"
                     control={<Radio />}
                     label="Included"
                   />
 
                   <FormControlLabel
-                    value="not included"
+                    value="false"
                     control={<Radio />}
                     label="Not Included"
                   />
@@ -94,29 +128,40 @@ export default function AddProduct() {
 
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
                   label="Warranty Period"
                   variant="standard"
                   placeholder="e.g. 2 Years"
-                  defaultValue=""
+                  value={warrantyPeriod}
+                  onChange={(e) => {
+                    setWarrantyPeriod(e.target.value);
+                  }}
                 />
               </div>
 
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
                   label="Product Description"
                   variant="standard"
+                  value={description}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="sellerUpdateItem">
+                <TextField
+                  label="Stock"
+                  variant="standard"
+                  value={stock}
+                  onChange={(e) => {
+                    setStock(e.target.value);
+                  }}
                 />
               </div>
             </div>
             <div className="sellerUpdateRight">
               <div className="sellerUpdateUpload">
-                <img
-                  src="https://www.orissapost.com/wp-content/uploads/2019/05/AIR-CONDITIONERS-1024x860.jpg"
-                  alt=""
-                  className="sellerUpdateImg"
-                />
+                <img src="" alt="" className="sellerUpdateImg" />
 
                 <label htmlFor="file">
                   <Publish className="sellerUpdateIcon" />
@@ -129,7 +174,37 @@ export default function AddProduct() {
                 />
               </div>
               <div>
-                <Button className="sellerUpdateButton" variant="contained">
+                <Button
+                  className="sellerUpdateButton"
+                  variant="contained"
+                  onClick={(e) => {
+                    sellerService
+                      .AddProduct({
+                        name,
+                        brand,
+                        category,
+                        minOrder,
+                        warrantyPeriod,
+                        stock,
+                        sampleOrder,
+                        price,
+                        description,
+                      })
+                      .then((data) => {
+                        console.log(data);
+                        window.location.reload();
+                        toast.success("Changes Saved Successfully", {
+                          position: toast.POSITION.BOTTOM_LEFT,
+                        });
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                        toast.error(err.response.data, {
+                          position: toast.POSITION.BOTTOM_LEFT,
+                        });
+                      });
+                  }}
+                >
                   Add
                 </Button>
               </div>

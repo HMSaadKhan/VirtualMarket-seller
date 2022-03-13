@@ -19,6 +19,7 @@ import SignUp from "./pages/SignUpPage/SignUp";
 import ForgotPassword from "./pages/SignUpPage/ForgotPassword";
 import NewPassword from "./pages/SignUpPage/NewPassword";
 import ChangePassword from "./pages/SignUpPage/ChangePassword";
+import UploadImage from "./pages/ImageUpload/UploadImage";
 import EmailVerification from "./pages/SignUpPage/EmailVerification";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -48,6 +49,7 @@ function App() {
             component={EmailVerification}
           />
           <Route path="/changepassword/" exact component={ChangePassword} />
+          <Route path="/imageUpload" exact component={UploadImage} />
           <Route path="/" component={Home} />
         </Switch>
       </div>

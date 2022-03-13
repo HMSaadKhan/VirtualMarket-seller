@@ -137,11 +137,23 @@ class SellerServices extends GenericService {
           reject(err);
         });
     });
-    AddAvatar = (image) =>
+  AddAvatar = (image) =>
     new Promise((resolve, reject) => {
-      this.post("sellers/AddAvatar", { image })
+      this.post("sellers/AddAvatar", image)
         .then((data) => {
           console.log("Avatar Post");
+          console.log(data);
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  AddProduct = (data) =>
+    new Promise((resolve, reject) => {
+      this.post("products/add", data)
+        .then((data) => {
+          console.log("Product Post");
           console.log(data);
           resolve(data);
         })

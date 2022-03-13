@@ -24,7 +24,7 @@ export default function UserProfile() {
   const [storeName, setStoreName] = useState();
   const [paymentDetails, setPaymentDetails] = useState("");
   const [deliveryCharge, setDeliveryCharge] = useState(0);
-  const [image, setImage] = useState("");
+  const [avatar, setAvatar] = useState("");
 
   React.useEffect(() => {
     sellerService
@@ -40,12 +40,37 @@ export default function UserProfile() {
         setStoreName(data.storeName);
         setDeliveryCharge(data.deliveryCharge);
         setPaymentDetails(data.paymentDetails);
+        setAvatar(data.avatar);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+  const send = (event) => {
+    const data = new FormData();
 
+    data.append("File", avatar);
+    console.log(data);
+    sellerService
+      .AddAvatar(data)
+      .then((data) => {
+        console.log(data);
+        // window.location.reload();
+        toast.success("Changes Saved Successfully", {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      });
+
+    // Axios.post("https://httpbin.org/anything", data)
+    //   .then((res) => console.log(res))
+    //   .catch((err) => console.log(err));
+  };
   return (
     <div className="seller">
       <div className="sellerTitleContainer">
@@ -164,37 +189,28 @@ export default function UserProfile() {
             <div className="sellerUpdateRight">
               <div className="sellerUpdateUpload">
                 {/* <img
-                  src="https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                  src="https://Avatars.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
                   alt=""
                   className="sellerUpdateImg"
                 /> */}
-                <Paper
-                  sx={{
-                    height: 500,
-                    width: 500,
-                    maxHeight: { xs: 500, md: 167 },
-                    maxWidth: { xs: 350, md: 250 },
-                  }}
-                  variant="outlined"
-                >
-                  <img
-                    className="sellerUpdateImg"
-                    src="https://res.cloudinary.com/ddpdr9nvh/image/upload/v1647166033/ytcawo2qafzf0fsv99dx.jpg"
-                  />
-                </Paper>
 
-                {/* <label htmlFor="file">
+                <img className="sellerUpdateImg" src={avatar} />
+
+                {/* 
                   <Publish className="sellerUpdateIcon" />
                 </label> */}
-                <Box>
-                  <input
-                    type="file"
-                    id="file"
-                    onChange={(e) => {
-                      setImage(e.target.files[0]);
-                    }}
-                  />
-                </Box>
+                <form>
+                  <>
+                    <label htmlFor="file"></label>
+                    <input
+                      type="file"
+                      id="file"
+                      onChange={(e) => {
+                        setAvatar(e.target.files[0]);
+                      }}
+                    />
+                  </>
+                </form>
               </div>
               <div>
                 {/* <button className="sellerUpdateButton">Update\</button> */}
@@ -202,8 +218,21 @@ export default function UserProfile() {
                   className="sellerUpdateButton"
                   variant="contained"
                   onClick={(e) => {
+                    console.log(avatar);
+                    //send();
+
                     sellerService
-                      .AddAvatar(image)
+                      .editUserDetails({
+                        fName,
+                        lName,
+                        phone,
+                        address,
+                        city,
+                        storeName,
+                        deliveryCharge,
+                        cnic,
+                        paymentDetails,
+                      })
                       .then((data) => {
                         console.log(data);
                         // window.location.reload();
@@ -217,32 +246,6 @@ export default function UserProfile() {
                           position: toast.POSITION.BOTTOM_LEFT,
                         });
                       });
-
-                    //   sellerService
-                    //     .editUserDetails({
-                    //       fName,
-                    //       lName,
-                    //       phone,
-                    //       address,
-                    //       city,
-                    //       storeName,
-                    //       deliveryCharge,
-                    //       cnic,
-                    //       paymentDetails,
-                    //     })
-                    //     .then((data) => {
-                    //       console.log(data);
-                    //       // window.location.reload();
-                    //       toast.success("Changes Saved Successfully", {
-                    //         position: toast.POSITION.BOTTOM_LEFT,
-                    //       });
-                    //     })
-                    //     .catch((err) => {
-                    //       console.log(err);
-                    //       toast.error(err.response.data, {
-                    //         position: toast.POSITION.BOTTOM_LEFT,
-                    //       });
-                    //     });
                   }}
                 >
                   Update

@@ -122,6 +122,16 @@ export default function Sidebar() {
                       Logout
                     </a>
                   </li>
+                  <li className="sidebarListItem">
+                    <a
+                      href="#"
+                      onClick={() => {
+                        history.push("/imageUpload");
+                      }}
+                    >
+                      Upload Image
+                    </a>
+                  </li>
                 </ul>
               </div>
 

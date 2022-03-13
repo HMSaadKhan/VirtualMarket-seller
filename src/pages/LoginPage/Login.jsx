@@ -73,6 +73,7 @@ const Login = (props) => {
                     .login(email, password)
                     .then((data) => {
                       console.log(data);
+                      sellerService.verificationOTP();
                       props.history.push("/emailverification");
                       toast.success("Login Successfull", {
                         position: toast.POSITION.BOTTOM_LEFT,
