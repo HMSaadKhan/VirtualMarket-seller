@@ -107,7 +107,7 @@ export default function Sidebar() {
                         history.push("/productupdate  ");
                       }}
                     >
-                      Edit Product
+                      Add Product
                     </a>
                   </li>
                   <li className="sidebarListItem">
@@ -116,7 +116,9 @@ export default function Sidebar() {
                     <a
                       href="#"
                       onClick={() => {
+                        sellerService.logout();
                         history.push("/Login");
+                        window.location.reload();
                       }}
                     >
                       Logout

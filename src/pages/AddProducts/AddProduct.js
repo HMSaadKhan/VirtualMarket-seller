@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./addproduct.css";
 import {
   TextField,
@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { Publish } from "@material-ui/icons";
 import { toast } from "react-toastify";
-import sellerService from "../../Services/SellerServices";
+import productService from "../../Services/ProductServices";
 
 export default function AddProduct() {
   const [name, setName] = useState("");
@@ -28,6 +28,19 @@ export default function AddProduct() {
     setSampleOrder(event.target.value);
     console.log(sampleOrder);
   };
+
+  const getCategories = () => {
+    productService
+      .GetCategories()
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  React.useEffect(getCategories, []);
+
   return (
     <div className="seller">
       <div className="sellerTitleContainer">
@@ -178,7 +191,7 @@ export default function AddProduct() {
                   className="sellerUpdateButton"
                   variant="contained"
                   onClick={(e) => {
-                    sellerService
+                    productService
                       .AddProduct({
                         name,
                         brand,

@@ -90,6 +90,9 @@ const ForgotPassword = (props) => {
                       })
                       .catch((err) => {
                         console.log(err);
+                        toast.error(err.response.data, {
+                          position: toast.POSITION.BOTTOM_LEFT,
+                        });
                       });
                   }}
                 >
@@ -110,7 +113,7 @@ const ForgotPassword = (props) => {
                         });
                     }}
                   >
-                    Resend Otp{" "}
+                    Send Otp{" "}
                   </Button>
                 </Box>
               </Box>

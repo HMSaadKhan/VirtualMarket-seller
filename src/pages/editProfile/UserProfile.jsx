@@ -49,7 +49,7 @@ export default function UserProfile() {
   const send = (event) => {
     const data = new FormData();
 
-    data.append("File", avatar);
+    data.append("image", avatar);
     console.log(data);
     sellerService
       .AddAvatar(data)
@@ -218,9 +218,6 @@ export default function UserProfile() {
                   className="sellerUpdateButton"
                   variant="contained"
                   onClick={(e) => {
-                    console.log(avatar);
-                    //send();
-
                     sellerService
                       .editUserDetails({
                         fName,
@@ -250,6 +247,12 @@ export default function UserProfile() {
                 >
                   Update
                 </Button>
+                <br />
+                <Box mt={2}>
+                  <Button variant="contained" onClick={send}>
+                    Update Image
+                  </Button>
+                </Box>
               </div>
             </div>
           </form>
