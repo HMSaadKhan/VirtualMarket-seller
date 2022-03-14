@@ -66,10 +66,6 @@ export default function UserProfile() {
           position: toast.POSITION.BOTTOM_LEFT,
         });
       });
-
-    // Axios.post("https://httpbin.org/anything", data)
-    //   .then((res) => console.log(res))
-    //   .catch((err) => console.log(err));
   };
   return (
     <div className="seller">
