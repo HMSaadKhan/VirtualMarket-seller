@@ -13,7 +13,8 @@ class ProductService extends GenericService {
 
   AddProduct = (data) =>
     new Promise((resolve, reject) => {
-      this.post("products/add", data)
+      axios
+        .post("products/add", data)
         .then((data) => {
           console.log("Product Post");
           console.log(data);
@@ -23,11 +24,23 @@ class ProductService extends GenericService {
           reject(err);
         });
     });
-    GetCategories = () =>
+  GetCategories = () =>
     new Promise((resolve, reject) => {
       this.get("categories/getAll")
         .then((data) => {
           console.log("Product Post");
+          console.log(data);
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  upload = (image) =>
+    new Promise((resolve, reject) => {
+      this.post("buyers/upload", image)
+        .then((data) => {
+          console.log("Avatar Post");
           console.log(data);
           resolve(data);
         })

@@ -15,15 +15,16 @@ import { toast } from "react-toastify";
 import productService from "../../Services/ProductServices";
 
 export default function AddProduct() {
-  const [name, setName] = useState("");
-  const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState("s21 ultra");
+  const [brand, setBrand] = useState("samsung");
+  const [category, setCategory] = useState("electronics");
+  const [description, setDescription] = useState("this is a mobile");
   const [sampleOrder, setSampleOrder] = useState("true");
-  const [stock, setStock] = useState();
-  const [warrantyPeriod, setWarrantyPeriod] = useState();
-  const [minOrder, setMinOrder] = useState();
-  const [price, setPrice] = useState(0);
+  const [stock, setStock] = useState(12);
+  const [warrantyPeriod, setWarrantyPeriod] = useState(2);
+  const [minOrder, setMinOrder] = useState(1);
+  const [price, setPrice] = useState(100);
+  const [imagePreview, setImagePreview] = useState(null);
   const handleChange = (event) => {
     setSampleOrder(event.target.value);
     console.log(sampleOrder);
@@ -40,6 +41,64 @@ export default function AddProduct() {
       });
   };
   React.useEffect(getCategories, []);
+  const ImageHandler = (e) => {
+    const selected = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(selected);
+  };
+
+  const [multipleFiles, setMultipleFiles] = useState("");
+
+  const [multipleProgress, setMultipleProgress] = useState(0);
+
+  const MultipleFileChange = (e) => {
+    setMultipleFiles(e.target.files);
+    setMultipleProgress(0);
+  };
+
+  const mulitpleFileOptions = {
+    onUploadProgress: (progressEvent) => {
+      const { loaded, total } = progressEvent;
+      const percentage = Math.floor(((loaded / 1000) * 100) / (total / 1000));
+      setMultipleProgress(percentage);
+    },
+  };
+
+  const UploadMultipleFiles = async () => {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("brand", brand);
+    formData.append("minOrder", minOrder);
+    formData.append("warrantyPeriod", warrantyPeriod);
+    formData.append("stock", stock);
+    formData.append("sampleOrder", sampleOrder);
+    formData.append("price", price);
+    formData.append("description", description);
+    formData.append("category", category);
+
+    for (let i = 0; i < multipleFiles.length; i++) {
+      formData.append("image", multipleFiles[i]);
+    }
+
+    productService
+      .AddProduct(formData)
+      .then((data) => {
+        console.log(data);
+        window.location.reload();
+        toast.success("Changes Saved Successfully", {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      });
+  };
 
   return (
     <div className="seller">
@@ -174,49 +233,33 @@ export default function AddProduct() {
             </div>
             <div className="sellerUpdateRight">
               <div className="sellerUpdateUpload">
-                <img src="" alt="" className="sellerUpdateImg" />
+                {/* {Files.map((image, index) => {
+                  return (
+                    <div key={image} className="image">
+                      <img src={image} alt="" className="sellerUpdateImg" />
+                    </div>
+                  );
+                })} */}
 
                 <label htmlFor="file">
                   <Publish className="sellerUpdateIcon" />
                 </label>
-                <input
-                  type="file"
-                  id="file"
-                  multiple
-                  style={{ display: "none" }}
-                />
+                <form>
+                  {" "}
+                  <input
+                    type="file"
+                    id="file"
+                    multiple
+                    style={{ display: "none" }}
+                    onChange={(e) => MultipleFileChange(e)}
+                  />
+                </form>
               </div>
               <div>
                 <Button
                   className="sellerUpdateButton"
                   variant="contained"
-                  onClick={(e) => {
-                    productService
-                      .AddProduct({
-                        name,
-                        brand,
-                        category,
-                        minOrder,
-                        warrantyPeriod,
-                        stock,
-                        sampleOrder,
-                        price,
-                        description,
-                      })
-                      .then((data) => {
-                        console.log(data);
-                        window.location.reload();
-                        toast.success("Changes Saved Successfully", {
-                          position: toast.POSITION.BOTTOM_LEFT,
-                        });
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                        toast.error(err.response.data, {
-                          position: toast.POSITION.BOTTOM_LEFT,
-                        });
-                      });
-                  }}
+                  onClick={() => UploadMultipleFiles()}
                 >
                   Add
                 </Button>

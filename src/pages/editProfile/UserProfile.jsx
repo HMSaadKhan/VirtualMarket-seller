@@ -48,7 +48,6 @@ export default function UserProfile() {
   }, []);
   const send = (event) => {
     const data = new FormData();
-
     data.append("image", avatar);
     console.log(data);
     sellerService

@@ -3,9 +3,8 @@ import sellerService from "../Services/SellerServices";
 import { withRouter } from "react-router-dom";
 const LoginAuth = (props) => {
   React.useEffect(() => {
-    if (sellerService.isLoggedIn()) {
-      //props.history.push("/");
-      <></>
+    if (!sellerService.isLoggedIn()) {
+      props.history.push("/Login");
     }
   }, []);
   return <>{props.children}</>;
