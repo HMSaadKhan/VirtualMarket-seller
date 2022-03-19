@@ -35,7 +35,7 @@ function App() {
 
         <Switch>
           <Route path="/orders" component={SellerList} />
-          <Route path="/product" component={SellerProduct} />
+          <Route path="/products" component={SellerProduct} />
           <Route path="/sellerprofile" component={UserProfile} />
           <Route path="/productupdate" component={AddProduct} />
           <Route path="/updateProduct" component={ProductUpdate} />

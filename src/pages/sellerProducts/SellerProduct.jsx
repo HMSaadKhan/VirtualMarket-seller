@@ -1,145 +1,256 @@
 import React from "react";
 import "./sellerProduct.css";
-import { DataGrid } from "@mui/x-data-grid";
 import { useHistory } from "react-router-dom";
-
-export default function SellerProduct(props) {
-  const columns = [
-    { field: "id", headerName: "ID", width: 70 },
-    {
-      field: "Seller",
-      headerName: "Product",
-      width: 130,
-      renderCell: (params) => {
-        return (
-          <div className="sellerSellerProduct">
-            <img className="productImage" src={params.row.avatar} alt="" />
-            {params.row.ProductName}
-          </div>
-        );
-      },
-    },
-    { field: "category", headerName: "Category", width: 180 },
-    { field: "shopname", headerName: "Shop Name", width: 150 },
-    { field: "statusbar", headerName: "Status", width: 90 },
-    {
-      field: "action",
-      headerName: "Action",
-      width: 150,
-      renderCell: (params) => {
-        return (
-          <>
-            <button className="productListApprove" onClick={(e)=>{props.history.push("/updateProduct")}}>Edit</button>
-            <button className="productListDecline">Delete</button>
-          </>
-        );
-      },
-    },
-  ];
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { makeStyles } from "@mui/styles";
+export default function SellerProducts() {
+  const history = useHistory();
+  function createData(
+    id,
+    productname,
+    ProductBrand,
+    ProductCategory,
+    Quantity,
+    Sample,
+    Warrantyperiod,
+    productDescription,
+    paymentDetail,
+    deliveryCharges
+  ) {
+    return {
+      id,
+      productname,
+      ProductBrand,
+      ProductCategory,
+      Quantity,
+      Sample,
+      Warrantyperiod,
+      productDescription,
+      paymentDetail,
+      deliveryCharges,
+    };
+  }
 
   const rows = [
-    {
-      id: 1,
-      ProductName: "Air Conditioner",
-      category: "Electronics",
-      avatar:
-        "https://previews.123rf.com/images/stalkerstudent/stalkerstudent1509/stalkerstudent150902097/45491493-air-conditioner-icon-flat-design-style.jpg",
-      shopname: "Haier",
-      statusbar: "Active",
-    },
-    {
-      id: 2,
-      ProductName: "Air Conditioner",
-      category: "Electronics",
-      avatar:
-        "https://previews.123rf.com/images/stalkerstudent/stalkerstudent1509/stalkerstudent150902097/45491493-air-conditioner-icon-flat-design-style.jpg",
-      shopname: "Haier",
-      statusbar: "Active",
-    },
-    {
-      id: 3,
-      ProductName: "Air Conditioner",
-      category: "Electronics",
-      avatar:
-        "https://previews.123rf.com/images/stalkerstudent/stalkerstudent1509/stalkerstudent150902097/45491493-air-conditioner-icon-flat-design-style.jpg",
-      shopname: "Haier",
-      statusbar: "Active",
-    },
-    {
-      id: 4,
-      ProductName: "Air Conditioner",
-      category: "Electronics",
-      avatar:
-        "https://previews.123rf.com/images/stalkerstudent/stalkerstudent1509/stalkerstudent150902097/45491493-air-conditioner-icon-flat-design-style.jpg",
-      shopname: "Haier",
-      statusbar: "Active",
-    },
-    {
-      id: 5,
-      ProductName: "Air Conditioner",
-      category: "Electronics",
-      avatar:
-        "https://previews.123rf.com/images/stalkerstudent/stalkerstudent1509/stalkerstudent150902097/45491493-air-conditioner-icon-flat-design-style.jpg",
-      shopname: "Haier",
-      statusbar: "Active",
-    },
-    {
-      id: 6,
-      ProductName: "Air Conditioner",
-      category: "Electronics",
-      avatar:
-        "https://previews.123rf.com/images/stalkerstudent/stalkerstudent1509/stalkerstudent150902097/45491493-air-conditioner-icon-flat-design-style.jpg",
-      shopname: "Haier",
-      statusbar: "Active",
-    },
-    {
-      id: 7,
-      ProductName: "Air Conditioner",
-      category: "Electronics",
-      avatar:
-        "https://previews.123rf.com/images/stalkerstudent/stalkerstudent1509/stalkerstudent150902097/45491493-air-conditioner-icon-flat-design-style.jpg",
-      shopname: "Haier",
-      statusbar: "Active",
-    },
-    {
-      id: 8,
-      ProductName: "Air Conditioner",
-      category: "Electronics",
-      avatar:
-        "https://previews.123rf.com/images/stalkerstudent/stalkerstudent1509/stalkerstudent150902097/45491493-air-conditioner-icon-flat-design-style.jpg",
-      shopname: "Haier",
-      statusbar: "Active",
-    },
-    {
-      id: 9,
-      ProductName: "Air Conditioner",
-      category: "Electronics",
-      avatar:
-        "https://previews.123rf.com/images/stalkerstudent/stalkerstudent1509/stalkerstudent150902097/45491493-air-conditioner-icon-flat-design-style.jpg",
-      shopname: "Haier",
-      statusbar: "Active",
-    },
-    {
-      id: 10,
-      ProductName: "Air Conditioner",
-      category: "Electronics",
-      avatar:
-        "https://previews.123rf.com/images/stalkerstudent/stalkerstudent1509/stalkerstudent150902097/45491493-air-conditioner-icon-flat-design-style.jpg",
-      shopname: "Haier",
-      statusbar: "Active",
-    },
+    createData(
+      "1",
+      "S21 Ultra",
+      "Samsung",
+      "Electronics",
+      20,
+      "Included",
+      "12 Months",
+      "Box Pack 6Gb 512Gb",
+      "Cash on Delivery",
+      "Rs 1000"
+    ),
+    createData(
+      "2",
+      "S21 Ultra",
+      "Samsung",
+      "Electronics",
+      20,
+      "Included",
+      "12 Months",
+      "Box Pack 6Gb 512Gb",
+      "Cash on Delivery",
+      "Rs 1000"
+    ),
+    createData(
+      "3",
+      "S21 Ultra",
+      "Samsung",
+      "Electronics",
+      20,
+      "Included",
+      "12 Months",
+      "Box Pack 6Gb 512Gb",
+      "Cash on Delivery",
+      "Rs 1000"
+    ),
+    createData(
+      "4",
+      "S21 Ultra",
+      "Samsung",
+      "Electronics",
+      20,
+      "Included",
+      "12 Months",
+      "Box Pack 6Gb 512Gb",
+      "Cash on Delivery",
+      "Rs 1000"
+    ),
+    createData(
+      "5",
+      "S21 Ultra",
+      "Samsung",
+      "Electronics",
+      20,
+      "Included",
+      "12 Months",
+      "Box Pack 6Gb 512Gb",
+      "Cash on Delivery",
+      "Rs 1000"
+    ),
+    createData(
+      "6",
+      "S21 Ultra",
+      "Samsung",
+      "Electronics",
+      20,
+      "Included",
+      "12 Months",
+      "Box Pack 6Gb 512Gb",
+      "Cash on Delivery",
+      "Rs 1000"
+    ),
+    createData(
+      "7",
+      "S21 Ultra",
+      "Samsung",
+      "Electronics",
+      20,
+      "Included",
+      "12 Months",
+      "Box Pack 6Gb 512Gb",
+      "Cash on Delivery",
+      "Rs 1000"
+    ),
+    createData(
+      "8",
+      "S21 Ultra",
+      "Samsung",
+      "Electronics",
+      20,
+      "Included",
+      "12 Months",
+      "Box Pack 6Gb 512Gb",
+      "Cash on Delivery",
+      "Rs 1000"
+    ),
+    createData(
+      "9",
+      "S21 Ultra",
+      "Samsung",
+      "Electronics",
+      20,
+      "Included",
+      "12 Months",
+      "Box Pack 6Gb 512Gb",
+      "Cash on Delivery",
+      "Rs 1000"
+    ),
   ];
 
   return (
-    <div className="productList">
-      <DataGrid
-        rows={rows}
-        disableSelectionOnClick
-        columns={columns}
-        pageSize={20}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-      />
-    </div>
+    <>
+      <div>
+        <button
+          className="tableButton"
+          onClick={() => {
+            history.push("/addproduct");
+          }}
+        >
+          Add
+        </button>
+
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 800 }} aria-label="simple table">
+            <TableHead>
+              <TableRow style={{ backgroundColor: "black" }}>
+                <TableCell
+                  style={{ color: "white", font: "bold" }}
+                  align="centre"
+                >
+                  ID
+                </TableCell>
+                <TableCell style={{ color: "white" }} align="centre">
+                  Product Name
+                </TableCell>
+                <TableCell style={{ color: "white" }} align="centre">
+                  Product Brand
+                </TableCell>
+                <TableCell style={{ color: "white" }} align="centre">
+                  Product Category
+                </TableCell>
+                <TableCell style={{ color: "white" }} align="centre">
+                  Quantity
+                </TableCell>
+                <TableCell style={{ color: "white" }} align="centre">
+                  Sample
+                </TableCell>
+                <TableCell style={{ color: "white" }} align="centre">
+                  Warranty Period
+                </TableCell>
+                <TableCell style={{ color: "white" }} align="centre">
+                  Product Description
+                </TableCell>
+                <TableCell style={{ color: "white" }} align="centre">
+                  Payment Detail
+                </TableCell>
+                <TableCell style={{ color: "white" }} align="centre">
+                  Delivery Charges
+                </TableCell>
+                <TableCell style={{ color: "white" }} align="centre">
+                  Action
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {row.id}
+                  </TableCell>
+                  <TableCell align="centre">{row.productname}</TableCell>
+                  <TableCell align="centre">{row.ProductBrand}</TableCell>
+                  <TableCell align="centre">{row.ProductCategory}</TableCell>
+                  <TableCell align="centre">{row.Quantity}</TableCell>
+                  <TableCell align="centre">{row.Sample}</TableCell>
+                  <TableCell align="centre">{row.Warrantyperiod}</TableCell>
+                  <TableCell align="centre">{row.productDescription}</TableCell>
+                  <TableCell align="centre">{row.paymentDetail}</TableCell>
+                  <TableCell align="centre">{row.deliveryCharges}</TableCell>
+                  <TableCell align="centre">
+                    {row.Action}
+
+                    <>
+                      {/* <Link to={"/Buyer" + params}>
+              <button className="sellerListApprove">Edit</button>
+            </Link> */}
+                      <button
+                        className="sellerListApprove"
+                        onClick={() => {
+                          history.push("/productupdate");
+                        }}
+                        // onClick={() => handleDelete(params.row.id)}
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        className="sellerListDecline"
+                        // onClick={() => handleDelete(params.row.id)}
+                      >
+                        Delete
+                      </button>
+                    </>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+    </>
   );
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import "./sidebar.css";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import SideBarHide from "../../AuthWrapper/SideBarHide";
 import sellerService from "../../Services/SellerServices";
 import {
@@ -16,15 +16,19 @@ import {
   WorkOutlineOutlined,
   ReportOutlined,
 } from "@material-ui/icons";
-import { Logout } from "@mui/icons-material";
+import styled from "styled-components";
+const StyledDiv = styled.div`
+  a:visited {
+    color: black;
+  }
+`;
 
 export default function Sidebar() {
   const history = useHistory();
   return (
     <>
       {sellerService.isLoggedIn() ? (
-        <>
-          {" "}
+        <div>
           <div className="sidebar">
             <div className="sidebarWrapper">
               <div className="sidebarmenu">
@@ -33,26 +37,10 @@ export default function Sidebar() {
                 <ul className="sidebarList">
                   <li className="sidebarListItem active">
                     <LineStyle className="sidebarIcon" />
-
-                    <a
-                      href="#"
-                      onClick={() => {
-                        history.push("/");
-                      }}
-                    >
-                      Home
-                    </a>
+                    <StyledDiv>
+                      <Link to="/">Home</Link>
+                    </StyledDiv>
                   </li>
-
-                  {/* <li className='sidebarListItem'>
-                    <Timeline className='sidebarIcon'/>
-                    Analytics
-                </li>
-
-                <li className='sidebarListItem'>
-                    <TrendingUp className='sidebarIcon'/>
-                    Sales
-                </li> */}
                 </ul>
               </div>
 
@@ -61,78 +49,17 @@ export default function Sidebar() {
 
                 <ul className="sidebarList">
                   <li className="sidebarListItem">
-                    <Person className="sidebarIcon" />
-
-                    <a
-                      href="#"
-                      onClick={() => {
-                        history.push("/orders");
-                      }}
-                    >
-                      Orders
-                    </a>
+                    <MonetizationOnOutlined className="sidebarIcon" />
+                    <StyledDiv>
+                      <Link to="/orders">Orders</Link>
+                    </StyledDiv>
                   </li>
 
                   <li className="sidebarListItem">
                     <ShoppingBasketOutlined className="sidebarIcon" />
-                    <a
-                      href="#"
-                      onClick={() => {
-                        history.push("/product");
-                      }}
-                    >
-                      Products
-                    </a>
-                  </li>
-
-                  <li className="sidebarListItem">
-                    <MonetizationOnOutlined className="sidebarIcon" />
-
-                    <a
-                      href="#"
-                      onClick={() => {
-                        history.push("/sellerprofile");
-                      }}
-                    >
-                      Seller Profile
-                    </a>
-                  </li>
-
-                  <li className="sidebarListItem">
-                    <AssessmentOutlined className="sidebarIcon" />
-
-                    <a
-                      href="#"
-                      onClick={() => {
-                        history.push("/productupdate  ");
-                      }}
-                    >
-                      Add Product
-                    </a>
-                  </li>
-                  <li className="sidebarListItem">
-                    <Logout className="sidebarIcon" />
-
-                    <a
-                      href="#"
-                      onClick={() => {
-                        sellerService.logout();
-                        history.push("/Login");
-                        window.location.reload();
-                      }}
-                    >
-                      Logout
-                    </a>
-                  </li>
-                  <li className="sidebarListItem">
-                    <a
-                      href="#"
-                      onClick={() => {
-                        history.push("/imageUpload");
-                      }}
-                    >
-                      Upload Image
-                    </a>
+                    <StyledDiv>
+                      <Link to="/products">Products</Link>
+                    </StyledDiv>
                   </li>
                 </ul>
               </div>
@@ -141,11 +68,6 @@ export default function Sidebar() {
                 <h3 className="sidebarTitle">Notifications</h3>
 
                 <ul className="sidebarList">
-                  {/* <li className='sidebarListItem'>
-                    <MailOutlined className='sidebarIcon'/>
-                    Mails
-                </li> */}
-
                   <li className="sidebarListItem">
                     <ForumOutlined className="sidebarIcon" />
                     Messages
@@ -158,19 +80,26 @@ export default function Sidebar() {
 
                 <ul className="sidebarList">
                   <li className="sidebarListItem">
-                    <Timeline className="sidebarIcon" />
-                    User Profile
+                    <Person className="sidebarIcon" />
+                    <StyledDiv>
+                      <Link to="/sellerprofile">Seller Profile</Link>
+                    </StyledDiv>
                   </li>
-
-                  <li className="sidebarListItem">
-                    <ReportOutlined className="sidebarIcon" />
-                    Reports
-                  </li>
+                  <button
+                    className="logoutButton"
+                    onClick={() => {
+                      sellerService.logout();
+                      history.push("/Login");
+                      window.location.reload();
+                    }}
+                  >
+                    Logout
+                  </button>
                 </ul>
               </div>
             </div>
           </div>
-        </>
+        </div>
       ) : (
         <div></div>
       )}

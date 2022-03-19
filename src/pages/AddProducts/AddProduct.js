@@ -25,6 +25,9 @@ export default function AddProduct() {
   const [minOrder, setMinOrder] = useState(1);
   const [price, setPrice] = useState(100);
   const [imagePreview, setImagePreview] = useState(null);
+  const [multipleFiles, setMultipleFiles] = useState("");
+  const [selectedImages, setSelectedImages] = useState([]);
+
   const handleChange = (event) => {
     setSampleOrder(event.target.value);
     console.log(sampleOrder);
@@ -50,21 +53,15 @@ export default function AddProduct() {
     reader.readAsDataURL(selected);
   };
 
-  const [multipleFiles, setMultipleFiles] = useState("");
-
-  const [multipleProgress, setMultipleProgress] = useState(0);
-
   const MultipleFileChange = (e) => {
     setMultipleFiles(e.target.files);
-    setMultipleProgress(0);
-  };
-
-  const mulitpleFileOptions = {
-    onUploadProgress: (progressEvent) => {
-      const { loaded, total } = progressEvent;
-      const percentage = Math.floor(((loaded / 1000) * 100) / (total / 1000));
-      setMultipleProgress(percentage);
-    },
+    //const selectedFiles = event.target.files;
+    const selectedFilesArray = Array.from(multipleFiles);
+    const imagesArray = selectedFilesArray.map((file) => {
+      return URL.createObjectURL(file);
+    });
+    setSelectedImages((previousImages) => previousImages.concat(imagesArray));
+    console.log(selectedImages);
   };
 
   const UploadMultipleFiles = async () => {
@@ -99,6 +96,7 @@ export default function AddProduct() {
         });
       });
   };
+  const onSelectFile = (event) => {};
 
   return (
     <div className="seller">
@@ -233,13 +231,13 @@ export default function AddProduct() {
             </div>
             <div className="sellerUpdateRight">
               <div className="sellerUpdateUpload">
-                {/* {Files.map((image, index) => {
+                {selectedImages.map((image, index) => {
                   return (
                     <div key={image} className="image">
                       <img src={image} alt="" className="sellerUpdateImg" />
                     </div>
                   );
-                })} */}
+                })}
 
                 <label htmlFor="file">
                   <Publish className="sellerUpdateIcon" />
