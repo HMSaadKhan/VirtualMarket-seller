@@ -61,68 +61,66 @@ const ForgotPassword = (props) => {
 
   return (
     <>
-      {!emailVerificationCheck ? (
-        <div>
-          <Container>
-            <Wrapper>
-              <Form>
-                <Title>Verify Your Otp</Title>
-                <TextField
-                  required
-                  id="filled-required"
-                  label="OTP"
-                  defaultValue={otp}
-                  onChange={(e) => {
-                    setOtp(e.target.value);
-                  }}
-                />
-              </Form>
+      {emailVerificationCheck ? (
+        history.push("/add-information")
+      ) : (
+        <Container>
+          <Wrapper>
+            <Form>
+              <Title>Verify Your Otp</Title>
+              <TextField
+                required
+                id="filled-required"
+                label="OTP"
+                defaultValue={otp}
+                onChange={(e) => {
+                  setOtp(e.target.value);
+                }}
+              />
+            </Form>
+            <Box mt={2}>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={(e) => {
+                  sellerService
+                    .VerifyOtp({ otp })
+                    .then((data) => {
+                      console.log(data);
+                      window.location.reload();
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                      toast.error(err.response.data, {
+                        position: toast.POSITION.BOTTOM_LEFT,
+                      });
+                    });
+                }}
+              >
+                Verify{" "}
+              </Button>
               <Box mt={2}>
                 <Button
                   variant="outlined"
                   color="primary"
                   onClick={(e) => {
                     sellerService
-                      .VerifyOtp({ otp })
+                      .verificationOTP()
                       .then((data) => {
                         console.log(data);
-                        window.location.reload();
                       })
                       .catch((err) => {
                         console.log(err);
-                        toast.error(err.response.data, {
-                          position: toast.POSITION.BOTTOM_LEFT,
-                        });
                       });
                   }}
                 >
-                  Verify{" "}
+                  Send Otp{" "}
                 </Button>
-                <Box mt={2}>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={(e) => {
-                      sellerService
-                        .verificationOTP()
-                        .then((data) => {
-                          console.log(data);
-                        })
-                        .catch((err) => {
-                          console.log(err);
-                        });
-                    }}
-                  >
-                    Send Otp{" "}
-                  </Button>
-                </Box>
               </Box>
-              <br />
-            </Wrapper>
-          </Container>
-        </div>
-      ) : (
-        history.push("/")
+            </Box>
+            <br />
+          </Wrapper>
+        </Container>
       )}
     </>
   );

@@ -1,0 +1,97 @@
+.seller {
+  flex: 4;
+  padding: 20px;
+}
+
+.sellerTitleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 20px;
+}
+
+.sellerContainer {
+  display: flex;
+  margin-top: 20px;
+}
+
+.sellerDisplayIcon {
+  font-size: 16px !important;
+}
+
+.sellerDisplayInfoTitle {
+  margin-left: 10px;
+}
+
+.sellerUpdateInput {
+  border: none;
+  width: 250px;
+  height: 30px;
+  border-bottom: 1px solid gray;
+}
+
+.sellerUpdateRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 200px;
+}
+
+.sellerUpdateUpload {
+  display: flex;
+  align-items: center;
+}
+
+.sellerUpdateImg {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.sellerCNICImg {
+  width: 200px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.sellerUpdateTitle {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.sellerUpdateForm {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.sellerUpdateItem {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.sellerUpdateLastName {
+  margin-left: 30px;
+}
+
+.sellerUpdateItem > label {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.sellerUpdateIcon {
+  cursor: pointer;
+}
+
+.sellerUpdateButton {
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  background-color: red;
+  color: white;
+  font-weight: 600;
+}

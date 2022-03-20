@@ -120,6 +120,7 @@ export default function UserProfile() {
                   label="Store Name"
                   variant="standard"
                   value={storeName}
+                  InputLabelProps={{ shrink: storeName ? true : false }}
                   onChange={(e) => {
                     setStoreName(e.target.value);
                   }}

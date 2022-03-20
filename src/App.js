@@ -3,9 +3,9 @@ import Sidebar from "./Components/sidebar/Sidebar";
 import Topbar from "./Components/topbar/Topbar";
 import "./app.css";
 import Home from "./pages/home/Home";
-import SellerList from "./pages/sellerList/SellerList";
+import OrderList from "./pages/OrderList/OrderList";
 import SellerProduct from "./pages/sellerProducts/SellerProduct";
-import UserProfile from "./pages/editProfile/UserProfile";
+import UserProfile from "./pages/SellerProfile/UserProfile";
 import {
   BrowserRouter as Router,
   Routes,
@@ -19,10 +19,10 @@ import SignUp from "./pages/SignUpPage/SignUp";
 import ForgotPassword from "./pages/SignUpPage/ForgotPassword";
 import NewPassword from "./pages/SignUpPage/NewPassword";
 import ChangePassword from "./pages/SignUpPage/ChangePassword";
-import UploadImage from "./pages/ImageUpload/UploadImage";
 import EmailVerification from "./pages/SignUpPage/EmailVerification";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AddInformation from "./pages/AddInformation/AddInformation";
 
 function App() {
   return (
@@ -34,7 +34,7 @@ function App() {
         <Sidebar />
 
         <Switch>
-          <Route path="/orders" component={SellerList} />
+          <Route path="/orders" component={OrderList} />
           <Route path="/products" component={SellerProduct} />
           <Route path="/sellerprofile" component={UserProfile} />
           <Route path="/productupdate" component={AddProduct} />
@@ -49,7 +49,7 @@ function App() {
             component={EmailVerification}
           />
           <Route path="/changepassword/" exact component={ChangePassword} />
-          <Route path="/imageUpload" exact component={UploadImage} />
+          <Route path="/add-information" exact component={AddInformation} />
           <Route path="/" component={Home} />
         </Switch>
       </div>

@@ -9,6 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { makeStyles } from "@mui/styles";
+import EditIcon from "@mui/icons-material/Edit";
 export default function SellerProducts() {
   const history = useHistory();
   function createData(
@@ -232,9 +233,8 @@ export default function SellerProducts() {
                         onClick={() => {
                           history.push("/productupdate");
                         }}
-                        // onClick={() => handleDelete(params.row.id)}
                       >
-                        Edit
+                        <EditIcon />
                       </button>
 
                       <button
