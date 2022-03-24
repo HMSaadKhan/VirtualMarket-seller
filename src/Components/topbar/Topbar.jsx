@@ -12,7 +12,7 @@ export default function Topbar() {
             Virtual<span className="logoinner">Market</span>
           </span>
         </div>
-        <div className="topRight">
+        {/* <div className="topRight">
           <div className="topbarIconContainer">
             <NotificationsNone />
             <span className="topIconBadge">2</span>
@@ -25,7 +25,7 @@ export default function Topbar() {
           <div className="topbarIconContainer">
             <AccountCircle />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -40,6 +40,8 @@
 .sellerUpdateUpload {
   display: flex;
   align-items: center;
+  flex-direction: column;
+  padding-top: 1%;
 }
 
 .sellerUpdateImg {

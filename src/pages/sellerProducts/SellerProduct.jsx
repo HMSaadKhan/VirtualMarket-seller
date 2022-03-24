@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./sellerProduct.css";
 import { useHistory } from "react-router-dom";
 import Table from "@mui/material/Table";
@@ -7,170 +7,58 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import { IconButton } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { makeStyles } from "@mui/styles";
 import EditIcon from "@mui/icons-material/Edit";
-export default function SellerProducts() {
+import DeleteIcon from "@mui/icons-material/Delete";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+import productService from "../../Services/ProductServices";
+
+const SellerProducts = () => {
   const history = useHistory();
-  function createData(
-    id,
-    productname,
-    ProductBrand,
-    ProductCategory,
-    Quantity,
-    Sample,
-    Warrantyperiod,
-    productDescription,
-    paymentDetail,
-    deliveryCharges
-  ) {
-    return {
-      id,
-      productname,
-      ProductBrand,
-      ProductCategory,
-      Quantity,
-      Sample,
-      Warrantyperiod,
-      productDescription,
-      paymentDetail,
-      deliveryCharges,
-    };
-  }
 
-  const rows = [
-    createData(
-      "1",
-      "S21 Ultra",
-      "Samsung",
-      "Electronics",
-      20,
-      "Included",
-      "12 Months",
-      "Box Pack 6Gb 512Gb",
-      "Cash on Delivery",
-      "Rs 1000"
-    ),
-    createData(
-      "2",
-      "S21 Ultra",
-      "Samsung",
-      "Electronics",
-      20,
-      "Included",
-      "12 Months",
-      "Box Pack 6Gb 512Gb",
-      "Cash on Delivery",
-      "Rs 1000"
-    ),
-    createData(
-      "3",
-      "S21 Ultra",
-      "Samsung",
-      "Electronics",
-      20,
-      "Included",
-      "12 Months",
-      "Box Pack 6Gb 512Gb",
-      "Cash on Delivery",
-      "Rs 1000"
-    ),
-    createData(
-      "4",
-      "S21 Ultra",
-      "Samsung",
-      "Electronics",
-      20,
-      "Included",
-      "12 Months",
-      "Box Pack 6Gb 512Gb",
-      "Cash on Delivery",
-      "Rs 1000"
-    ),
-    createData(
-      "5",
-      "S21 Ultra",
-      "Samsung",
-      "Electronics",
-      20,
-      "Included",
-      "12 Months",
-      "Box Pack 6Gb 512Gb",
-      "Cash on Delivery",
-      "Rs 1000"
-    ),
-    createData(
-      "6",
-      "S21 Ultra",
-      "Samsung",
-      "Electronics",
-      20,
-      "Included",
-      "12 Months",
-      "Box Pack 6Gb 512Gb",
-      "Cash on Delivery",
-      "Rs 1000"
-    ),
-    createData(
-      "7",
-      "S21 Ultra",
-      "Samsung",
-      "Electronics",
-      20,
-      "Included",
-      "12 Months",
-      "Box Pack 6Gb 512Gb",
-      "Cash on Delivery",
-      "Rs 1000"
-    ),
-    createData(
-      "8",
-      "S21 Ultra",
-      "Samsung",
-      "Electronics",
-      20,
-      "Included",
-      "12 Months",
-      "Box Pack 6Gb 512Gb",
-      "Cash on Delivery",
-      "Rs 1000"
-    ),
-    createData(
-      "9",
-      "S21 Ultra",
-      "Samsung",
-      "Electronics",
-      20,
-      "Included",
-      "12 Months",
-      "Box Pack 6Gb 512Gb",
-      "Cash on Delivery",
-      "Rs 1000"
-    ),
-  ];
-
+  const [sellerProducts, setSellerProducts] = useState([]);
+  const tempfunction = useRef();
+  const getSellerProducts = () => {
+    productService
+      .GetAllBySeller()
+      .then((data) => {
+        console.log(data);
+        setSellerProducts(data);
+        console.log(sellerProducts);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  tempfunction.current = getSellerProducts;
+  useEffect(() => {
+    tempfunction.current();
+  }, []);
+  const handleDelete = async (_id) => {
+    await productService.deleteProduct(_id);
+    window.location.reload();
+  };
   return (
     <>
       <div>
-        <button
+        <Fab
           className="tableButton"
+          color="primary"
+          aria-label="add"
           onClick={() => {
             history.push("/addproduct");
           }}
         >
-          Add
-        </button>
+          <AddIcon />
+        </Fab>
 
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 800 }} aria-label="simple table">
             <TableHead>
               <TableRow style={{ backgroundColor: "black" }}>
-                <TableCell
-                  style={{ color: "white", font: "bold" }}
-                  align="centre"
-                >
-                  ID
-                </TableCell>
                 <TableCell style={{ color: "white" }} align="centre">
                   Product Name
                 </TableCell>
@@ -184,43 +72,31 @@ export default function SellerProducts() {
                   Quantity
                 </TableCell>
                 <TableCell style={{ color: "white" }} align="centre">
-                  Sample
+                  Status
                 </TableCell>
-                <TableCell style={{ color: "white" }} align="centre">
-                  Warranty Period
-                </TableCell>
-                <TableCell style={{ color: "white" }} align="centre">
-                  Product Description
-                </TableCell>
-                <TableCell style={{ color: "white" }} align="centre">
-                  Payment Detail
-                </TableCell>
-                <TableCell style={{ color: "white" }} align="centre">
-                  Delivery Charges
-                </TableCell>
+
                 <TableCell style={{ color: "white" }} align="centre">
                   Action
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {sellerProducts.map((row) => (
                 <TableRow
-                  key={row.id}
+                  key={row._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell component="th" scope="row">
-                    {row.id}
+                  <TableCell align="centre">{row.name}</TableCell>
+                  <TableCell align="centre">{row.brand}</TableCell>
+                  <TableCell align="centre">{row.category.name}</TableCell>
+                  <TableCell align="centre">{row.stock}</TableCell>
+                  <TableCell align="centre">
+                    {row.approved ? (
+                      <span className="approved">Approved</span>
+                    ) : (
+                      <span className="notApproved">Not Approved</span>
+                    )}
                   </TableCell>
-                  <TableCell align="centre">{row.productname}</TableCell>
-                  <TableCell align="centre">{row.ProductBrand}</TableCell>
-                  <TableCell align="centre">{row.ProductCategory}</TableCell>
-                  <TableCell align="centre">{row.Quantity}</TableCell>
-                  <TableCell align="centre">{row.Sample}</TableCell>
-                  <TableCell align="centre">{row.Warrantyperiod}</TableCell>
-                  <TableCell align="centre">{row.productDescription}</TableCell>
-                  <TableCell align="centre">{row.paymentDetail}</TableCell>
-                  <TableCell align="centre">{row.deliveryCharges}</TableCell>
                   <TableCell align="centre">
                     {row.Action}
 
@@ -231,18 +107,20 @@ export default function SellerProducts() {
                       <button
                         className="sellerListApprove"
                         onClick={() => {
-                          history.push("/productupdate");
+                          history.push("/editDetails/" + row._id);
                         }}
                       >
                         <EditIcon />
                       </button>
 
-                      <button
-                        className="sellerListDecline"
-                        // onClick={() => handleDelete(params.row.id)}
-                      >
-                        Delete
-                      </button>
+                      <IconButton>
+                        <DeleteIcon
+                            
+                          onClick={(e) => {
+                            handleDelete(row._id);
+                          }}
+                        />
+                      </IconButton>
                     </>
                   </TableCell>
                 </TableRow>
@@ -253,4 +131,5 @@ export default function SellerProducts() {
       </div>
     </>
   );
-}
+};
+export default SellerProducts;

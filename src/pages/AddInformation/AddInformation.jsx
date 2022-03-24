@@ -1,34 +1,73 @@
 import React, { useState, useEffect } from "react";
 import sellerService from "../../Services/SellerServices";
-import { TextField, Button, Box, Paper } from "@mui/material";
+import { TextField, Button, Box, Paper, Typography } from "@mui/material";
 import "./AddInformation.css";
 import { toast } from "react-toastify";
 
 import { Publish, Shop2standard } from "@mui/icons-material";
-export default function AddInformation() {
+export default function AddInformation(props) {
   const [fName, setfName] = useState("");
   const [lName, setlName] = useState("");
   const [cnic, setCnic] = useState("");
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [storeName, setStoreName] = useState();
+  const [storeName, setStoreName] = useState("");
   const [paymentDetails, setPaymentDetails] = useState("");
-  const [deliveryCharge, setDeliveryCharge] = useState(0);
+  const [deliveryCharge, setDeliveryCharge] = useState();
   const [avatar, setAvatar] = useState("");
-
-  const send = (event) => {
-    const data = new FormData();
-    data.append("image", avatar);
-    console.log(data);
+  const [avatarPreview, setAvatarPreview] = useState("");
+  const [cnicFront, setCnicFront] = useState("");
+  const [cnicBack, setCnicBack] = useState("");
+  const [images, setImages] = useState(["1", "2", "3"]);
+  const getVerificationdata = () => {
     sellerService
-      .AddAvatar(data)
+      .getStatus()
       .then((data) => {
         console.log(data);
-        // window.location.reload();
+        if (data.infoCompleted) {
+          props.history.push("/");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  React.useEffect(getVerificationdata, []);
+  let temp = images;
+  const imageSet = (e, index) => {
+    console.log(index);
+    temp[index] = e.target.files[0];
+    console.log(temp);
+    setImages(temp);
+    console.log(images);
+  };
+
+  const send = () => {
+    console.log(images);
+    const formData = new FormData();
+    formData.append("fName", fName);
+    formData.append("lName", lName);
+    formData.append("cnic", cnic);
+    formData.append("city", city);
+    formData.append("phone", phone);
+    formData.append("address", address);
+    formData.append("storeName", storeName);
+    formData.append("paymentDetails", paymentDetails);
+    formData.append("deliveryCharge", deliveryCharge);
+    formData.append("image", images[0]);
+    formData.append("image", images[1]);
+    formData.append("image", images[2]);
+
+    console.log(formData);
+    sellerService
+      .addDetails(formData)
+      .then((data) => {
+        console.log(data);
         toast.success("Changes Saved Successfully", {
           position: toast.POSITION.BOTTOM_LEFT,
         });
+        props.history.push("/");
       })
       .catch((err) => {
         console.log(err);
@@ -154,90 +193,47 @@ export default function AddInformation() {
             </div>
             <div className="sellerUpdateRight">
               <div className="sellerUpdateUpload">
-                <img className="sellerUpdateImg" src={avatar} />
-                <label htmlFor="file">
-                  <Publish className="sellerUpdateIcon" />
-                </label>
-                <form>
-                  {" "}
-                  <input
-                    type="file"
-                    id="file"
-                    multiple
-                    style={{ display: "none" }}
-                    onChange={(e) => setAvatar(e)}
-                  />
-                </form>
+                <div>
+                  <Typography>Profile Picture</Typography>
+                  {/* <img className="sellerUpdateImg" src={avatarPreview} /> */}
+                  <>
+                    <br />
+                    <input
+                      type="file"
+                      id="file"
+                      onChange={(e) => imageSet(e, 0)}
+                    />
+                  </>
+                </div>
               </div>
               <div className="sellerUpdateUpload">
-                <img className="sellerCNICImg" src={avatar} />
-                <label htmlFor="file">
-                  <Publish className="sellerUpdateIcon" />
-                </label>
-                <form>
-                  {" CNIC Front"}
-                  <input
-                    type="file"
-                    id="file"
-                    multiple
-                    style={{ display: "none" }}
-                    onChange={(e) => setAvatar(e)}
-                  />
-                </form>
-                <img className="sellerCNICImg" src={avatar} />
-                <label htmlFor="file">
-                  <Publish className="sellerUpdateIcon" />
-                </label>
-                <form>
-                  {"CNIC Back"}
-                  <input
-                    type="file"
-                    id="file"
-                    multiple
-                    style={{ display: "none" }}
-                    onChange={(e) => setAvatar(e)}
-                  />
-                </form>
+                <div>
+                  <Typography>CNIC FRONT</Typography>
+                  {/* <img className="sellerCNICImg" src={cnicFront} /> */}
+                  <>
+                    <input
+                      type="file"
+                      id="file"
+                      onChange={(e) => imageSet(e, 1)}
+                    />
+                  </>
+                </div>
+                <div>
+                  <Typography>CNIC BACK</Typography>
+                  {/* <img className="sellerCNICImg" src={cnicFront} /> */}
+                  <>
+                    <input
+                      type="file"
+                      id="cnicFront"
+                      onChange={(e) => imageSet(e, 2)}
+                    />
+                  </>
+                </div>
               </div>
               <div>
-                {/* <button className="sellerUpdateButton">Update\</button> */}
-                <Button
-                  className="sellerUpdateButton"
-                  variant="contained"
-                  onClick={(e) => {
-                    sellerService
-                      .editUserDetails({
-                        fName,
-                        lName,
-                        phone,
-                        address,
-                        city,
-                        storeName,
-                        deliveryCharge,
-                        cnic,
-                        paymentDetails,
-                      })
-                      .then((data) => {
-                        console.log(data);
-                        // window.location.reload();
-                        toast.success("Changes Saved Successfully", {
-                          position: toast.POSITION.BOTTOM_LEFT,
-                        });
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                        toast.error(err.response.data, {
-                          position: toast.POSITION.BOTTOM_LEFT,
-                        });
-                      });
-                  }}
-                >
-                  Update
-                </Button>
-                <br />
                 <Box mt={2}>
                   <Button variant="contained" onClick={send}>
-                    Update Image
+                    Add
                   </Button>
                 </Box>
               </div>

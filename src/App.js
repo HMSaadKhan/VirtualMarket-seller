@@ -37,8 +37,8 @@ function App() {
           <Route path="/orders" component={OrderList} />
           <Route path="/products" component={SellerProduct} />
           <Route path="/sellerprofile" component={UserProfile} />
-          <Route path="/productupdate" component={AddProduct} />
-          <Route path="/updateProduct" component={ProductUpdate} />
+          <Route path="/addproduct" component={AddProduct} />
+          <Route path="/editDetails/:id" component={ProductUpdate} />
           <Route path="/Login" exact component={Login} />
           <Route path="/signup" exact component={SignUp} />
           <Route path="/forgotpassword" component={ForgotPassword} />
@@ -50,7 +50,8 @@ function App() {
           />
           <Route path="/changepassword/" exact component={ChangePassword} />
           <Route path="/add-information" exact component={AddInformation} />
-          <Route path="/" component={Home} />
+          <Route path="/" exact component={Home} />
+          
         </Switch>
       </div>
     </Router>

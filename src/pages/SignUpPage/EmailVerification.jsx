@@ -41,16 +41,12 @@ const ForgotPassword = (props) => {
     sellerService
       .getStatus()
       .then((data) => {
-        console.log(data.emailVerified);
-        setEmailVerificationCheck(data.emailVerified);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    sellerService
-      .verificationOTP()
-      .then((data) => {
         console.log(data);
+        if (data.emailVerified) {
+          props.history.push("/add-information");
+        }
+
+        setEmailVerificationCheck(data.emailVerified);
       })
       .catch((error) => {
         console.log(error);

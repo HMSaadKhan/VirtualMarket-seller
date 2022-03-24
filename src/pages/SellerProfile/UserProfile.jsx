@@ -24,7 +24,7 @@ export default function UserProfile() {
   const [storeName, setStoreName] = useState();
   const [paymentDetails, setPaymentDetails] = useState("");
   const [deliveryCharge, setDeliveryCharge] = useState(0);
-  const [avatar, setAvatar] = useState("");
+  const [avatar, setAvatar] = useState();
 
   React.useEffect(() => {
     sellerService
@@ -40,13 +40,14 @@ export default function UserProfile() {
         setStoreName(data.storeName);
         setDeliveryCharge(data.deliveryCharge);
         setPaymentDetails(data.paymentDetails);
-        setAvatar(data.avatar);
+        setAvatar(data.avatar.link  );
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
   const send = (event) => {
+    console.log(avatar);
     const data = new FormData();
     data.append("image", avatar);
     console.log(data);

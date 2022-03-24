@@ -1,20 +1,115 @@
-import { Publish, Shop2standard } from "@mui/icons-material";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./productupdate.css";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
+import {
+  TextField,
+  Box,
+  Radio,
+  Button,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+} from "@mui/material";
+import { Publish } from "@material-ui/icons";
+import { toast } from "react-toastify";
+import productService from "../../Services/ProductServices";
 
-export default function Productupdate() {
+export default function Productupdate(props) {
+  const [name, setName] = useState("");
+  const [brand, setBrand] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [sampleOrder, setSampleOrder] = useState("");
+  const [stock, setStock] = useState();
+  const [warrantyPeriod, setWarrantyPeriod] = useState();
+  const [minOrder, setMinOrder] = useState();
+  const [price, setPrice] = useState();
+  const [images, setImages] = useState([]);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [multipleFiles, setMultipleFiles] = useState("");
+  const [selectedImages, setSelectedImages] = useState([]);
+  const id = props.match.params.id;
+  const temp = useRef();
+
+  const getProduct = () => {
+    productService.getSellerProduct(id).then((data) => {
+      console.log(data.data);
+      setName(data.data.name);
+      setPrice(data.data.price);
+      setBrand(data.data.brand);
+      setCategory(data.data.category);
+      setDescription(data.data.description);
+      setSampleOrder(data.data.sampleOrder);
+      setStock(data.data.stock);
+      setWarrantyPeriod(data.data.warrantyPeriod);
+      setMinOrder(data.data.minOrder);
+      setSelectedImages(data.data.images);
+    });
+  };
+  temp.current = getProduct;
+  useEffect(() => {
+    temp.current();
+    }, []);
+  const handleChange = (event) => {
+    setSampleOrder(event.target.value);
+    console.log(sampleOrder);
+  };
+
+  // const getCategories = () => {
+  //   productService
+  //     .GetCategories()
+  //     .then((data) => {
+  //       console.log(data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+  // React.useEffect(getCategories, []);
+
+  const MultipleFileChange = (e) => {
+    setMultipleFiles(e.target.files);
+    //const selectedFiles = event.target.files;
+    const selectedFilesArray = Array.from(multipleFiles);
+    const imagesArray = selectedFilesArray.map((file) => {
+      return URL.createObjectURL(file);
+    });
+    setSelectedImages((previousImages) => previousImages.concat(imagesArray));
+    console.log(selectedImages);
+  };
+
+  const UpdateInfo = () => {
+    productService
+      .editDetails({
+        name,
+        brand,
+        category,
+        minOrder,
+        warrantyPeriod,
+        stock,
+        sampleOrder,
+        price,
+        description,
+      })
+      .then((data) => {
+        console.log(data);
+        window.location.reload();
+        toast.success("Changes Saved Successfully", {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      });
+  };
+
   return (
     <div className="seller">
       <div className="sellerTitleContainer">
-        <h1 className="sellerTitle">Update Product</h1>
+        <h1 className="sellerTitle">Add Product</h1>
       </div>
 
       <div className="sellerContainer">
@@ -31,54 +126,83 @@ export default function Productupdate() {
                   autoComplete="off"
                 >
                   <TextField
-                    id="standard-basic"
                     label="Product Name"
                     variant="standard"
+                    placeholder="e.g. S21 Ultra"
+                    value={name}
+                    InputLabelProps={{ shrink: name ? true : false }}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
                   />
                   <TextField
-                    id="standard-basic"
                     label="Product Brand"
                     variant="standard"
+                    placeholder="e.g. Samsung"
+                    value={brand}
+                    InputLabelProps={{ shrink: brand ? true : false }}
+                    onChange={(e) => {
+                      setBrand(e.target.value);
+                    }}
                   />
                 </Box>
               </div>
-
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
+                  label="Product Category"
+                  type="number"
+                  variant="standard"
+                  placeholder="e.g. Electronics"
+                  value={price}
+                  InputLabelProps={{ shrink: price ? true : false }}
+                  onChange={(e) => {
+                    setPrice(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="sellerUpdateItem">
+                <TextField
                   label="Product Category"
                   variant="standard"
+                  InputLabelProps={{ shrink: category ? true : false }}
+                  placeholder="e.g. Electronics"
+                  value={category}
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                  }}
                 />
               </div>
 
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
                   label="Quantity"
                   type="number"
                   variant="standard"
+                  placeholder="e.g. 10"
+                  value={minOrder}
+                  InputLabelProps={{ shrink: minOrder ? true : false }}
+                  onChange={(e) => {
+                    setMinOrder(e.target.value);
+                  }}
                 />
               </div>
-
               <br></br>
 
               <FormControl>
-                <FormLabel id="demo-radio-buttons-group-label">
-                  Sample
-                </FormLabel>
+                <FormLabel>Sample</FormLabel>
                 <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="female"
-                  name="radio-buttons-group"
+                  defaultValue="included"
+                  value={sampleOrder}
+                  onChange={handleChange}
                 >
                   <FormControlLabel
-                    value="included"
+                    value="true"
                     control={<Radio />}
                     label="Included"
                   />
 
                   <FormControlLabel
-                    value="not included"
+                    value="false"
                     control={<Radio />}
                     label="Not Included"
                   />
@@ -87,52 +211,75 @@ export default function Productupdate() {
 
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
                   label="Warranty Period"
                   variant="standard"
+                  placeholder="e.g. 2 Years"
+                  value={warrantyPeriod}
+                  InputLabelProps={{ shrink: warrantyPeriod ? true : false }}
+                  onChange={(e) => {
+                    setWarrantyPeriod(e.target.value);
+                  }}
                 />
               </div>
 
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
                   label="Product Description"
                   variant="standard"
+                  value={description}
+                  InputLabelProps={{ shrink: description ? true : false }}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
                 />
               </div>
-
               <div className="sellerUpdateItem">
                 <TextField
-                  id="standard-basic"
-                  label="Payment Details"
+                  label="Stock"
                   variant="standard"
-                />
-              </div>
-
-              <div className="sellerUpdateItem">
-                <TextField
-                  id="standard-basic"
-                  label="Delivery Charges"
-                  variant="standard"
+                  value={stock}
+                  InputLabelProps={{ shrink: stock ? true : false }}
+                  onChange={(e) => {
+                    setStock(e.target.value);
+                  }}
                 />
               </div>
             </div>
             <div className="sellerUpdateRight">
               <div className="sellerUpdateUpload">
-                <img
-                  src="https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                  alt=""
-                  className="sellerUpdateImg"
-                />
+                {selectedImages.map((image, index) => {
+                  return (
+                    <div key={image} className="image">
+                      <img
+                        src={image.link}
+                        alt=""
+                        className="sellerUpdateImg"
+                      />
+                    </div>
+                  );
+                })}
 
                 <label htmlFor="file">
                   <Publish className="sellerUpdateIcon" />
                 </label>
-                <input type="file" id="file" style={{ display: "none" }} />
+                <form>
+                  {" "}
+                  <input
+                    type="file"
+                    id="file"
+                    multiple
+                    style={{ display: "none" }}
+                    onChange={(e) => MultipleFileChange(e)}
+                  />
+                </form>
               </div>
               <div>
-                <Button className="sellerUpdateButton" variant="contained">
-                  Update
+                <Button
+                  className="sellerUpdateButton"
+                  variant="contained"
+                  onClick={() => UpdateInfo()}
+                >
+                  Update Information
                 </Button>
               </div>
             </div>

@@ -56,15 +56,25 @@
 .tableButton {
   border: none;
   border-radius: 10px;
-  padding: 5px 10px;
+  padding: 5px 40px;
   background-color: red;
   color: white;
   cursor: pointer;
   float: right;
-  margin-right: 60px;
+  margin-right: 90%;
   margin-bottom: 20px;
+  position: absolute;
 }
 
 .idcolumn.TableCell {
   font-weight: bold;
+}
+
+.approved {
+  color: green;
+  font-weight: bolder;
+}
+.notApproved {
+  color: red;
+  font-weight: bolder;
 }

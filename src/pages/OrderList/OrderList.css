@@ -7,7 +7,7 @@
 .add-button {
   display: flex;
   justify-content: end;
-  width: 95%;
+  width: 100%;
   margin-bottom: 20px;
 }
 
@@ -67,4 +67,11 @@
 
 .idcolumn.TableCell {
   font-weight: bold;
+}
+.cardContent {
+  justify-content: space-around;
+  display: flex;
+  padding: 30px;
+  margin: auto;
+  align-items: center;
 }

@@ -5,6 +5,7 @@ import {
   Box,
   Radio,
   Button,
+  Typography,
   RadioGroup,
   FormControlLabel,
   FormControl,
@@ -15,15 +16,15 @@ import { toast } from "react-toastify";
 import productService from "../../Services/ProductServices";
 
 export default function AddProduct() {
-  const [name, setName] = useState("s21 ultra");
-  const [brand, setBrand] = useState("samsung");
-  const [category, setCategory] = useState("electronics");
-  const [description, setDescription] = useState("this is a mobile");
-  const [sampleOrder, setSampleOrder] = useState("true");
-  const [stock, setStock] = useState(12);
-  const [warrantyPeriod, setWarrantyPeriod] = useState(2);
-  const [minOrder, setMinOrder] = useState(1);
-  const [price, setPrice] = useState(100);
+  const [name, setName] = useState("");
+  const [brand, setBrand] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [sampleOrder, setSampleOrder] = useState("");
+  const [stock, setStock] = useState();
+  const [warrantyPeriod, setWarrantyPeriod] = useState();
+  const [minOrder, setMinOrder] = useState();
+  const [price, setPrice] = useState();
   const [imagePreview, setImagePreview] = useState(null);
   const [multipleFiles, setMultipleFiles] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
@@ -44,24 +45,19 @@ export default function AddProduct() {
       });
   };
   React.useEffect(getCategories, []);
-  const ImageHandler = (e) => {
-    const selected = e.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result);
-    };
-    reader.readAsDataURL(selected);
-  };
 
+  // const MultipleFileChange = (e) => {
+  //   setMultipleFiles(e.target.files);
+  //   //const selectedFiles = event.target.files;
+  //   const selectedFilesArray = Array.from(multipleFiles);
+  //   const imagesArray = selectedFilesArray.map((file) => {
+  //     return URL.createObjectURL(file);
+  //   });
+  //   setSelectedImages((previousImages) => previousImages.concat(imagesArray));
+  //   console.log(selectedImages);
+  // };
   const MultipleFileChange = (e) => {
     setMultipleFiles(e.target.files);
-    //const selectedFiles = event.target.files;
-    const selectedFilesArray = Array.from(multipleFiles);
-    const imagesArray = selectedFilesArray.map((file) => {
-      return URL.createObjectURL(file);
-    });
-    setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-    console.log(selectedImages);
   };
 
   const UploadMultipleFiles = async () => {
@@ -96,7 +92,6 @@ export default function AddProduct() {
         });
       });
   };
-  const onSelectFile = (event) => {};
 
   return (
     <div className="seller">
@@ -139,7 +134,7 @@ export default function AddProduct() {
               </div>
               <div className="sellerUpdateItem">
                 <TextField
-                  label="Product Category"
+                  label="Product Price"
                   type="number"
                   variant="standard"
                   placeholder="e.g. Electronics"
@@ -240,7 +235,7 @@ export default function AddProduct() {
                 })}
 
                 <label htmlFor="file">
-                  <Publish className="sellerUpdateIcon" />
+                  <Typography>Select 5 Images</Typography>
                 </label>
                 <form>
                   {" "}
@@ -248,7 +243,6 @@ export default function AddProduct() {
                     type="file"
                     id="file"
                     multiple
-                    style={{ display: "none" }}
                     onChange={(e) => MultipleFileChange(e)}
                   />
                 </form>

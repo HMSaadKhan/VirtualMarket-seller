@@ -48,6 +48,42 @@ class ProductService extends GenericService {
           reject(err);
         });
     });
+  GetAllBySeller = () =>
+    new Promise((resolve, reject) => {
+      this.get("products/getAllBySeller")
+        .then((data) => {
+          console.log("Get Product Post");
+          console.log(data);
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  getSellerProduct = (_id) =>
+    new Promise((resolve, reject) => {
+      axios
+        .get("products/getDetailsForSeller/" + _id)
+        .then((data) => {
+          console.log("edit Product Post");
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  deleteProduct = (_id) =>
+    new Promise((resolve, reject) => {
+      axios
+        .delete("products/del/" + _id)
+        .then((data) => {
+          console.log("delete Product Post");
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
 }
 let productService = new ProductService();
 export default productService;

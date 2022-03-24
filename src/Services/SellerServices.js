@@ -138,7 +138,7 @@ class SellerServices extends GenericService {
     });
   AddAvatar = (image) =>
     new Promise((resolve, reject) => {
-      this.post("sellers/addAvatar", image)
+      this.post("sellers/editAvatar", image)
         .then((data) => {
           console.log("Avatar Post");
           console.log(data);
@@ -160,12 +160,13 @@ class SellerServices extends GenericService {
           reject(err);
         });
     });
-    upload = (files) =>
+
+  addDetails = (files) =>
     new Promise((resolve, reject) => {
-      this.post("buyers/upload",files)
+      axios
+        .patch("sellers/addDetails", files)
         .then((data) => {
-          console.log("Avatar Post");
-          console.log(data);
+          console.log("Details Post");
           resolve(data);
         })
         .catch((err) => {
