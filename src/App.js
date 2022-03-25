@@ -23,6 +23,7 @@ import EmailVerification from "./pages/SignUpPage/EmailVerification";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddInformation from "./pages/AddInformation/AddInformation";
+import checkSingleFile from "./Components/AddSingleFile/checkSignleFile";
 
 function App() {
   return (
@@ -49,9 +50,9 @@ function App() {
             component={EmailVerification}
           />
           <Route path="/changepassword/" exact component={ChangePassword} />
+          <Route path="/check" exact component={checkSingleFile} />
           <Route path="/add-information" exact component={AddInformation} />
           <Route path="/" exact component={Home} />
-          
         </Switch>
       </div>
     </Router>

@@ -104,18 +104,16 @@ const SellerProducts = () => {
                       {/* <Link to={"/Buyer" + params}>
               <button className="sellerListApprove">Edit</button>
             </Link> */}
-                      <button
-                        className="sellerListApprove"
+                      <IconButton
                         onClick={() => {
                           history.push("/editDetails/" + row._id);
                         }}
                       >
                         <EditIcon />
-                      </button>
+                      </IconButton>
 
                       <IconButton>
                         <DeleteIcon
-                            
                           onClick={(e) => {
                             handleDelete(row._id);
                           }}

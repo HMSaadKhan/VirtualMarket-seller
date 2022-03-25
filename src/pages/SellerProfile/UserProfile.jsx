@@ -25,6 +25,7 @@ export default function UserProfile() {
   const [paymentDetails, setPaymentDetails] = useState("");
   const [deliveryCharge, setDeliveryCharge] = useState(0);
   const [avatar, setAvatar] = useState();
+  const [image, setImage] = useState();
 
   React.useEffect(() => {
     sellerService
@@ -34,29 +35,29 @@ export default function UserProfile() {
         setfName(data.fName);
         setlName(data.lName);
         setCity(data.city);
-        setCnic(data.cnic);
+        setCnic(data.cnicNumber);
         setAddress(data.address);
         setPhone(data.phone);
         setStoreName(data.storeName);
         setDeliveryCharge(data.deliveryCharge);
         setPaymentDetails(data.paymentDetails);
-        setAvatar(data.avatar.link  );
+        setAvatar(data.avatar);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-  const send = (event) => {
+  const send = async (event) => {
     console.log(avatar);
     const data = new FormData();
-    data.append("image", avatar);
+    data.append("image", image);
     console.log(data);
-    sellerService
+    await sellerService
       .AddAvatar(data)
       .then((data) => {
         console.log(data);
-        // window.location.reload();
-        toast.success("Changes Saved Successfully", {
+        window.location.reload();
+        toast.success("Changes Image   Successfully", {
           position: toast.POSITION.BOTTOM_LEFT,
         });
       })
@@ -87,6 +88,7 @@ export default function UserProfile() {
                   autoComplete="off"
                 >
                   <TextField
+                    disabled
                     value={fName}
                     label="First Name"
                     variant="standard"
@@ -95,9 +97,11 @@ export default function UserProfile() {
                     }}
                   />
                   <TextField
+                    disabled
                     label="Last Name"
                     value={lName}
                     variant="standard"
+                    readOnly={true}
                     onChange={(e) => {
                       setlName(e.target.value);
                     }}
@@ -107,6 +111,7 @@ export default function UserProfile() {
 
               <div className="sellerUpdateItem">
                 <TextField
+                  disabled
                   label="CNIC"
                   value={cnic}
                   variant="standard"
@@ -203,7 +208,7 @@ export default function UserProfile() {
                       type="file"
                       id="file"
                       onChange={(e) => {
-                        setAvatar(e.target.files[0]);
+                        setImage(e.target.files[0]);
                       }}
                     />
                   </>
@@ -217,14 +222,11 @@ export default function UserProfile() {
                   onClick={(e) => {
                     sellerService
                       .editUserDetails({
-                        fName,
-                        lName,
                         phone,
                         address,
                         city,
                         storeName,
                         deliveryCharge,
-                        cnic,
                         paymentDetails,
                       })
                       .then((data) => {

@@ -20,7 +20,7 @@ export default function Home() {
     <LoginAuth>
       <Container>
         <Featuredinfo />
-        <Charts />
+
         <Divider>
           <WidgetSm />
           <WidgetLg />

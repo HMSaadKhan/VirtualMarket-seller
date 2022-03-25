@@ -49,7 +49,7 @@ export default function Productupdate(props) {
   temp.current = getProduct;
   useEffect(() => {
     temp.current();
-    }, []);
+  }, []);
   const handleChange = (event) => {
     setSampleOrder(event.target.value);
     console.log(sampleOrder);
@@ -109,7 +109,7 @@ export default function Productupdate(props) {
   return (
     <div className="seller">
       <div className="sellerTitleContainer">
-        <h1 className="sellerTitle">Add Product</h1>
+        <h1 className="sellerTitle">Update Product</h1>
       </div>
 
       <div className="sellerContainer">
@@ -166,7 +166,7 @@ export default function Productupdate(props) {
                   variant="standard"
                   InputLabelProps={{ shrink: category ? true : false }}
                   placeholder="e.g. Electronics"
-                  value={category}
+                  value={category.name}
                   onChange={(e) => {
                     setCategory(e.target.value);
                   }}

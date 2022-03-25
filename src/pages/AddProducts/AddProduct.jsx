@@ -10,15 +10,21 @@ import {
   FormControlLabel,
   FormControl,
   FormLabel,
+  Select,
+  MenuItem,
+  InputLabel,
 } from "@mui/material";
 import { Publish } from "@material-ui/icons";
 import { toast } from "react-toastify";
 import productService from "../../Services/ProductServices";
+import { RssFeedTwoTone } from "@mui/icons-material";
+import { Label } from "recharts";
 
 export default function AddProduct() {
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([]);
   const [description, setDescription] = useState("");
   const [sampleOrder, setSampleOrder] = useState("");
   const [stock, setStock] = useState();
@@ -39,13 +45,16 @@ export default function AddProduct() {
       .GetCategories()
       .then((data) => {
         console.log(data);
+        setCategories(data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
   React.useEffect(getCategories, []);
-
+  const selectChange = (e) => {
+    setCategory(e.target.value);
+  };
   // const MultipleFileChange = (e) => {
   //   setMultipleFiles(e.target.files);
   //   //const selectedFiles = event.target.files;
@@ -144,18 +153,22 @@ export default function AddProduct() {
                   }}
                 />
               </div>
-              <div className="sellerUpdateItem">
-                <TextField
-                  label="Product Category"
-                  variant="standard"
-                  placeholder="e.g. Electronics"
-                  value={category}
-                  onChange={(e) => {
-                    setCategory(e.target.value);
-                  }}
-                />
-              </div>
 
+              <div className="sellerUpdateItem">
+                <InputLabel variant="standard">Product category</InputLabel>
+                <Select
+                  variant="standard"
+                  onChange={(e) => {
+                    selectChange(e);
+                  }}
+                >
+                  {categories.map((item) => (
+                    <MenuItem key={item} value={item._id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </div>
               <div className="sellerUpdateItem">
                 <TextField
                   label="Quantity"
