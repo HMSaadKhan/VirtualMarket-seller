@@ -41,7 +41,7 @@ export default function UserProfile() {
         setStoreName(data.storeName);
         setDeliveryCharge(data.deliveryCharge);
         setPaymentDetails(data.paymentDetails);
-        setAvatar(data.avatar);
+        setAvatar(data.avatar.link);
       })
       .catch((err) => {
         console.log(err);

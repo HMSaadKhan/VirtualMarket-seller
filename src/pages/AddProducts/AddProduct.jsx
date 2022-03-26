@@ -14,26 +14,28 @@ import {
   MenuItem,
   InputLabel,
 } from "@mui/material";
-import { Publish } from "@material-ui/icons";
 import { toast } from "react-toastify";
 import productService from "../../Services/ProductServices";
-import { RssFeedTwoTone } from "@mui/icons-material";
-import { Label } from "recharts";
+import SingleFileUpload from "../../Components/AddSingleFile/SingleFileUpload";
 
 export default function AddProduct() {
-  const [name, setName] = useState("");
-  const [brand, setBrand] = useState("");
-  const [category, setCategory] = useState("");
+  const [name, setName] = useState("name");
+  const [brand, setBrand] = useState("brand");
+  const [category, setCategory] = useState("1");
   const [categories, setCategories] = useState([]);
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState("this is good product");
   const [sampleOrder, setSampleOrder] = useState("");
-  const [stock, setStock] = useState();
-  const [warrantyPeriod, setWarrantyPeriod] = useState();
-  const [minOrder, setMinOrder] = useState();
-  const [price, setPrice] = useState();
-  const [imagePreview, setImagePreview] = useState(null);
-  const [multipleFiles, setMultipleFiles] = useState("");
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [stock, setStock] = useState(100);
+  const [warrantyPeriod, setWarrantyPeriod] = useState(2);
+  const [minOrder, setMinOrder] = useState(1);
+  const [price, setPrice] = useState(100);
+  const [images, setImages] = useState([]);
+
+  let temp = images;
+  const imageArray = (e, index) => {
+    temp[index] = e;
+    setImages(temp);
+  };
 
   const handleChange = (event) => {
     setSampleOrder(event.target.value);
@@ -55,19 +57,6 @@ export default function AddProduct() {
   const selectChange = (e) => {
     setCategory(e.target.value);
   };
-  // const MultipleFileChange = (e) => {
-  //   setMultipleFiles(e.target.files);
-  //   //const selectedFiles = event.target.files;
-  //   const selectedFilesArray = Array.from(multipleFiles);
-  //   const imagesArray = selectedFilesArray.map((file) => {
-  //     return URL.createObjectURL(file);
-  //   });
-  //   setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-  //   console.log(selectedImages);
-  // };
-  const MultipleFileChange = (e) => {
-    setMultipleFiles(e.target.files);
-  };
 
   const UploadMultipleFiles = async () => {
     const formData = new FormData();
@@ -80,10 +69,16 @@ export default function AddProduct() {
     formData.append("price", price);
     formData.append("description", description);
     formData.append("category", category);
+    console.log(images);
+    formData.append("image", images[0]);
+    formData.append("image", images[1]);
+    formData.append("image", images[2]);
+    formData.append("image", images[3]);
+    formData.append("image", images[4]);
 
-    for (let i = 0; i < multipleFiles.length; i++) {
-      formData.append("image", multipleFiles[i]);
-    }
+    // for (let i = 0; i < images.length; i++) {
+    //   formData.append("image", images[i]);
+    // }
 
     productService
       .AddProduct(formData)
@@ -237,29 +232,24 @@ export default function AddProduct() {
                 />
               </div>
             </div>
+
             <div className="sellerUpdateRight">
               <div className="sellerUpdateUpload">
-                {selectedImages.map((image, index) => {
-                  return (
-                    <div key={image} className="image">
-                      <img src={image} alt="" className="sellerUpdateImg" />
-                    </div>
-                  );
-                })}
-
-                <label htmlFor="file">
-                  <Typography>Select 5 Images</Typography>
-                </label>
-                <form>
-                  {" "}
-                  <input
-                    type="file"
-                    id="file"
-                    multiple
-                    onChange={(e) => MultipleFileChange(e)}
-                  />
-                </form>
+                <SingleFileUpload index={0} imageArray={imageArray} />
               </div>
+              <div className="sellerUpdateUpload">
+                <SingleFileUpload index={1} imageArray={imageArray} />
+              </div>
+              <div className="sellerUpdateUpload">
+                <SingleFileUpload index={2} imageArray={imageArray} />
+              </div>
+              <div className="sellerUpdateUpload">
+                <SingleFileUpload index={3} imageArray={imageArray} />
+              </div>
+              <div className="sellerUpdateUpload">
+                <SingleFileUpload index={4} imageArray={imageArray} />
+              </div>
+
               <div>
                 <Button
                   className="sellerUpdateButton"
