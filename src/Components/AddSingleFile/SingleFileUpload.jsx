@@ -13,6 +13,7 @@ margin: 5px;
 border: 1px solid #ddd;
 }`;
 const SingleFileUpload = (props) => {
+  console.log(props);
   const { index, imageArray } = props;
   const [ImagePreview, SetImagePreview, imgprRef] = useState(null);
   // const [image, setImage, imgRef] = useState();
@@ -56,4 +57,4 @@ const SingleFileUpload = (props) => {
   );
 };
 
-export default SingleFileUpload;
+export { SingleFileUpload };

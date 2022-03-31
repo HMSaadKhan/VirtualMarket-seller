@@ -16,7 +16,8 @@ import {
 } from "@mui/material";
 import { toast } from "react-toastify";
 import productService from "../../Services/ProductServices";
-import SingleFileUpload from "../../Components/AddSingleFile/SingleFileUpload";
+import { SingleFileUpload } from "../../Components/AddSingleFile/SingleFileUpload";
+import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 
 export default function AddProduct() {
   const [name, setName] = useState("name");
@@ -30,6 +31,7 @@ export default function AddProduct() {
   const [minOrder, setMinOrder] = useState(1);
   const [price, setPrice] = useState(100);
   const [images, setImages] = useState([]);
+  const [bool, setbool] = useState(false);
 
   let temp = images;
   const imageArray = (e, index) => {
@@ -59,6 +61,7 @@ export default function AddProduct() {
   };
 
   const UploadMultipleFiles = async () => {
+    setbool(true);
     const formData = new FormData();
     formData.append("name", name);
     formData.append("brand", brand);
@@ -84,6 +87,7 @@ export default function AddProduct() {
       .AddProduct(formData)
       .then((data) => {
         console.log(data);
+        setbool(false);
         window.location.reload();
         toast.success("Changes Saved Successfully", {
           position: toast.POSITION.BOTTOM_LEFT,
@@ -101,6 +105,7 @@ export default function AddProduct() {
     <div className="seller">
       <div className="sellerTitleContainer">
         <h1 className="sellerTitle">Add Product</h1>
+        <LoadingScreen Loading={bool} />
       </div>
 
       <div className="sellerContainer">

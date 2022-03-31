@@ -39,7 +39,7 @@
 
 .sellerUpdateUpload {
   display: flex;
-  align-items: center;
+  flex-direction: row;
 }
 
 .sellerUpdateImg {
@@ -87,4 +87,8 @@
   background-color: red;
   color: white;
   font-weight: 600;
+}
+.image {
+  display: flex;
+  flex-direction: column;
 }

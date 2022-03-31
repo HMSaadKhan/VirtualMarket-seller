@@ -84,6 +84,32 @@ class ProductService extends GenericService {
           reject(err);
         });
     });
+
+  deleteProductImage = (_id, data) =>
+    new Promise((resolve, reject) => {
+      axios
+        .patch("products/deleteImage/" + _id, data)
+        .then((data) => {
+          console.log("delete Product Image Post");
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+
+  UpdateProductImage = (_id, data) =>
+    new Promise((resolve, reject) => {
+      axios
+        .patch("products/addImage/" + _id, data)
+        .then((data) => {
+          console.log("update Product Image Post");
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
 }
 let productService = new ProductService();
 export default productService;

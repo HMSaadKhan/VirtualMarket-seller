@@ -39,7 +39,7 @@ const SellerProducts = () => {
   }, []);
   const handleDelete = async (_id) => {
     await productService.deleteProduct(_id);
-    window.location.reload();
+    getSellerProducts();
   };
   return (
     <>

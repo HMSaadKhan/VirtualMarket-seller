@@ -13,6 +13,7 @@ import {
 import { Publish } from "@material-ui/icons";
 import { toast } from "react-toastify";
 import productService from "../../Services/ProductServices";
+import { DisplayImage } from "../../Components/AddSingleFile/DisplayImage";
 
 export default function Productupdate(props) {
   const [name, setName] = useState("");
@@ -28,12 +29,13 @@ export default function Productupdate(props) {
   const [imagePreview, setImagePreview] = useState(null);
   const [multipleFiles, setMultipleFiles] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
-  const id = props.match.params.id;
+
+  const _id = props.match.params.id;
   const temp = useRef();
 
-  const getProduct = () => {
-    productService.getSellerProduct(id).then((data) => {
-      console.log(data.data);
+  const getProduct = async () => {
+    await productService.getSellerProduct(_id).then((data) => {
+      console.log(data.data.images);
       setName(data.data.name);
       setPrice(data.data.price);
       setBrand(data.data.brand);
@@ -54,7 +56,19 @@ export default function Productupdate(props) {
     setSampleOrder(event.target.value);
     console.log(sampleOrder);
   };
-
+  const onDelete = (cloudinaryID) => {
+    console.log(cloudinaryID);
+    productService
+      .deleteProductImage(_id, { cloudinaryID })
+      .then((data) => {
+        console.log(data);
+        console.log("image delete funntion call");
+        getProduct();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   // const getCategories = () => {
   //   productService
   //     .GetCategories()
@@ -66,16 +80,31 @@ export default function Productupdate(props) {
   //     });
   // };
   // React.useEffect(getCategories, []);
+  const uploadImage = (data) => {
+    console.log(_id, data);
+    const formData = new FormData();
+    formData.append("image", data);
+    productService
+      .UpdateProductImage(_id, formData)
+      .then((data) => {
+        console.log(data);
+        console.log("image update funntion call");
+        getProduct();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const MultipleFileChange = (e) => {
-    setMultipleFiles(e.target.files);
-    //const selectedFiles = event.target.files;
-    const selectedFilesArray = Array.from(multipleFiles);
-    const imagesArray = selectedFilesArray.map((file) => {
-      return URL.createObjectURL(file);
-    });
-    setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-    console.log(selectedImages);
+    // setMultipleFiles(e.target.files);
+    // //const selectedFiles = event.target.files;
+    // const selectedFilesArray = Array.from(multipleFiles);
+    // const imagesArray = selectedFilesArray.map((file) => {
+    //   return URL.createObjectURL(file);
+    // });
+    // setSelectedImages((previousImages) => previousImages.concat(imagesArray));
+    // console.log(selectedImages);
   };
 
   const UpdateInfo = () => {
@@ -247,31 +276,42 @@ export default function Productupdate(props) {
             </div>
             <div className="sellerUpdateRight">
               <div className="sellerUpdateUpload">
-                {selectedImages.map((image, index) => {
-                  return (
-                    <div key={image} className="image">
-                      <img
-                        src={image.link}
-                        alt=""
-                        className="sellerUpdateImg"
-                      />
-                    </div>
-                  );
-                })}
+                {selectedImages.length > 0 ? (
+                  <div className="image">
+                    {console.log(selectedImages)}
 
-                <label htmlFor="file">
-                  <Publish className="sellerUpdateIcon" />
-                </label>
-                <form>
-                  {" "}
-                  <input
-                    type="file"
-                    id="file"
-                    multiple
-                    style={{ display: "none" }}
-                    onChange={(e) => MultipleFileChange(e)}
-                  />
-                </form>
+                    <DisplayImage
+                      link={selectedImages}
+                      uploadImage={uploadImage}
+                      index={0}
+                      deleteImage={onDelete}
+                    />
+                    <DisplayImage
+                      link={selectedImages}
+                      uploadImage={uploadImage}
+                      index={1}
+                      deleteImage={onDelete}
+                    />
+                    <DisplayImage
+                      link={selectedImages}
+                      uploadImage={uploadImage}
+                      index={2}
+                      deleteImage={onDelete}
+                    />
+                    <DisplayImage
+                      link={selectedImages}
+                      index={3}
+                      deleteImage={onDelete}
+                    />
+                    <DisplayImage
+                      link={selectedImages}
+                      index={4}
+                      deleteImage={onDelete}
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
               <div>
                 <Button

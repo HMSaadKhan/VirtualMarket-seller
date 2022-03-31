@@ -62,7 +62,7 @@ export default function OrderList() {
       "Shop.no.21, Shah Alam, Market",
       "03046546876"
     ),
-    ];
+  ];
 
   return (
     <>
@@ -125,7 +125,7 @@ export default function OrderList() {
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={status}
+                            value={row.status}
                             label="Status"
                             onChange={handleChange}
                           >
