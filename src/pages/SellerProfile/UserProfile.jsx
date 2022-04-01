@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
-import {
-  LocationSearching,
-  MailOutline,
-  PermIdentity,
-  PhoneAndroid,
-  CardGiftcardstandard,
-} from "@material-ui/icons";
+import React, { useState } from "react";
 import sellerService from "../../Services/SellerServices";
-import { Publish, Shop2standard } from "@mui/icons-material";
-import { TextField, Button, Box, Paper } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Box,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControl,
+} from "@mui/material";
 import "./userprofile.css";
 import { toast } from "react-toastify";
-import styled from "styled-components";
-import axios from "axios";
+import { DisplayImage } from "../../Components/AddSingleFile/DisplayImage";
 
 export default function UserProfile() {
   const [fName, setfName] = useState("");
@@ -26,6 +25,7 @@ export default function UserProfile() {
   const [deliveryCharge, setDeliveryCharge] = useState(0);
   const [avatar, setAvatar] = useState();
   const [image, setImage] = useState();
+  const [cities, setcities] = useState([]);
 
   React.useEffect(() => {
     sellerService
@@ -67,6 +67,22 @@ export default function UserProfile() {
           position: toast.POSITION.BOTTOM_LEFT,
         });
       });
+  };
+  const getCities = () => {
+    sellerService
+      .GetCities()
+      .then((data) => {
+        console.log(data);
+        setcities(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  React.useEffect(getCities, []);
+
+  const selectChange = (e) => {
+    setCity(e.target.value);
   };
   return (
     <div className="seller">
@@ -145,14 +161,23 @@ export default function UserProfile() {
               </div>
 
               <div className="sellerUpdateItem">
-                <TextField
-                  label="City"
-                  variant="standard"
-                  value={city}
-                  onChange={(e) => {
-                    setCity(e.target.value);
-                  }}
-                />
+                <FormControl sx={{ minWidth: 120 }}>
+                  <InputLabel variant="standard">City</InputLabel>
+
+                  <Select
+                    variant="standard"
+                    value={city}
+                    onChange={(e) => {
+                      selectChange(e);
+                    }}
+                  >
+                    {cities.map((item) => (
+                      <MenuItem key={item} value={item._id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
 
               <div className="sellerUpdateItem">
@@ -190,17 +215,8 @@ export default function UserProfile() {
             </div>
             <div className="sellerUpdateRight">
               <div className="sellerUpdateUpload">
-                {/* <img
-                  src="https://Avatars.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                  alt=""
-                  className="sellerUpdateImg"
-                /> */}
-
                 <img className="sellerUpdateImg" src={avatar} />
 
-                {/* 
-                  <Publish className="sellerUpdateIcon" />
-                </label> */}
                 <form>
                   <>
                     <label htmlFor="file"></label>

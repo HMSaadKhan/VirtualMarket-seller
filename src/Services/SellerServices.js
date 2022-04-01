@@ -173,6 +173,18 @@ class SellerServices extends GenericService {
           reject(err);
         });
     });
+  GetCities = () =>
+    new Promise((resolve, reject) => {
+      this.get("cities/getAll")
+        .then((data) => {
+          console.log("Cities Get");
+          console.log(data);
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
 }
 let sellerServices = new SellerServices();
 export default sellerServices;

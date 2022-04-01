@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import useState from "react-usestateref";
-import { Publish } from "@material-ui/icons";
-import { Grid } from "@material-ui/core";
 import styled from "styled-components";
 import CancelIcon from "@mui/icons-material/Cancel";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
@@ -13,10 +11,8 @@ margin: 5px;
 border: 1px solid #ddd;
 }`;
 const SingleFileUpload = (props) => {
-  console.log(props);
   const { index, imageArray } = props;
   const [ImagePreview, SetImagePreview, imgprRef] = useState(null);
-  // const [image, setImage, imgRef] = useState();
   const ImageSetting = (e) => {
     const image = e.target.files[0];
     const reader = new FileReader();

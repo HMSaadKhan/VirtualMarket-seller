@@ -37,11 +37,6 @@
   margin-left: 300px;
 }
 
-.sellerUpdateUpload {
-  display: flex;
-  flex-direction: row;
-}
-
 .sellerUpdateImg {
   width: 200px;
   height: 200px;
@@ -90,5 +85,11 @@
 }
 .image {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+.sellerUpdateUpload {
+  display: flex;
+  flex: 1;
+
 }

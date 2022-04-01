@@ -9,8 +9,10 @@ import {
   FormControlLabel,
   FormControl,
   FormLabel,
+  InputLabel,
+  MenuItem,
+  Select,
 } from "@mui/material";
-import { Publish } from "@material-ui/icons";
 import { toast } from "react-toastify";
 import productService from "../../Services/ProductServices";
 import { DisplayImage } from "../../Components/AddSingleFile/DisplayImage";
@@ -25,21 +27,19 @@ export default function Productupdate(props) {
   const [warrantyPeriod, setWarrantyPeriod] = useState();
   const [minOrder, setMinOrder] = useState();
   const [price, setPrice] = useState();
-  const [images, setImages] = useState([]);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [multipleFiles, setMultipleFiles] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const _id = props.match.params.id;
   const temp = useRef();
 
   const getProduct = async () => {
     await productService.getSellerProduct(_id).then((data) => {
-      console.log(data.data.images);
+      console.log(data.data);
       setName(data.data.name);
       setPrice(data.data.price);
       setBrand(data.data.brand);
-      setCategory(data.data.category);
+      setCategory(data.data.category._id);
       setDescription(data.data.description);
       setSampleOrder(data.data.sampleOrder);
       setStock(data.data.stock);
@@ -69,17 +69,23 @@ export default function Productupdate(props) {
         console.log(error);
       });
   };
-  // const getCategories = () => {
-  //   productService
-  //     .GetCategories()
-  //     .then((data) => {
-  //       console.log(data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-  // React.useEffect(getCategories, []);
+  const getCategories = () => {
+    productService
+      .GetCategories()
+      .then((data) => {
+        console.log(data);
+        setCategories(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  React.useEffect(getCategories, []);
+
+  const selectChange = (e) => {
+    setCategory(e.target.value);
+  };
+
   const uploadImage = (data) => {
     console.log(_id, data);
     const formData = new FormData();
@@ -94,17 +100,6 @@ export default function Productupdate(props) {
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  const MultipleFileChange = (e) => {
-    // setMultipleFiles(e.target.files);
-    // //const selectedFiles = event.target.files;
-    // const selectedFilesArray = Array.from(multipleFiles);
-    // const imagesArray = selectedFilesArray.map((file) => {
-    //   return URL.createObjectURL(file);
-    // });
-    // setSelectedImages((previousImages) => previousImages.concat(imagesArray));
-    // console.log(selectedImages);
   };
 
   const UpdateInfo = () => {
@@ -140,7 +135,6 @@ export default function Productupdate(props) {
       <div className="sellerTitleContainer">
         <h1 className="sellerTitle">Update Product</h1>
       </div>
-
       <div className="sellerContainer">
         <div className="sellerUpdate">
           <form className="sellerUpdateForm">
@@ -178,10 +172,9 @@ export default function Productupdate(props) {
               </div>
               <div className="sellerUpdateItem">
                 <TextField
-                  label="Product Category"
+                  label="Product Price"
                   type="number"
                   variant="standard"
-                  placeholder="e.g. Electronics"
                   value={price}
                   InputLabelProps={{ shrink: price ? true : false }}
                   onChange={(e) => {
@@ -190,21 +183,28 @@ export default function Productupdate(props) {
                 />
               </div>
               <div className="sellerUpdateItem">
-                <TextField
-                  label="Product Category"
-                  variant="standard"
-                  InputLabelProps={{ shrink: category ? true : false }}
-                  placeholder="e.g. Electronics"
-                  value={category.name}
-                  onChange={(e) => {
-                    setCategory(e.target.value);
-                  }}
-                />
+                <FormControl sx={{ minWidth: 120 }}>
+                  <InputLabel variant="standard">Product category</InputLabel>
+                  {console.log(category)}
+                  <Select
+                    variant="standard"
+                    value={category}
+                    onChange={(e) => {
+                      selectChange(e);
+                    }}
+                  >
+                    {categories.map((item) => (
+                      <MenuItem key={item} value={item._id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
 
               <div className="sellerUpdateItem">
                 <TextField
-                  label="Quantity"
+                  label="Min Order Quantity"
                   type="number"
                   variant="standard"
                   placeholder="e.g. 10"
@@ -277,38 +277,48 @@ export default function Productupdate(props) {
             <div className="sellerUpdateRight">
               <div className="sellerUpdateUpload">
                 {selectedImages.length > 0 ? (
-                  <div className="image">
-                    {console.log(selectedImages)}
-
-                    <DisplayImage
-                      link={selectedImages}
-                      uploadImage={uploadImage}
-                      index={0}
-                      deleteImage={onDelete}
-                    />
-                    <DisplayImage
-                      link={selectedImages}
-                      uploadImage={uploadImage}
-                      index={1}
-                      deleteImage={onDelete}
-                    />
-                    <DisplayImage
-                      link={selectedImages}
-                      uploadImage={uploadImage}
-                      index={2}
-                      deleteImage={onDelete}
-                    />
-                    <DisplayImage
-                      link={selectedImages}
-                      index={3}
-                      deleteImage={onDelete}
-                    />
-                    <DisplayImage
-                      link={selectedImages}
-                      index={4}
-                      deleteImage={onDelete}
-                    />
-                  </div>
+                  <>
+                    <div className="image">
+                      <DisplayImage
+                        link={selectedImages}
+                        uploadImage={uploadImage}
+                        index={0}
+                        deleteImage={onDelete}
+                      />
+                    </div>
+                    <div className="image">
+                      <DisplayImage
+                        link={selectedImages}
+                        uploadImage={uploadImage}
+                        index={1}
+                        deleteImage={onDelete}
+                      />
+                    </div>
+                    <div className="image">
+                      <DisplayImage
+                        link={selectedImages}
+                        uploadImage={uploadImage}
+                        index={2}
+                        deleteImage={onDelete}
+                      />
+                    </div>
+                    <div className="image">
+                      <DisplayImage
+                        link={selectedImages}
+                        uploadImage={uploadImage}
+                        index={3}
+                        deleteImage={onDelete}
+                      />
+                    </div>
+                    <div className="image">
+                      <DisplayImage
+                        link={selectedImages}
+                        uploadImage={uploadImage}
+                        index={4}
+                        deleteImage={onDelete}
+                      />
+                    </div>
+                  </>
                 ) : (
                   <></>
                 )}

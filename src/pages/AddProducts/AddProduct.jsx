@@ -5,7 +5,6 @@ import {
   Box,
   Radio,
   Button,
-  Typography,
   RadioGroup,
   FormControlLabel,
   FormControl,
@@ -95,6 +94,7 @@ export default function AddProduct() {
       })
       .catch((err) => {
         console.log(err);
+        setbool(false);
         toast.error(err.response.data, {
           position: toast.POSITION.BOTTOM_LEFT,
         });
@@ -240,24 +240,25 @@ export default function AddProduct() {
 
             <div className="sellerUpdateRight">
               <div className="sellerUpdateUpload">
-                <SingleFileUpload index={0} imageArray={imageArray} />
+                <div className="image">
+                  <SingleFileUpload index={0} imageArray={imageArray} />
+                </div>
+                <div className="image">
+                  <SingleFileUpload index={1} imageArray={imageArray} />
+                </div>
+                <div className="image">
+                  <SingleFileUpload index={2} imageArray={imageArray} />
+                </div>
+                <div className="image">
+                  <SingleFileUpload index={3} imageArray={imageArray} />
+                </div>
+                <div className="image">
+                  <SingleFileUpload index={4} imageArray={imageArray} />
+                </div>
               </div>
-              <div className="sellerUpdateUpload">
-                <SingleFileUpload index={1} imageArray={imageArray} />
-              </div>
-              <div className="sellerUpdateUpload">
-                <SingleFileUpload index={2} imageArray={imageArray} />
-              </div>
-              <div className="sellerUpdateUpload">
-                <SingleFileUpload index={3} imageArray={imageArray} />
-              </div>
-              <div className="sellerUpdateUpload">
-                <SingleFileUpload index={4} imageArray={imageArray} />
-              </div>
-
               <div>
                 <Button
-                  className="sellerUpdateButton"
+                  className="sellerAddButton"
                   variant="contained"
                   onClick={() => UploadMultipleFiles()}
                 >

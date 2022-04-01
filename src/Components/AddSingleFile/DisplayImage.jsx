@@ -20,10 +20,7 @@ const DeleteIcon = styled(CancelIcon)`
   bottom: 50%;
 `;
 const DisplayImage = (props) => {
-  //console.log(props);
   const { link, uploadImage, index, deleteImage } = props;
-  console.log(link[index]);
-  //const [imageLink, setImageLink] = useState(link[index].link);
   const imageArray = (e, index) => {
     console.log(index);
     console.log(e);

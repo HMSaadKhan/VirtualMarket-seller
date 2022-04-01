@@ -79,12 +79,22 @@
   cursor: pointer;
 }
 
-.sellerUpdateButton {
+.sellerAddButton {
   border-radius: 5px;
   border: none;
   cursor: pointer;
-  padding: 5px;
+  padding: 50px;
   background-color: red;
   color: white;
   font-weight: 600;
+  float: right  ;
+  position: fixed;
+}
+.sellerUpdateUpload {
+  display: flex;
+  align-items: center;
+}
+.image {
+  display: flex;
+  flex-direction: row;
 }

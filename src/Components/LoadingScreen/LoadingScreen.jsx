@@ -4,14 +4,14 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
   root: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    margin: "auto",
   },
 });
 export default function LoadingScreen(props) {
   const { Loading } = props;
   const classes = useStyles();
 
-  return <Box>{Loading ? <CircularProgress /> : <></>}</Box>;
+  return (
+    <Box className={classes.root}>{Loading ? <CircularProgress /> : <></>}</Box>
+  );
 }
