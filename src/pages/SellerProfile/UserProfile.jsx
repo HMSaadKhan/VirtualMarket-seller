@@ -34,7 +34,7 @@ export default function UserProfile() {
         console.log(data);
         setfName(data.fName);
         setlName(data.lName);
-        setCity(data.city);
+        setCity(data.city._id);
         setCnic(data.cnicNumber);
         setAddress(data.address);
         setPhone(data.phone);
