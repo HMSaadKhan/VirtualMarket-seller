@@ -24,7 +24,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddInformation from "./pages/AddInformation/AddInformation";
 import checkSingleFile from "./Components/AddSingleFile/checkSignleFile";
-
+import ProductInformation from "./pages/productUpdate/ProductInformation";
 function App() {
   return (
     <Router>
@@ -35,11 +35,15 @@ function App() {
         <Sidebar />
 
         <Switch>
-          <Route path="/orders" component={OrderList} />
+          <Route path="/orders/:status" component={OrderList} />
           <Route path="/products" component={SellerProduct} />
           <Route path="/sellerprofile" component={UserProfile} />
           <Route path="/addproduct" component={AddProduct} />
           <Route path="/editDetails/:id" component={ProductUpdate} />
+          <Route
+            path="/product-information/:id"
+            component={ProductInformation}
+          />
           <Route path="/Login" exact component={Login} />
           <Route path="/signup" exact component={SignUp} />
           <Route path="/forgotpassword" component={ForgotPassword} />

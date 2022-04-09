@@ -68,6 +68,7 @@
 
 .idcolumn.TableCell {
   font-weight: bold;
+  cursor: pointer;
 }
 
 .approved {

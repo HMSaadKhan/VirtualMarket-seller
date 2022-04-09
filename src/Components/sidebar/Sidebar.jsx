@@ -51,7 +51,7 @@ export default function Sidebar() {
                   <li className="sidebarListItem">
                     <MonetizationOnOutlined className="sidebarIcon" />
                     <StyledDiv>
-                      <Link to="/orders">Orders</Link>
+                      <Link to="/orders/PLACED">Orders</Link>
                     </StyledDiv>
                   </li>
 

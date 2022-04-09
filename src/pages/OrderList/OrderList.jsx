@@ -1,148 +1,72 @@
-import React from "react";
-import "./OrderList.css";
-import { useHistory } from "react-router-dom";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { makeStyles } from "@material-ui/styles";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import orderService from "../../Services/OrderService";
+import OrderComponent from "./OrderComponent";
+import OrderMenu from "./OrderMenu";
+import { Co2Sharp } from "@mui/icons-material";
 
-export default function OrderList() {
-  const [status, setAge] = React.useState("");
-  const handleChange = (event) => {
-    setAge(event.target.value);
+const steps = [
+  "Received Date",
+  "Packaging Date",
+  "Shipping Date",
+  "completion Date",
+];
+const useStyles = makeStyles((theme) => ({
+  button: {},
+}));
+
+export default function OrderList(props) {
+  console.log(props);
+  const status = props.match.params.status;
+  const classes = useStyles();
+
+  const [orderDetails, setorderDetails] = useState([]);
+  const [orderItems, setorderItems] = useState();
+
+  const Orders = () => {
+    console.log(status);
+
+    orderService
+      .GetOrders(status)
+      .then((data) => {
+        console.log(data);
+        setorderDetails(data);
+      })
+      .catch((data) => {
+        console.log(data);
+      });
   };
-
-  const history = useHistory();
-  function createData(
-    id,
-    buyername,
-    productname,
-    email,
-    city,
-    address,
-    Phone,
-    status
-  ) {
-    return {
-      id,
-      buyername,
-      productname,
-      email,
-      city,
-      address,
-      Phone,
-      status,
-    };
-  }
-
-  const rows = [
-    createData(
-      "1",
-      "Saad Khan",
-      "S21 Ultra",
-      "saadkhan2311@gmail.com",
-      "Lahore",
-      "Shop.no.21, Shah Alam, Market",
-      "03046546876"
-    ),
-    createData(
-      "2",
-      "Saad Khan",
-      "S21 Ultra",
-      "saadkhan2311@gmail.com",
-      "Lahore",
-      "Shop.no.21, Shah Alam, Market",
-      "03046546876"
-    ),
-  ];
-
+  React.useEffect(Orders, [status]);
   return (
-    <>
-      <div>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 800 }} aria-label="simple table">
-            <TableHead>
-              <TableRow style={{ backgroundColor: "black" }}>
-                <TableCell
-                  style={{ color: "white", font: "bold" }}
-                  align="centre"
-                >
-                  ID
-                </TableCell>
-                <TableCell style={{ color: "white" }} align="centre">
-                  Buyer Name
-                </TableCell>
-                <TableCell style={{ color: "white" }} align="centre">
-                  Product Name
-                </TableCell>
-                <TableCell style={{ color: "white" }} align="centre">
-                  Email
-                </TableCell>
-                <TableCell style={{ color: "white" }} align="centre">
-                  City
-                </TableCell>
-                <TableCell style={{ color: "white" }} align="centre">
-                  Address
-                </TableCell>
-                <TableCell style={{ color: "white" }} align="centre">
-                  Phone
-                </TableCell>
-
-                <TableCell style={{ color: "white" }} align="centre">
-                  Status
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.id}
-                  </TableCell>
-                  <TableCell align="centre">{row.buyername}</TableCell>
-                  <TableCell align="centre">{row.productname}</TableCell>
-                  <TableCell align="centre">{row.email}</TableCell>
-                  <TableCell align="centre">{row.city}</TableCell>
-                  <TableCell align="centre">{row.address}</TableCell>
-                  <TableCell align="centre">{row.Phone}</TableCell>
-                  <TableCell align="centre">
-                    {row.status}
-                    <>
-                      <Box sx={{ minWidth: 120 }}>
-                        <FormControl fullWidth>
-                          <InputLabel id="demo-simple-select-label"></InputLabel>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={row.status}
-                            label="Status"
-                            onChange={handleChange}
-                          >
-                            <MenuItem value={10}>Prepairing</MenuItem>
-                            <MenuItem value={20}>Shipped</MenuItem>
-                            <MenuItem value={30}>Delivered</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </Box>
-                    </>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    </>
+    <Box sx={{ width: "50%", marginLeft: "15%" }}>
+      <OrderMenu />
+      <Box>
+        {orderDetails.length > 0 ? (
+          <>
+            {orderDetails.map((order) => (
+              <OrderComponent order={order} key={order._id} />
+            ))}
+          </>
+        ) : (
+          <>
+            <Typography
+              ml={30}
+              mt={25}
+              sx={{ fontSize: "20px", fontWeight: "bold", color: "red" }}
+            >
+              No {status} Orders Yet
+            </Typography>
+          </>
+        )}
+      </Box>
+    </Box>
   );
 }

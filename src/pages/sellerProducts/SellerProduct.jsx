@@ -7,7 +7,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import { IconButton } from "@mui/material";
+import { Box, IconButton, Card, CardContent } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { makeStyles } from "@mui/styles";
 import EditIcon from "@mui/icons-material/Edit";
@@ -16,7 +16,16 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import productService from "../../Services/ProductServices";
 
+const useStyles = makeStyles((theme) => ({
+  addBtn: {
+    position: "absolute",
+   bgcolor: "red",
+    right: 320,
+  },
+}));
+
 const SellerProducts = () => {
+  const classes = useStyles();
   const history = useHistory();
 
   const [sellerProducts, setSellerProducts] = useState([]);
@@ -42,10 +51,10 @@ const SellerProducts = () => {
     getSellerProducts();
   };
   return (
-    <>
+    <Box ml={20} mt={10}>
       <div>
         <Fab
-          className="tableButton"
+          className={classes.addBtn}
           color="primary"
           aria-label="add"
           onClick={() => {
@@ -86,7 +95,14 @@ const SellerProducts = () => {
                   key={row._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell align="centre">{row.name}</TableCell>
+                  <TableCell
+                    align="centre"
+                    onClick={(e) => {
+                      history.push("/product-information/" + row._id);
+                    }}
+                  >
+                    {row.name}
+                  </TableCell>
                   <TableCell align="centre">{row.brand}</TableCell>
                   <TableCell align="centre">{row.category.name}</TableCell>
                   <TableCell align="centre">{row.stock}</TableCell>
@@ -127,7 +143,7 @@ const SellerProducts = () => {
           </Table>
         </TableContainer>
       </div>
-    </>
+    </Box>
   );
 };
 export default SellerProducts;

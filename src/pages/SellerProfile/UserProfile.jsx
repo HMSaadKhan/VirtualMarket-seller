@@ -4,11 +4,13 @@ import {
   TextField,
   Button,
   Box,
+  FormLabel,
   InputLabel,
   Select,
   MenuItem,
   FormControl,
 } from "@mui/material";
+import Switch from "@mui/material/Switch";
 import "./userprofile.css";
 import { toast } from "react-toastify";
 import { DisplayImage } from "../../Components/AddSingleFile/DisplayImage";
@@ -21,7 +23,7 @@ export default function UserProfile() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [storeName, setStoreName] = useState();
-  const [paymentDetails, setPaymentDetails] = useState("");
+  const [onlinePaymentOption, setonlinePaymentOption] = useState(false);
   const [deliveryCharge, setDeliveryCharge] = useState(0);
   const [avatar, setAvatar] = useState();
   const [image, setImage] = useState();
@@ -40,7 +42,7 @@ export default function UserProfile() {
         setPhone(data.phone);
         setStoreName(data.storeName);
         setDeliveryCharge(data.deliveryCharge);
-        setPaymentDetails(data.paymentDetails);
+        setonlinePaymentOption(data.onlinePaymentOption);
         setAvatar(data.avatar.link);
       })
       .catch((err) => {
@@ -83,6 +85,9 @@ export default function UserProfile() {
 
   const selectChange = (e) => {
     setCity(e.target.value);
+  };
+  const switchChange = (event) => {
+    setonlinePaymentOption(event.target.checked);
   };
   return (
     <div className="seller">
@@ -192,13 +197,11 @@ export default function UserProfile() {
               </div>
 
               <div className="sellerUpdateItem">
-                <TextField
-                  label="Payment Details"
-                  variant="standard"
-                  value={paymentDetails}
-                  onChange={(e) => {
-                    setPaymentDetails(e.target.value);
-                  }}
+                <FormLabel component="legend">Online Payments</FormLabel>
+                <Switch
+                  sx={{ color: "error" }}
+                  checked={onlinePaymentOption}
+                  onChange={switchChange}
                 />
               </div>
 
@@ -243,7 +246,7 @@ export default function UserProfile() {
                         city,
                         storeName,
                         deliveryCharge,
-                        paymentDetails,
+                        onlinePaymentOption,
                       })
                       .then((data) => {
                         console.log(data);
