@@ -9,7 +9,19 @@ class OrderService extends GenericService {
 
   GetOrders = (status) =>
     new Promise((resolve, reject) => {
-      this.get("orders/getOrders/" + status)
+      this.get("orders/getSellerOrders/" + status)
+        .then((data) => {
+          console.log("Get Orders");
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  changeOrderStatus = (_id) =>
+    new Promise((resolve, reject) => {
+      axios
+        .patch("orders/changeStatus/" + _id)
         .then((data) => {
           console.log("Get Orders");
           resolve(data);

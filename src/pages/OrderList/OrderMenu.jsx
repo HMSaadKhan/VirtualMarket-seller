@@ -78,7 +78,7 @@ export default function OrderMenu() {
               },
             }}
             onClick={(e) => {
-              history.push("/orders/SHIPPED");
+              history.push("/orders/SHIPPING");
             }}
           >
             Shipped

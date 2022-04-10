@@ -47,7 +47,7 @@ export default function OrderItems({ items }) {
           <Typography>{items.quantity}</Typography>
         </Box>
         <Box sx={{ width: "25%" }}>
-          <Typography>{items.price}</Typography>
+          <Typography>{items.totalPrice}</Typography>
         </Box>
       </Box>
       <Divider />

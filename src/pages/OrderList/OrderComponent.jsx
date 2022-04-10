@@ -8,6 +8,8 @@ import { makeStyles } from "@material-ui/styles";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
+import StepContent from "@mui/material/StepContent";
+
 import OrderItems from "./OrderItems";
 import Divider from "@mui/material/Divider";
 import orderService from "../../Services/OrderService";
@@ -27,15 +29,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function OrderComponent({ order }) {
+export default function OrderComponent({ order, ChangeOrderStatus }) {
   const classes = useStyles();
   const [buttonLabel, setbuttonLabel] = useState("");
+  const [dates, setdates] = useState([]);
+  const [index, setindex] = useState(0);
   const ButtonLabel = () => {
     if (order.status == "PLACED") {
       setbuttonLabel("Packaging");
     }
     if (order.status == "PACKAGING") {
       setbuttonLabel("Shipping");
+    }
+    if (order.status == "SHIPPING") {
+      setbuttonLabel("Completed");
     }
   };
   useEffect(ButtonLabel, []);
@@ -151,7 +158,7 @@ export default function OrderComponent({ order }) {
                 >
                   Sub Total
                   <Typography className={classes.text} ml={8}>
-                    {}
+                    {order.subTotal}
                   </Typography>
                 </Typography>
                 <Typography
@@ -170,29 +177,41 @@ export default function OrderComponent({ order }) {
                 >
                   Total
                   <Typography ml={12} className={classes.text}>
-                    City_value
+                    {order.total}
                   </Typography>
                 </Typography>
               </CardContent>
             </Card>
           </Box>
           <Box sx={{ width: "100%", margin: "20px" }}>
-            <Stepper
-              sx={{
-                "& .MuiStepIcon-active": { color: "red" },
-              }}
-              activeStep={0}
-              alternativeLabel
-            >
-              {steps.map((label) => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
+            <Stepper alternativeLabel activeStep={index}>
+              {order.events.map((label) => {
+                return (
+                  <Step key={label._id}>
+                    <StepLabel>
+                      {label.name}
+                      <br />
+                      {label.date}
+                    </StepLabel>
+                  </Step>
+                );
+              })}
             </Stepper>
           </Box>
           <Box sx={{ marginLeft: "74%" }}>
-            <Button sx={{ backgroundColor: "red", color: "white" }}>
+            <Button
+              sx={{
+                color: "#FFFF",
+                backgroundColor: "#FF0000",
+                "&:hover": {
+                  backgroundColor: "#b22222",
+                  color: "#ffff",
+                },
+              }}
+              onClick={(e) => {
+                ChangeOrderStatus(order._id);
+              }}
+            >
               {buttonLabel}
             </Button>
           </Box>

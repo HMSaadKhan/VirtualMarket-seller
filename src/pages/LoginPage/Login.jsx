@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-import { TextField, Button, Alert, Box, Typography } from "@material-ui/core";
+import { TextField, Button, Alert, Box, Typography } from "@mui/material";
 import sellerService from "../../Services/SellerServices";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
@@ -41,10 +41,11 @@ const Login = (props) => {
       <Container>
         <Wrapper>
           <Title>SIGN IN</Title>
-          <Form>
+          <Box sx={{}}>
             <>
               <TextField
                 required
+                fullWidth
                 id="filled-required"
                 label="Email"
                 defaultValue={email}
@@ -57,6 +58,7 @@ const Login = (props) => {
               <TextField
                 label="Password"
                 type="password"
+                fullWidth
                 autoComplete="current-password"
                 defaultValue={password}
                 onChange={(e) => {
@@ -66,7 +68,7 @@ const Login = (props) => {
             </>
             <Box mt={2}>
               <Button
-                color="success"
+                sx={{ backgroundColor: "red" }}
                 variant="contained"
                 onClick={(e) => {
                   sellerService
@@ -95,7 +97,7 @@ const Login = (props) => {
               </Typography>
               <Link to="/forgotpassword">Forgot Password</Link>
             </Box>
-          </Form>
+          </Box>
         </Wrapper>
       </Container>
     </LoginAuth>

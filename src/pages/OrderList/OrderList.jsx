@@ -45,6 +45,19 @@ export default function OrderList(props) {
       });
   };
   React.useEffect(Orders, [status]);
+
+  const ChangeOrderStatus = (data) => {
+    orderService
+      .changeOrderStatus(data)
+      .then((data) => {
+        console.log(data);
+        Orders();
+      })
+      .catch((data) => {
+        console.log(data);
+      });
+  };
+
   return (
     <Box sx={{ width: "50%", marginLeft: "15%" }}>
       <OrderMenu />
@@ -52,7 +65,11 @@ export default function OrderList(props) {
         {orderDetails.length > 0 ? (
           <>
             {orderDetails.map((order) => (
-              <OrderComponent order={order} key={order._id} />
+              <OrderComponent
+                order={order}
+                key={order._id}
+                ChangeOrderStatus={ChangeOrderStatus}
+              />
             ))}
           </>
         ) : (
