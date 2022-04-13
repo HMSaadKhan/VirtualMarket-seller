@@ -1,24 +1,30 @@
-import React, { useState, useEffect, useRef } from "react";
-
-import { TextField, Box, Card, Grid, Typography } from "@mui/material";
-import { toast } from "react-toastify";
-import productService from "../../Services/ProductServices";
-import { DisplayImage } from "../../Components/AddSingleFile/DisplayImage";
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import { useState, useEffect, useRef } from "react";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import { Card, CardContent } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
+import productService from "../../Services/ProductServices";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    backgroundColor: "grey",
-    PaddingRight: "10px",
+  images: {
+    width: "70px",
+    height: "100px",
+    marginRight: "10px",
+    //objectFit: "cover",
+    backgroundSize: "cover",
   },
-  heading: { fontWeight: "bold", fontSize: "20px", color: "red" },
-  content: { fontSize: "20px", fontWeight: "bold", color: "red" },
 }));
 
-export default function Productupdate(props) {
+export default function ProductInformation(props) {
+  const history = useHistory();
   const classes = useStyles();
-
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
@@ -68,128 +74,145 @@ export default function Productupdate(props) {
   React.useEffect(getCategories, []);
 
   return (
-    <Box>
-      <Box m={4} sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Card sx={{ width: "100%", backgroundColor: "grey" }}>
-          <Typography
-            ml={10}
-            mt={2}
-            sx={{ fontWeight: "bold", fontSize: "20px", color: "red" }}
-          >
-            Product Informaton
-          </Typography>
-          <Box ml={2} sx={{ display: "flex" }}>
-            <Box m={2}>
-              <Typography
-                sx={{ fontWeight: "bold", fontSize: "16px", color: "red" }}
-              >
-                Product Name
-              </Typography>
-              <Typography sx={{ fontSize: "18px" }}>{name}</Typography>
-            </Box>
-            <Box ml={12} mt={2}>
-              <Typography
-                sx={{ fontWeight: "bold", fontSize: "16px", color: "red" }}
-              >
-                Product Brand
-              </Typography>
-              <Typography sx={{ fontSize: "18px" }}>{brand}</Typography>
+    <Card sx={{ height: "100%", marginLeft: "15%", marginTop: "30px" }}>
+      <Button
+        sx={{
+          color: "#FF0000",
+          backgroundColor: "#fff",
+          marginLeft: "10px",
+          fontWeight: "bold",
+          "&:hover": {
+            backgroundColor: "#FF0002",
+            color: "#ffff",
+          },
+        }}
+        onClick={() => {
+          history.push("/editDetails/" + _id);
+        }}
+      >
+        Edit
+      </Button>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box m={3}>
+          <Box>
+            <Typography
+              m={1}
+              sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+            >
+              Name
+            </Typography>
+            <Typography m={1} sx={{ fontSize: "15px" }}>
+              {name}
+            </Typography>
+            <Typography
+              m={1}
+              sx={{ fontSize: "20px", fontWeight: "bold", color: "red" }}
+            >
+              PKR. {price}
+            </Typography>
+          </Box>
+
+          <Box>
+            <Typography
+              m={1}
+              sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+            >
+              Brand
+            </Typography>
+            <Typography m={1} sx={{ color: "secondary" }}>
+              {brand}
+            </Typography>
+            <Typography
+              m={1}
+              sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+            >
+              Mininum Order Quantity
+            </Typography>
+            <Typography m={1} sx={{ color: "secondary" }}>
+              {minOrder}
+            </Typography>
+            <Box sx={{ display: "flex" }}>
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Typography
+                  m={1}
+                  sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+                >
+                  Category
+                </Typography>
+                <Typography m={1} sx={{ color: "secondary" }}>
+                  {category}
+                </Typography>
+              </Box>
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Typography
+                  m={1}
+                  sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+                >
+                  Sample Order
+                </Typography>
+                <Typography m={1} sx={{ color: "secondary" }}>
+                  {sampleOrder ? <>Yes</> : <>No</>}
+                </Typography>
+              </Box>
             </Box>
           </Box>
-          <Box ml={2} sx={{ display: "flex" }}>
-            <Box m={2}>
+
+          <Box sx={{ display: "flex" }}>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography
-                sx={{ fontWeight: "bold", fontSize: "16px", color: "red" }}
+                m={1}
+                sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
               >
-                Product Price
+                Warranty Period
               </Typography>
-              <Typography sx={{ fontSize: "18px" }}>PKR. {price}</Typography>
-            </Box>
-            <Box ml={12} mt={2} mr={2}>
-              <Typography
-                sx={{ fontWeight: "bold", fontSize: "16px", color: "red" }}
-              >
-                Product Category
-              </Typography>
-              <Typography sx={{ fontSize: "18px" }}>{category}</Typography>
-            </Box>
-          </Box>
-          <Box ml={2} sx={{ display: "flex" }}>
-            <Box m={2}>
-              <Typography
-                sx={{ fontWeight: "bold", fontSize: "16px", color: "red" }}
-              >
-                Mininum Order Quantity
-              </Typography>
-              <Typography sx={{ fontSize: "18px" }}>
-                {minOrder} Product{" "}
-              </Typography>
-            </Box>
-            <Box m={2}>
-              <Typography
-                sx={{ fontWeight: "bold", fontSize: "16px", color: "red" }}
-              >
-                Sample Order
-              </Typography>
-              <Typography sx={{ fontSize: "18px" }}>
-                {sampleOrder ? (
-                  <Typography>Yes</Typography>
-                ) : (
-                  <Typography>No</Typography>
-                )}
-              </Typography>
-            </Box>
-          </Box>
-          <Box ml={2} sx={{ display: "flex" }}>
-            <Box m={2}>
-              <Typography
-                sx={{ fontWeight: "bold", fontSize: "16px", color: "red" }}
-              >
-                Product Warranty
-              </Typography>
-              <Typography sx={{ fontSize: "18px" }}>
+              <Typography m={1} sx={{ color: "secondary" }}>
                 {warrantyPeriod}
               </Typography>
             </Box>
-            <Box ml={8} mt={2}>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
               <Typography
-                sx={{ fontWeight: "bold", fontSize: "16px", color: "red" }}
+                m={1}
+                sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
               >
-                Product Stock
+                Available Stock
               </Typography>
-              <Typography sx={{ fontSize: "18px" }}>{stock}</Typography>
+              <Typography m={1} sx={{ color: "secondary" }}>
+                {stock} pieces
+              </Typography>
             </Box>
           </Box>
-          <Box ml={4}>
+          <Box sx={{ height: "150px", width: "auto" }}>
             <Typography
-              sx={{ fontWeight: "bold", fontSize: "16px", color: "red" }}
+              m={1}
+              sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
             >
-              Product Description
+              Description
             </Typography>
-            <Typography sx={{ fontSize: "18px" }}>{description}</Typography>
+            <Typography m={1}>{description}</Typography>
           </Box>
-        </Card>
-
-        {selectedImages.length > 0 ? (
-          <>
-            {selectedImages.map((image) => {
+        </Box>
+        <Box m={2}>
+          <Box
+            mt={5}
+            sx={{ display: "flex", flexDirection: "row", flexwrap: "wrap" }}
+          >
+            {selectedImages.map((item) => {
               return (
-                <Box ml={5} mt={5} mr={4}>
+                <Box mr={2}>
                   <img
-                    height="100"
-                    width="100"
-                    border="1"
-                    key={image._id}
-                    src={image.link}
+                    width="80px"
+                    height="100px"
+                    background-size="cover"
+                    src={item.link}
+                    alt={item.title}
+                    loading="lazy"
                   />
                 </Box>
               );
             })}
-          </>
-        ) : (
-          <></>
-        )}
+          </Box>
+        </Box>
       </Box>
-    </Box>
+    </Card>
   );
 }

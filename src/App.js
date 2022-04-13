@@ -25,6 +25,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AddInformation from "./pages/AddInformation/AddInformation";
 import checkSingleFile from "./Components/AddSingleFile/checkSignleFile";
 import ProductInformation from "./pages/productUpdate/ProductInformation";
+import OrderMenu from "./pages/OrderList/OrderMenu";
 function App() {
   return (
     <Router>
@@ -33,7 +34,6 @@ function App() {
 
       <div className="container">
         <Sidebar />
-
         <Switch>
           <Route path="/orders/:status" component={OrderList} />
           <Route path="/products" component={SellerProduct} />

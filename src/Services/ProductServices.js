@@ -24,6 +24,18 @@ class ProductService extends GenericService {
           reject(err);
         });
     });
+  editDetails = (_id, data) =>
+    new Promise((resolve, reject) => {
+      console.log(data);
+      axios
+        .patch("products/editDetails/" + _id, data)
+        .then((data) => {
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
   GetCategories = () =>
     new Promise((resolve, reject) => {
       this.get("categories/getAll")

@@ -48,6 +48,7 @@ const Login = (props) => {
                 fullWidth
                 id="filled-required"
                 label="Email"
+                variant="standard"
                 defaultValue={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -59,6 +60,7 @@ const Login = (props) => {
                 label="Password"
                 type="password"
                 fullWidth
+                variant="standard"
                 autoComplete="current-password"
                 defaultValue={password}
                 onChange={(e) => {

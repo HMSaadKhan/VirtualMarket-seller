@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from "react";
 import sellerService from "../../Services/SellerServices";
-import { TextField, Button, Box, Paper, Typography } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Box,
+  FormLabel,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControl,
+  Switch,
+  Typography,
+} from "@mui/material";
 import "./AddInformation.css";
 import { toast } from "react-toastify";
 
@@ -13,13 +24,14 @@ export default function AddInformation(props) {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [storeName, setStoreName] = useState("");
-  const [paymentDetails, setPaymentDetails] = useState("");
+  const [onlinePaymentOption, setonlinePaymentOption] = useState("false");
   const [deliveryCharge, setDeliveryCharge] = useState();
   const [avatar, setAvatar] = useState("");
   const [avatarPreview, setAvatarPreview] = useState("");
   const [cnicFront, setCnicFront] = useState("");
   const [cnicBack, setCnicBack] = useState("");
   const [images, setImages] = useState(["1", "2", "3"]);
+  const [cities, setcities] = useState([]);
   const getVerificationdata = () => {
     sellerService
       .getStatus()
@@ -53,7 +65,7 @@ export default function AddInformation(props) {
     formData.append("phone", phone);
     formData.append("address", address);
     formData.append("storeName", storeName);
-    formData.append("paymentDetails", paymentDetails);
+    formData.append("onlinePaymentOption", onlinePaymentOption);
     formData.append("deliveryCharge", deliveryCharge);
     formData.append("image", images[0]);
     formData.append("image", images[1]);
@@ -70,11 +82,30 @@ export default function AddInformation(props) {
         props.history.push("/");
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
         toast.error(err.response.data, {
           position: toast.POSITION.BOTTOM_LEFT,
         });
       });
+  };
+
+  const getCities = () => {
+    sellerService
+      .GetCities()
+      .then((data) => {
+        console.log(data);
+        setcities(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  React.useEffect(getCities, []);
+  const selectChange = (e) => {
+    setCity(e.target.value);
+  };
+  const switchChange = (event) => {
+    setonlinePaymentOption(event.target.checked);
   };
   return (
     <div className="seller">
@@ -148,14 +179,23 @@ export default function AddInformation(props) {
               </div>
 
               <div className="sellerUpdateItem">
-                <TextField
-                  label="City"
-                  variant="standard"
-                  value={city}
-                  onChange={(e) => {
-                    setCity(e.target.value);
-                  }}
-                />
+                <FormControl sx={{ minWidth: 120 }}>
+                  <InputLabel variant="standard">City</InputLabel>
+
+                  <Select
+                    variant="standard"
+                    value={city}
+                    onChange={(e) => {
+                      selectChange(e);
+                    }}
+                  > 
+                    {cities.map((item) => (
+                      <MenuItem key={item} value={item._id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
 
               <div className="sellerUpdateItem">
@@ -170,13 +210,11 @@ export default function AddInformation(props) {
               </div>
 
               <div className="sellerUpdateItem">
-                <TextField
-                  label="Payment Details"
-                  variant="standard"
-                  value={paymentDetails}
-                  onChange={(e) => {
-                    setPaymentDetails(e.target.value);
-                  }}
+                <FormLabel component="legend">Online Payments</FormLabel>
+                <Switch
+                  sx={{ color: "error" }}
+                  checked={onlinePaymentOption}
+                  onChange={switchChange}
                 />
               </div>
 

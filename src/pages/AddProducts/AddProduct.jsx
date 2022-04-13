@@ -19,16 +19,16 @@ import { SingleFileUpload } from "../../Components/AddSingleFile/SingleFileUploa
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 
 export default function AddProduct() {
-  const [name, setName] = useState("name");
-  const [brand, setBrand] = useState("brand");
-  const [category, setCategory] = useState("1");
+  const [name, setName] = useState("");
+  const [brand, setBrand] = useState("");
+  const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
-  const [description, setDescription] = useState("this is good product");
+  const [description, setDescription] = useState("");
   const [sampleOrder, setSampleOrder] = useState("");
-  const [stock, setStock] = useState(100);
-  const [warrantyPeriod, setWarrantyPeriod] = useState(2);
-  const [minOrder, setMinOrder] = useState(1);
-  const [price, setPrice] = useState(100);
+  const [stock, setStock] = useState();
+  const [warrantyPeriod, setWarrantyPeriod] = useState();
+  const [minOrder, setMinOrder] = useState();
+  const [price, setPrice] = useState();
   const [images, setImages] = useState([]);
   const [bool, setbool] = useState(false);
 
@@ -260,6 +260,16 @@ export default function AddProduct() {
                 <Button
                   className="sellerAddButton"
                   variant="contained"
+                  sx={{
+                    color: "#FF0000",
+                    backgroundColor: "#fff",
+                    marginLeft: "10px",
+                    fontWeight: "bold",
+                    "&:hover": {
+                      backgroundColor: "#FF0002",
+                      color: "#ffff",
+                    },
+                  }}
                   onClick={() => UploadMultipleFiles()}
                 >
                   Add

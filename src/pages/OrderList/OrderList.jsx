@@ -32,8 +32,6 @@ export default function OrderList(props) {
   const [orderItems, setorderItems] = useState();
 
   const Orders = () => {
-    console.log(status);
-
     orderService
       .GetOrders(status)
       .then((data) => {

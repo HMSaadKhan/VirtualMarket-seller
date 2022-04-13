@@ -19,8 +19,8 @@ import productService from "../../Services/ProductServices";
 const useStyles = makeStyles((theme) => ({
   addBtn: {
     position: "absolute",
-   bgcolor: "red",
-    right: 320,
+    bgcolor: "red",
+    right: 2,
   },
 }));
 

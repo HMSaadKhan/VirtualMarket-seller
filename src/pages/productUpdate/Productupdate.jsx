@@ -56,6 +56,7 @@ export default function Productupdate(props) {
     setSampleOrder(event.target.value);
     console.log(sampleOrder);
   };
+
   const onDelete = (cloudinaryID) => {
     console.log(cloudinaryID);
     productService
@@ -69,6 +70,7 @@ export default function Productupdate(props) {
         console.log(error);
       });
   };
+
   const getCategories = () => {
     productService
       .GetCategories()
@@ -104,7 +106,7 @@ export default function Productupdate(props) {
 
   const UpdateInfo = () => {
     productService
-      .editDetails({
+      .editDetails(_id, {
         name,
         brand,
         category,
@@ -123,7 +125,6 @@ export default function Productupdate(props) {
         });
       })
       .catch((err) => {
-        console.log(err);
         toast.error(err.response.data, {
           position: toast.POSITION.BOTTOM_LEFT,
         });
@@ -255,6 +256,7 @@ export default function Productupdate(props) {
                 <TextField
                   label="Product Description"
                   variant="standard"
+                  multiline
                   value={description}
                   InputLabelProps={{ shrink: description ? true : false }}
                   onChange={(e) => {
@@ -325,9 +327,22 @@ export default function Productupdate(props) {
               </div>
               <div>
                 <Button
+                  sx={{
+                    color: "#FF0000",
+                    backgroundColor: "#fff",
+                    marginLeft: "10px",
+                    fontWeight: "bold",
+                    "&:hover": {
+                      backgroundColor: "#FF0002",
+                      color: "#ffff",
+                    },
+                  }}
+                  s
                   className="sellerUpdateButton"
                   variant="contained"
-                  onClick={() => UpdateInfo()}
+                  onClick={(e) => {
+                    UpdateInfo();
+                  }}
                 >
                   Update Information
                 </Button>

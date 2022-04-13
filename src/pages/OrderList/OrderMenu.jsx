@@ -21,7 +21,14 @@ const steps = [
 const useStyles = makeStyles((theme) => ({
   button: {},
 }));
-
+const orderStatus = [
+  "PLACED",
+  "PACKAGING",
+  "SHIPPING",
+  "COMPLETED",
+  "RETURNED",
+  "CANCELED",
+];
 export default function OrderMenu() {
   const classes = useStyles();
   const history = useHistory();
@@ -32,74 +39,27 @@ export default function OrderMenu() {
     >
       <Card sx={{ display: "flex", justifyContent: "space-between" }}>
         <CardContent>
-          <Button
-            sx={{
-              color: "#FF0000",
-              backgroundColor: "#fff",
-              marginLeft: "10px",
-              fontWeight: "bold",
-              "&:hover": {
-                backgroundColor: "#FF0002",
-                color: "#ffff",
-              },
-            }}
-            onClick={(e) => {
-              history.push("/orders/PLACED");
-            }}
-          >
-            Received
-          </Button>
-          <Button
-            sx={{
-              color: "#FF0000",
-              backgroundColor: "#fff",
-              marginLeft: "10px",
-              fontWeight: "bold",
-              "&:hover": {
-                backgroundColor: "#FF0002",
-                color: "#ffff",
-              },
-            }}
-            onClick={(e) => {
-              history.push("/orders/PACKAGING");
-            }}
-          >
-            Packaging
-          </Button>
-          <Button
-            sx={{
-              color: "#FF0000",
-              backgroundColor: "#fff",
-              marginLeft: "10px",
-              fontWeight: "bold",
-              "&:hover": {
-                backgroundColor: "#FF0002",
-                color: "#ffff",
-              },
-            }}
-            onClick={(e) => {
-              history.push("/orders/SHIPPING");
-            }}
-          >
-            Shipped
-          </Button>
-          <Button
-            sx={{
-              color: "#FF0000",
-              backgroundColor: "#fff",
-              marginLeft: "10px",
-              fontWeight: "bold",
-              "&:hover": {
-                backgroundColor: "#FF0002",
-                color: "#ffff",
-              },
-            }}
-            onClick={(e) => {
-              history.push("/orders/DELIVERED");
-            }}
-          >
-            Completed
-          </Button>
+          {orderStatus.map((status) => {
+            return (
+              <Button
+                sx={{
+                  color: "#FF0000",
+                  backgroundColor: "#fff",
+                  marginLeft: "10px",
+                  fontWeight: "bold",
+                  "&:hover": {
+                    backgroundColor: "#FF0002",
+                    color: "#ffff",
+                  },
+                }}
+                onClick={(e) => {
+                  history.push("/orders/" + status);
+                }}
+              >
+                {status}
+              </Button>
+            );
+          })}
         </CardContent>
       </Card>
     </Box>
