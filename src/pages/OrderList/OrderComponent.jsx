@@ -8,18 +8,10 @@ import { makeStyles } from "@material-ui/styles";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import StepContent from "@mui/material/StepContent";
-
 import OrderItems from "./OrderItems";
 import Divider from "@mui/material/Divider";
-import orderService from "../../Services/OrderService";
+import moment from "moment";
 
-const steps = [
-  "Received Date",
-  "Packaging Date",
-  "Shipping Date",
-  "completion Date",
-];
 const useStyles = makeStyles((theme) => ({
   heading: {
     color: "red",
@@ -34,15 +26,25 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
   const [buttonLabel, setbuttonLabel] = useState("");
   const [dates, setdates] = useState([]);
   const [index, setindex] = useState(0);
+  const [bool, setbool] = useState();
   const ButtonLabel = () => {
     if (order.status == "PLACED") {
-      setbuttonLabel("Packaging");
+      setbuttonLabel("PACKAGING");
+      setindex(1);
     }
     if (order.status == "PACKAGING") {
-      setbuttonLabel("Shipping");
+      setbuttonLabel("SHIPPING");
+      setindex(2);
     }
     if (order.status == "SHIPPING") {
-      setbuttonLabel("Completed");
+      setbuttonLabel("DELIVERED");
+      setindex(3);
+    }
+    if (order.status == "DELIVERED") {
+      setindex(4);
+    }
+    if (order.status == "RETURNED") {
+      setindex(4);
     }
   };
   useEffect(ButtonLabel, []);
@@ -191,29 +193,62 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
                     <StepLabel>
                       {label.name}
                       <br />
-                      {label.date}
+                      {moment(label.date).format("MMMM Do YYYY")}
                     </StepLabel>
                   </Step>
                 );
               })}
             </Stepper>
           </Box>
-          <Box sx={{ marginLeft: "74%" }}>
-            <Button
-              sx={{
-                color: "#FFFF",
-                backgroundColor: "#FF0000",
-                "&:hover": {
-                  backgroundColor: "#b22222",
-                  color: "#ffff",
-                },
-              }}
-              onClick={(e) => {
-                ChangeOrderStatus(order._id);
-              }}
-            >
-              {buttonLabel}
-            </Button>
+
+          <Box sx={{ display: "flex", marginLeft: "70%" }}>
+            <Box m={1}>
+              {order.status === "SHIPPING" ? (
+                <Button
+                  value="RETURNED"
+                  sx={{
+                    color: "#FFFF",
+                    backgroundColor: "#FF0000",
+                    "&:hover": {
+                      backgroundColor: "#b22222",
+                      color: "#ffff",
+                    },
+                  }}
+                  onClick={(e) => {
+                    ChangeOrderStatus(order._id, e.target.value);
+                  }}
+                >
+                  Returned
+                </Button>
+              ) : (
+                <></>
+              )}
+            </Box>
+            {order.status === "CANCELED" ||
+            order.status === "RETURNED" ||
+            order.status === "DELIVERED" ? (
+              <></>
+            ) : (
+              <Box m={1}>
+                {" "}
+                <Button
+                  value={buttonLabel}
+                  sx={{
+                    color: "#FFFF",
+                    backgroundColor: "#FF0000",
+                    "&:hover": {
+                      backgroundColor: "#b22222",
+                      color: "#ffff",
+                    },
+                  }}
+                  onClick={(e) => {
+                    ChangeOrderStatus(order._id, e.target.value);
+                  }}
+                >
+                  {buttonLabel}
+                </Button>
+              </Box>
+            )}
           </Box>
         </CardContent>
       </Card>

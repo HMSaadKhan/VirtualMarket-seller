@@ -1,24 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@material-ui/styles";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
 import orderService from "../../Services/OrderService";
 import OrderComponent from "./OrderComponent";
 import OrderMenu from "./OrderMenu";
-import { Co2Sharp } from "@mui/icons-material";
 
-const steps = [
-  "Received Date",
-  "Packaging Date",
-  "Shipping Date",
-  "completion Date",
-];
 const useStyles = makeStyles((theme) => ({
   button: {},
 }));
@@ -39,21 +26,34 @@ export default function OrderList(props) {
         setorderDetails(data);
       })
       .catch((data) => {
-        console.log(data);
+        console.log(data.response);
       });
   };
   React.useEffect(Orders, [status]);
 
-  const ChangeOrderStatus = (data) => {
-    orderService
-      .changeOrderStatus(data)
-      .then((data) => {
-        console.log(data);
-        Orders();
-      })
-      .catch((data) => {
-        console.log(data);
-      });
+  const ChangeOrderStatus = (id, status) => {
+    console.log(id, status);
+    if (status === "DELIVERED" || status === "RETURNED") {
+      orderService
+        .concludeOrder(id, { status })
+        .then((data) => {
+          console.log(data);
+          Orders();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    } else {
+      orderService
+        .changeOrderStatus(id)
+        .then((data) => {
+          console.log(data);
+          Orders();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    }
   };
 
   return (

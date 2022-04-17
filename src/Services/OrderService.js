@@ -30,6 +30,19 @@ class OrderService extends GenericService {
           reject(err);
         });
     });
+  concludeOrder = (_id, data) =>
+    new Promise((resolve, reject) => {
+      axios
+        .patch("orders/concludeOrder/" + _id, data)
+        .then((data) => {
+          console.log("Get Orders");
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
 }
+
 let orderService = new OrderService();
 export default orderService;

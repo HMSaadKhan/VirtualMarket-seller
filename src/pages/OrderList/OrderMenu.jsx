@@ -25,7 +25,7 @@ const orderStatus = [
   "PLACED",
   "PACKAGING",
   "SHIPPING",
-  "COMPLETED",
+  "DELIVERED",
   "RETURNED",
   "CANCELED",
 ];

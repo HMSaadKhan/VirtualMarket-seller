@@ -33,7 +33,7 @@ function App() {
       <Topbar />
 
       <div className="container">
-        <Sidebar />
+        <Sidebar /> 
         <Switch>
           <Route path="/orders/:status" component={OrderList} />
           <Route path="/products" component={SellerProduct} />

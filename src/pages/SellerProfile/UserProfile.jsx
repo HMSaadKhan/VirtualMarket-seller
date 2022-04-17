@@ -9,6 +9,9 @@ import {
   Select,
   MenuItem,
   FormControl,
+  Card,
+  Paper,
+  Typography,
 } from "@mui/material";
 import Switch from "@mui/material/Switch";
 import "./userprofile.css";
@@ -90,47 +93,64 @@ export default function UserProfile() {
     setonlinePaymentOption(event.target.checked);
   };
   return (
-    <div className="seller">
-      <div className="sellerTitleContainer">
-        <h1 className="sellerTitle">Seller Profile</h1>
-      </div>
+    <Box m={2} sx={{ backgroundColor: "orange" }}>
+      <Box>
+        <Typography
+          sx={{
+            fontSize: "20px",
+            fontWeight: "bold",
+          }}
+        >
+          Seller Profile
+        </Typography>
+      </Box>
 
-      <div className="sellerContainer">
-        <div className="sellerUpdate">
-          <form className="sellerUpdateForm">
-            <div className="sellerUpdateLeft">
-              <div className="sellerUpdateName">
-                <Box
-                  component="form"
-                  sx={{
-                    "& > :not(style)": { m: 1, width: "30ch" },
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box>
+          <div>
+            <Box
+              m={1}
+              sx={{
+                display: "flex",
+              }}
+            >
+              <Box>
+                <TextField
+                  disabled
+                  value={fName}
+                  label="First Name"
+                  variant="standard"
+                  onChange={(e) => {
+                    setfName(e.target.value);
                   }}
-                  noValidate
-                  autoComplete="off"
-                >
-                  <TextField
-                    disabled
-                    value={fName}
-                    label="First Name"
-                    variant="standard"
-                    onChange={(e) => {
-                      setfName(e.target.value);
-                    }}
-                  />
-                  <TextField
-                    disabled
-                    label="Last Name"
-                    value={lName}
-                    variant="standard"
-                    readOnly={true}
-                    onChange={(e) => {
-                      setlName(e.target.value);
-                    }}
-                  />
-                </Box>
-              </div>
-
-              <div className="sellerUpdateItem">
+                />
+              </Box>
+              <Box ml={2}>
+                <TextField
+                  disabled
+                  label="Last Name"
+                  value={lName}
+                  variant="standard"
+                  readOnly={true}
+                  onChange={(e) => {
+                    setlName(e.target.value);
+                  }}
+                />
+              </Box>
+            </Box>
+            <Box
+              m={1}
+              sx={{
+                display: "flex",
+              }}
+            >
+              <Box>
                 <TextField
                   disabled
                   label="CNIC"
@@ -140,52 +160,8 @@ export default function UserProfile() {
                     setCnic(e.target.value);
                   }}
                 />
-              </div>
-
-              <div className="sellerUpdateItem">
-                <TextField
-                  label="Store Name"
-                  variant="standard"
-                  value={storeName}
-                  InputLabelProps={{ shrink: storeName ? true : false }}
-                  onChange={(e) => {
-                    setStoreName(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="sellerUpdateItem">
-                <TextField
-                  label="Shop Address"
-                  variant="standard"
-                  value={address}
-                  onChange={(e) => {
-                    setAddress(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="sellerUpdateItem">
-                <FormControl sx={{ minWidth: 120 }}>
-                  <InputLabel variant="standard">City</InputLabel>
-
-                  <Select
-                    variant="standard"
-                    value={city}
-                    onChange={(e) => {
-                      selectChange(e);
-                    }}
-                  >
-                    {cities.map((item) => (
-                      <MenuItem key={item} value={item._id}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-
-              <div className="sellerUpdateItem">
+              </Box>
+              <Box ml={2}>
                 <TextField
                   label="Phone No"
                   variant="standard"
@@ -194,88 +170,136 @@ export default function UserProfile() {
                     setPhone(e.target.value);
                   }}
                 />
-              </div>
+              </Box>
+            </Box>
 
-              <div className="sellerUpdateItem">
-                <FormLabel component="legend">Online Payments</FormLabel>
-                <Switch
-                  sx={{ color: "error" }}
-                  checked={onlinePaymentOption}
-                  onChange={switchChange}
-                />
-              </div>
+            <Box m={1}>
+              <TextField
+                label="Store Name"
+                variant="standard"
+                value={storeName}
+                InputLabelProps={{ shrink: storeName ? true : false }}
+                onChange={(e) => {
+                  setStoreName(e.target.value);
+                }}
+              />
+            </Box>
 
-              <div className="sellerUpdateItem">
-                <TextField
-                  label="Delivery Charges"
+            <Box m={1}>
+              <TextField
+                multiline
+                label="Shop Address"
+                variant="standard"
+                value={address}
+                InputLabelProps={{ shrink: address ? true : false }}
+                onChange={(e) => {
+                  setAddress(e.target.value);
+                }}
+              />
+            </Box>
+
+            <Box m={1}>
+              <FormControl sx={{ width: 200 }}>
+                <InputLabel variant="standard">City</InputLabel>
+
+                <Select
                   variant="standard"
-                  value={deliveryCharge}
+                  value={city}
                   onChange={(e) => {
-                    setDeliveryCharge(e.target.value);
-                  }}
-                />
-              </div>
-            </div>
-            <div className="sellerUpdateRight">
-              <div className="sellerUpdateUpload">
-                <img className="sellerUpdateImg" src={avatar} />
-
-                <form>
-                  <>
-                    <label htmlFor="file"></label>
-                    <input
-                      type="file"
-                      id="file"
-                      onChange={(e) => {
-                        setImage(e.target.files[0]);
-                      }}
-                    />
-                  </>
-                </form>
-              </div>
-              <div>
-                {/* <button className="sellerUpdateButton">Update\</button> */}
-                <Button
-                  className="sellerUpdateButton"
-                  variant="contained"
-                  onClick={(e) => {
-                    sellerService
-                      .editUserDetails({
-                        phone,
-                        address,
-                        city,
-                        storeName,
-                        deliveryCharge,
-                        onlinePaymentOption,
-                      })
-                      .then((data) => {
-                        console.log(data);
-                        // window.location.reload();
-                        toast.success("Changes Saved Successfully", {
-                          position: toast.POSITION.BOTTOM_LEFT,
-                        });
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                        toast.error(err.response.data, {
-                          position: toast.POSITION.BOTTOM_LEFT,
-                        });
-                      });
+                    selectChange(e);
                   }}
                 >
-                  Update
-                </Button>
-                <br />
-                <Box mt={2}>
-                  <Button variant="contained" onClick={send}>
-                    Update Image
-                  </Button>
-                </Box>
-              </div>
+                  {cities.map((item) => (
+                    <MenuItem key={item} value={item._id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+
+            <div></div>
+
+            <div>
+              <FormLabel component="legend">Online Payments</FormLabel>
+              <Switch
+                sx={{ color: "error" }}
+                checked={onlinePaymentOption}
+                onChange={switchChange}
+              />
             </div>
-          </form>
-        </div>
-      </div>
-    </div>
+
+            <div>
+              <TextField
+                label="Delivery Charges"
+                variant="standard"
+                value={deliveryCharge}
+                onChange={(e) => {
+                  setDeliveryCharge(e.target.value);
+                }}
+              />
+            </div>
+          </div>
+        </Box>
+        <Box>
+          <div>
+            <div>
+              <img className="sellerUpdateImg" src={avatar} />
+
+              <form>
+                <>
+                  <label htmlFor="file"></label>
+                  <input
+                    type="file"
+                    id="file"
+                    onChange={(e) => {
+                      setImage(e.target.files[0]);
+                    }}
+                  />
+                </>
+              </form>
+            </div>
+            <div>
+              {/* <button className="sellerUpdateButton">Update\</button> */}
+              <Button
+                variant="contained"
+                onClick={(e) => {
+                  sellerService
+                    .editUserDetails({
+                      phone,
+                      address,
+                      city,
+                      storeName,
+                      deliveryCharge,
+                      onlinePaymentOption,
+                    })
+                    .then((data) => {
+                      console.log(data);
+                      // window.location.reload();
+                      toast.success("Changes Saved Successfully", {
+                        position: toast.POSITION.BOTTOM_LEFT,
+                      });
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                      toast.error(err.response.data, {
+                        position: toast.POSITION.BOTTOM_LEFT,
+                      });
+                    });
+                }}
+              >
+                Update
+              </Button>
+              <br />
+              <Box mt={2}>
+                <Button variant="contained" onClick={send}>
+                  Update Image
+                </Button>
+              </Box>
+            </div>
+          </div>
+        </Box>
+      </Box>
+    </Box>
   );
 }
