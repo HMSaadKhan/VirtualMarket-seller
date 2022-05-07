@@ -96,15 +96,9 @@ export default function UserProfile() {
   const StyledBox = styled(Box)({
     margin: "10px",
   });
-  const LeftBox = styled(Box)({
-    margin: "10px",
-  });
-  const CenterBox = styled(Box)({
-    margin: "10px",
-  });
-  const RightBox = styled(Box)({
-    margin: "10px",
-  });
+  const LeftBox = styled(Box)({});
+  const CenterBox = styled(Box)({});
+  const RightBox = styled(Box)({});
   const Container = styled(Box)({
     display: "flex",
     justifyContent: "center",
@@ -116,6 +110,17 @@ export default function UserProfile() {
     display: "flex",
     justifyContent: "space-around",
   });
+  const StyledButton = styled(Button)({
+    color: "#FF0000",
+    backgroundColor: "#fff",
+    marginLeft: "10px",
+    fontWeight: "bold",
+    "&:hover": {
+      backgroundColor: "#FF0002",
+      color: "#ffff",
+    },
+  });
+
   return (
     <Container>
       <Card>
@@ -125,6 +130,7 @@ export default function UserProfile() {
               sx={{
                 fontSize: "20px",
                 fontWeight: "bold",
+                color: "red",
               }}
             >
               Seller Profile
@@ -167,6 +173,7 @@ export default function UserProfile() {
               </StyledBox>
               <StyledBox>
                 <TextField
+                  id="address"
                   multiline
                   label="Shop Address"
                   variant="standard"
@@ -258,14 +265,14 @@ export default function UserProfile() {
                 </form>
               </StyledBox>
               <StyledBox>
-                <Button variant="contained" onClick={send}>
+                <StyledButton variant="contained" onClick={send}>
                   Update Image
-                </Button>
+                </StyledButton>
               </StyledBox>
             </RightBox>
           </InnerContainer>
           <StyledBox>
-            <Button
+            <StyledButton
               variant="contained"
               onClick={(e) => {
                 sellerService
@@ -293,7 +300,7 @@ export default function UserProfile() {
               }}
             >
               Update
-            </Button>
+            </StyledButton>
           </StyledBox>
         </CardContent>
       </Card>

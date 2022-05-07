@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { styled } from "@mui/material/styles";
+import "./addproduct.css";
 import {
   TextField,
   Box,
@@ -12,8 +12,6 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  Card,
-  CardContent,
 } from "@mui/material";
 import { toast } from "react-toastify";
 import productService from "../../Services/ProductServices";
@@ -102,55 +100,48 @@ export default function AddProduct() {
         });
       });
   };
-  const StyledBox = styled(Box)({
-    margin: "10px",
-  });
-  const LeftBox = styled(Box)({});
-  const CenterBox = styled(Box)({});
-  const RightBox = styled(Box)({});
-  const Container = styled(Box)({
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: "5%",
-    paddingBottom: "10%",
-    paddingLeft: "10%",
-  });
-  const InnerContainer = styled(Box)({
-    display: "flex",
-    justifyContent: "space-around",
-  });
-  const StyledButton = styled(Button)({
-    color: "#FF0000",
-    backgroundColor: "#fff",
-    marginLeft: "10px",
-    fontWeight: "bold",
-    "&:hover": {
-      backgroundColor: "#FF0002",
-      color: "#ffff",
-    },
-  });
 
   return (
-    <Container>
-      <Card>
-        <CardContent>
-          <h1>Add Product</h1>
-          <InnerContainer>
-            <LeftBox>
-              <StyledBox>
-                <TextField
-                  id="name"
-                  label="Product Name"
-                  variant="standard"
-                  placeholder="e.g. S21 Ultra"
-                  value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
+    <div className="seller">
+      <div className="sellerTitleContainer">
+        <h1 className="sellerTitle">Add Product</h1>
+        <LoadingScreen Loading={bool} />
+      </div>
+
+      <div className="sellerContainer">
+        <div className="sellerUpdate">
+          <form className="sellerUpdateForm">
+            <div className="sellerUpdateLeft">
+              <div className="sellerUpdateName">
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "25ch" },
                   }}
-                />
-              </StyledBox>
-              <StyledBox>
+                  noValidate
+                  autoComplete="off"
+                >
+                  <TextField
+                    label="Product Name"
+                    variant="standard"
+                    placeholder="e.g. S21 Ultra"
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                  />
+                  <TextField
+                    label="Product Brand"
+                    variant="standard"
+                    placeholder="e.g. Samsung"
+                    value={brand}
+                    onChange={(e) => {
+                      setBrand(e.target.value);
+                    }}
+                  />
+                </Box>
+              </div>
+              <div className="sellerUpdateItem">
                 <TextField
                   label="Product Price"
                   type="number"
@@ -161,24 +152,11 @@ export default function AddProduct() {
                     setPrice(e.target.value);
                   }}
                 />
-              </StyledBox>
-              <StyledBox>
-                {" "}
-                <TextField
-                  label="Quantity"
-                  type="number"
-                  variant="standard"
-                  placeholder="e.g. 10"
-                  value={minOrder}
-                  onChange={(e) => {
-                    setMinOrder(e.target.value);
-                  }}
-                />
-              </StyledBox>
-              <StyledBox>
+              </div>
+
+              <div className="sellerUpdateItem">
                 <InputLabel variant="standard">Product category</InputLabel>
                 <Select
-                  fullWidth
                   variant="standard"
                   onChange={(e) => {
                     selectChange(e);
@@ -190,63 +168,43 @@ export default function AddProduct() {
                     </MenuItem>
                   ))}
                 </Select>
-              </StyledBox>
-              <StyledBox>
+              </div>
+              <div className="sellerUpdateItem">
                 <TextField
-                  label="Product Description"
+                  label="Quantity"
+                  type="number"
                   variant="standard"
-                  value={description}
+                  placeholder="e.g. 10"
+                  value={minOrder}
                   onChange={(e) => {
-                    setDescription(e.target.value);
+                    setMinOrder(e.target.value);
                   }}
                 />
-              </StyledBox>
-              <StyledBox>
-                <FormControl>
-                  <FormLabel>Sample</FormLabel>
-                  <RadioGroup
-                    defaultValue="included"
-                    value={sampleOrder}
-                    onChange={handleChange}
-                  >
-                    <FormControlLabel
-                      value="true"
-                      control={<Radio />}
-                      label="Included"
-                    />
+              </div>
+              <br></br>
 
-                    <FormControlLabel
-                      value="false"
-                      control={<Radio />}
-                      label="Not Included"
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </StyledBox>
-            </LeftBox>
-            <CenterBox>
-              <StyledBox>
-                <TextField
-                  label="Product Brand"
-                  variant="standard"
-                  placeholder="e.g. Samsung"
-                  value={brand}
-                  onChange={(e) => {
-                    setBrand(e.target.value);
-                  }}
-                />
-              </StyledBox>
-              <StyledBox>
-                <TextField
-                  label="Stock"
-                  variant="standard"
-                  value={stock}
-                  onChange={(e) => {
-                    setStock(e.target.value);
-                  }}
-                />
-              </StyledBox>
-              <StyledBox>
+              <FormControl>
+                <FormLabel>Sample</FormLabel>
+                <RadioGroup
+                  defaultValue="included"
+                  value={sampleOrder}
+                  onChange={handleChange}
+                >
+                  <FormControlLabel
+                    value="true"
+                    control={<Radio />}
+                    label="Included"
+                  />
+
+                  <FormControlLabel
+                    value="false"
+                    control={<Radio />}
+                    label="Not Included"
+                  />
+                </RadioGroup>
+              </FormControl>
+
+              <div className="sellerUpdateItem">
                 <TextField
                   label="Warranty Period"
                   variant="standard"
@@ -256,45 +214,71 @@ export default function AddProduct() {
                     setWarrantyPeriod(e.target.value);
                   }}
                 />
-              </StyledBox>
-              <StyledBox></StyledBox>
-              <StyledBox></StyledBox>
-            </CenterBox>
-            <RightBox>
-              <InnerContainer m={5} sx={{ flexWrap: "wrap", maxWidth: "80%" }}>
-                <StyledBox>
-                  <SingleFileUpload index={0} imageArray={imageArray} />
-                </StyledBox>
-                <StyledBox>
-                  <SingleFileUpload index={1} imageArray={imageArray} />
-                </StyledBox>
-                <StyledBox>
-                  <SingleFileUpload index={2} imageArray={imageArray} />
-                </StyledBox>
-                <StyledBox>
-                  <SingleFileUpload index={3} imageArray={imageArray} />
-                </StyledBox>
-                <StyledBox>
-                  <SingleFileUpload index={4} imageArray={imageArray} />
-                </StyledBox>
-              </InnerContainer>
-            </RightBox>
-          </InnerContainer>
+              </div>
 
-          <StyledBox>
-            <StyledButton
-              variant="contained"
-              onClick={() => UploadMultipleFiles()}
-            >
-              Add
-            </StyledButton>
-            <LoadingScreen Loading={bool} />
-          </StyledBox>
-        </CardContent>
-      </Card>
-      <div className="seller">
-        <div className="sellerTitleContainer"></div>
+              <div className="sellerUpdateItem">
+                <TextField
+                  label="Product Description"
+                  variant="standard"
+                  value={description}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="sellerUpdateItem">
+                <TextField
+                  label="Stock"
+                  variant="standard"
+                  value={stock}
+                  onChange={(e) => {
+                    setStock(e.target.value);
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="sellerUpdateRight">
+              <div className="sellerUpdateUpload">
+                <div className="image">
+                  <SingleFileUpload index={0} imageArray={imageArray} />
+                </div>
+                <div className="image">
+                  <SingleFileUpload index={1} imageArray={imageArray} />
+                </div>
+                <div className="image">
+                  <SingleFileUpload index={2} imageArray={imageArray} />
+                </div>
+                <div className="image">
+                  <SingleFileUpload index={3} imageArray={imageArray} />
+                </div>
+                <div className="image">
+                  <SingleFileUpload index={4} imageArray={imageArray} />
+                </div>
+              </div>
+              <div>
+                <Button
+                  className="sellerAddButton"
+                  variant="contained"
+                  sx={{
+                    color: "#FF0000",
+                    backgroundColor: "#fff",
+                    marginLeft: "10px",
+                    fontWeight: "bold",
+                    "&:hover": {
+                      backgroundColor: "#FF0002",
+                      color: "#ffff",
+                    },
+                  }}
+                  onClick={() => UploadMultipleFiles()}
+                >
+                  Add
+                </Button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
-    </Container>
+    </div>
   );
 }
