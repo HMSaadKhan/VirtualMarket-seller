@@ -51,7 +51,7 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
   console.log(order);
 
   return (
-    <Box>
+    <Box m={3}>
       <Card sx={{ width: "100%", height: "80%" }}>
         <CardContent>
           <Card sx={{ margin: "10px" }}>
@@ -252,7 +252,6 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
           </Box>
         </CardContent>
       </Card>
-      <Divider />
     </Box>
   );
 }

@@ -10,11 +10,17 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import orderService from "../../Services/OrderService";
-import OrderComponent from "./OrderComponent";
+import OrderComponent from "./WarrantyComponent";
 
-const useStyles = makeStyles((theme) => ({
+const steps = [
+  "Received Date",
+  "Packaging Date",
+  "Shipping Date",
+  "completion Date",
+];
+const useStyles = makeStyles({
   button: {},
-}));
+});
 const orderStatus = [
   "PLACED",
   "PACKAGING",
@@ -23,7 +29,7 @@ const orderStatus = [
   "RETURNED",
   "CANCELED",
 ];
-export default function OrderMenu() {
+export default function WarrantyMenu() {
   const classes = useStyles();
   const history = useHistory();
 
@@ -42,10 +48,6 @@ export default function OrderMenu() {
                   marginLeft: "10px",
                   fontWeight: "bold",
                   "&:hover": {
-                    backgroundColor: "#FF0002",
-                    color: "#ffff",
-                  },
-                  "&:focus": {
                     backgroundColor: "#FF0002",
                     color: "#ffff",
                   },

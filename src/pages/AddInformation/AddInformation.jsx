@@ -16,6 +16,7 @@ import "./AddInformation.css";
 import { toast } from "react-toastify";
 
 import { Publish, Shop2standard } from "@mui/icons-material";
+import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 export default function AddInformation(props) {
   const [fName, setfName] = useState("");
   const [lName, setlName] = useState("");
@@ -30,6 +31,7 @@ export default function AddInformation(props) {
   const [avatarPreview, setAvatarPreview] = useState("");
   const [cnicFront, setCnicFront] = useState("");
   const [cnicBack, setCnicBack] = useState("");
+  const [loading, setloading] = useState(false);
   const [images, setImages] = useState(["1", "2", "3"]);
   const [cities, setcities] = useState([]);
   const getVerificationdata = () => {
@@ -56,6 +58,7 @@ export default function AddInformation(props) {
   };
 
   const send = () => {
+    setloading(true);
     console.log(images);
     const formData = new FormData();
     formData.append("fName", fName);
@@ -76,6 +79,7 @@ export default function AddInformation(props) {
       .addDetails(formData)
       .then((data) => {
         console.log(data);
+        setloading(false);
         toast.success("Changes Saved Successfully", {
           position: toast.POSITION.BOTTOM_LEFT,
         });
@@ -118,6 +122,7 @@ export default function AddInformation(props) {
           <form className="sellerUpdateForm">
             <div className="sellerUpdateLeft">
               <div className="sellerUpdateName">
+                <LoadingScreen bool={loading} />
                 <Box
                   component="form"
                   sx={{
@@ -188,7 +193,7 @@ export default function AddInformation(props) {
                     onChange={(e) => {
                       selectChange(e);
                     }}
-                  > 
+                  >
                     {cities.map((item) => (
                       <MenuItem key={item} value={item._id}>
                         {item.name}
@@ -262,7 +267,7 @@ export default function AddInformation(props) {
                   <>
                     <input
                       type="file"
-                      id="cnicFront"
+                      id="file"
                       onChange={(e) => imageSet(e, 2)}
                     />
                   </>

@@ -54,6 +54,12 @@ export default function Sidebar() {
                       <Link to="/orders/PLACED">Orders</Link>
                     </StyledDiv>
                   </li>
+                  <li className="sidebarListItem">
+                    <MonetizationOnOutlined className="sidebarIcon" />
+                    <StyledDiv>
+                      <Link to="/warranty">Warranty</Link>
+                    </StyledDiv>
+                  </li>
 
                   <li className="sidebarListItem">
                     <ShoppingBasketOutlined className="sidebarIcon" />

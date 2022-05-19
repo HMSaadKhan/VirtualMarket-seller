@@ -1,44 +1,33 @@
 import React from "react";
-import { makeStyles } from "@mui/styles";
 import {
   TextField,
   Button,
-  Alert,
   Card,
   Box,
   Typography,
   CardContent,
 } from "@mui/material";
 import sellerService from "../../Services/SellerServices";
-import styled from "styled-components";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import LoginAuth from "../../AuthWrapper/LoginAuth";
+import { styled } from "@mui/material/styles";
 
-const Title = styled.h1`
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-`;
+const Title = styled(Typography)({ fontSize: "24px", fontWeight: "bold" });
 
 const Login = (props) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const history = useHistory();
+
   return (
     <LoginAuth>
       <Box
         sx={{
           marginLeft: "40%",
           marginTop: "10%",
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignitems: "center",
-          justifycontent: "center",
         }}
       >
-        <Card sx={{ width: "30%", padding: "20px" }}>
+        <Card sx={{ maxWidth: 300, padding: "20px" }}>
           <CardContent>
             <Title>SIGN IN</Title>
             <Box sx={{}}>
@@ -48,7 +37,6 @@ const Login = (props) => {
                   fullWidth
                   id="filled-required"
                   label="Email"
-                  variant="standard"
                   defaultValue={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -60,7 +48,6 @@ const Login = (props) => {
                   label="Password"
                   type="password"
                   fullWidth
-                  variant="standard"
                   autoComplete="current-password"
                   defaultValue={password}
                   onChange={(e) => {
@@ -70,7 +57,7 @@ const Login = (props) => {
               </>
               <Box mt={2}>
                 <Button
-                  sx={{ backgroundColor: "red" }}
+                  sx={{ width: "100%" }}
                   variant="contained"
                   onClick={(e) => {
                     sellerService

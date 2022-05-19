@@ -26,40 +26,46 @@ import AddInformation from "./pages/AddInformation/AddInformation";
 import checkSingleFile from "./Components/AddSingleFile/checkSignleFile";
 import ProductInformation from "./pages/productUpdate/ProductInformation";
 import OrderMenu from "./pages/OrderList/OrderMenu";
+import WarrantyList from "./pages/Warranty/WarrantyList";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./Styles/myStyleSheet";
 function App() {
   return (
-    <Router>
-      <ToastContainer />
-      <Topbar />
+    <ThemeProvider theme={theme}>
+      <Router>
+        <ToastContainer />
+        <Topbar />
 
-      <div className="container">
-        <Sidebar /> 
-        <Switch>
-          <Route path="/orders/:status" component={OrderList} />
-          <Route path="/products" component={SellerProduct} />
-          <Route path="/sellerprofile" component={UserProfile} />
-          <Route path="/addproduct" component={AddProduct} />
-          <Route path="/editDetails/:id" component={ProductUpdate} />
-          <Route
-            path="/product-information/:id"
-            component={ProductInformation}
-          />
-          <Route path="/Login" exact component={Login} />
-          <Route path="/signup" exact component={SignUp} />
-          <Route path="/forgotpassword" component={ForgotPassword} />
-          <Route path="/resetPassword/:id" exact component={NewPassword} />
-          <Route
-            path="/emailverification"
-            exact
-            component={EmailVerification}
-          />
-          <Route path="/changepassword/" exact component={ChangePassword} />
-          <Route path="/check" exact component={checkSingleFile} />
-          <Route path="/add-information" exact component={AddInformation} />
-          <Route path="/" exact component={Home} />
-        </Switch>
-      </div>
-    </Router>
+        <div className="container">
+          <Sidebar />
+          <Switch>
+            <Route path="/orders/:status" component={OrderList} />
+            <Route path="/warranty" component={WarrantyList} />
+            <Route path="/products" component={SellerProduct} />
+            <Route path="/sellerprofile" component={UserProfile} />
+            <Route path="/addproduct" component={AddProduct} />
+            <Route path="/editDetails/:id" component={ProductUpdate} />
+            <Route
+              path="/product-information/:id"
+              component={ProductInformation}
+            />
+            <Route path="/Login" exact component={Login} />
+            <Route path="/signup" exact component={SignUp} />
+            <Route path="/forgotpassword" component={ForgotPassword} />
+            <Route path="/resetPassword/:id" exact component={NewPassword} />
+            <Route
+              path="/emailverification"
+              exact
+              component={EmailVerification}
+            />
+            <Route path="/changepassword/" exact component={ChangePassword} />
+            <Route path="/check" exact component={checkSingleFile} />
+            <Route path="/add-information" exact component={AddInformation} />
+            <Route path="/" exact component={Home} />
+          </Switch>
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 }
 

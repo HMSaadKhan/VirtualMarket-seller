@@ -1,9 +1,8 @@
 import React from "react";
 import { makeStyles } from "@mui/styles";
-import { TextField, Button, Grid, Paper } from "@material-ui/core";
+import { TextField, Button, Grid, Paper } from "@mui/material";
 import sellerService from "../../Services/SellerServices";
 import { toast } from "react-toastify";
-import { bgcolor } from "@mui/system";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 
@@ -12,7 +11,7 @@ import { Link, useHistory } from "react-router-dom";
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,7 +61,7 @@ const ChangenewPassword = (props) => {
               }}
             />
 
-            <Input
+            <TextField
               placeholder="New Password"
               type="Password"
               value={newPassword}
