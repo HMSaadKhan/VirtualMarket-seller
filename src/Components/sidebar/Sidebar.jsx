@@ -1,111 +1,147 @@
 import React from "react";
 import "./sidebar.css";
 import { useHistory, Link } from "react-router-dom";
-import SideBarHide from "../../AuthWrapper/SideBarHide";
 import sellerService from "../../Services/SellerServices";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import LogoutIcon from "@mui/icons-material/Logout";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import BuildIcon from "@mui/icons-material/Build";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import { AccountBox, Home, Settings } from "@mui/icons-material";
 import {
-  LineStyle,
-  Timeline,
-  TrendingUp,
-  Person,
-  ShoppingBasketOutlined,
-  MonetizationOnOutlined,
-  AssessmentOutlined,
-  ForumOutlined,
-  MailOutlined,
-  WorkOutlineOutlined,
-  ReportOutlined,
-} from "@material-ui/icons";
-import styled from "styled-components";
-const StyledDiv = styled.div`
-  a:visited {
-    color: black;
-  }
-`;
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 
-export default function Sidebar() {
+const StyledListItem = styled(ListItem)({ height: "35px" });
+const StyledListItemButton = styled(ListItemButton)({
+  height: "35px",
+  paddingLeft: "10px",
+});
+const StyledTypography = styled(Typography)({
+  fontWeight: "bold",
+  marginLeft: "10px",
+});
+
+export default function Sidebar(props) {
   const history = useHistory();
+  const [Ordersopen, setOrderOpen] = React.useState(false);
+  const [Warrantyopen, setWarrantyOpen] = React.useState(false);
+  console.log(history);
+  const handleClick = () => {
+    setOrderOpen(!Ordersopen);
+  };
+  const WarrantyClick = () => {
+    setWarrantyOpen(!Warrantyopen);
+  };
   return (
     <>
       {sellerService.isLoggedIn() ? (
-        <div>
-          <div className="sidebar">
-            <div className="sidebarWrapper">
-              <div className="sidebarmenu">
-                <h3 className="sidebarTitle">Dashboard</h3>
+        <>
+          <Box sx={{ width: "400px" }}>
+            <Box
+              position="fixed"
+              sx={{
+                width: "200px",
+                height: "100%",
+                backgroundColor: "#fafafa",
+                zIndex: 1,
+                paddingTop: "70px",
+              }}
+            >
+              <List disablePadding>
+                {/* First */}
+                <StyledTypography>Dashboard</StyledTypography>
 
-                <ul className="sidebarList">
-                  <li className="sidebarListItem active">
-                    <LineStyle className="sidebarIcon" />
-                    <StyledDiv>
-                      <Link to="/">Home</Link>
-                    </StyledDiv>
-                  </li>
-                </ul>
-              </div>
+                <StyledListItem disablePadding>
+                  <StyledListItemButton component={Link} to="/">
+                    <ListItemIcon>
+                      <Home />
+                    </ListItemIcon>
+                    <ListItemText primary="Homepage" />
+                  </StyledListItemButton>
+                </StyledListItem>
+                {/* Second */}
+                <StyledTypography>Menu</StyledTypography>
 
-              <div className="sidebarmenu">
-                <h3 className="sidebarTitle">Menu</h3>
+                <StyledListItem disablePadding>
+                  <StyledListItemButton component={Link} to="/warranty">
+                    <ListItemIcon>
+                      <BuildIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Warranties" />
+                  </StyledListItemButton>
+                </StyledListItem>
+                <StyledListItem disablePadding>
+                  <StyledListItemButton component={Link} to="/products">
+                    <ListItemIcon>
+                      <InventoryIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Products" />
+                  </StyledListItemButton>
+                </StyledListItem>
+                <StyledListItem disablePadding>
+                  <StyledListItemButton component={Link} to="/orders/PLACED">
+                    <ListItemIcon>
+                      <LocalShippingIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Orders" />
+                  </StyledListItemButton>
+                </StyledListItem>
+                <StyledListItem disablePadding>
+                  <StyledListItemButton component={Link} to="/transactions">
+                    <ListItemIcon>
+                      <ReceiptIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Transactions" />
+                  </StyledListItemButton>
+                </StyledListItem>
 
-                <ul className="sidebarList">
-                  <li className="sidebarListItem">
-                    <MonetizationOnOutlined className="sidebarIcon" />
-                    <StyledDiv>
-                      <Link to="/orders/PLACED">Orders</Link>
-                    </StyledDiv>
-                  </li>
-                  <li className="sidebarListItem">
-                    <MonetizationOnOutlined className="sidebarIcon" />
-                    <StyledDiv>
-                      <Link to="/warranty">Warranty</Link>
-                    </StyledDiv>
-                  </li>
+                <StyledTypography>Notifications</StyledTypography>
 
-                  <li className="sidebarListItem">
-                    <ShoppingBasketOutlined className="sidebarIcon" />
-                    <StyledDiv>
-                      <Link to="/products">Products</Link>
-                    </StyledDiv>
-                  </li>
-                </ul>
-              </div>
+                <StyledListItem disablePadding>
+                  <StyledListItemButton component={Link} to="#simple-list">
+                    <ListItemIcon>
+                      <InboxIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Messages" />
+                  </StyledListItemButton>
+                </StyledListItem>
 
-              <div className="sidebarmenu">
-                <h3 className="sidebarTitle">Notifications</h3>
-
-                <ul className="sidebarList">
-                  <li className="sidebarListItem">
-                    <ForumOutlined className="sidebarIcon" />
-                    Messages
-                  </li>
-                </ul>
-              </div>
-
-              <div className="sidebarmenu">
-                <h3 className="sidebarTitle">About</h3>
-
-                <ul className="sidebarList">
-                  <li className="sidebarListItem">
-                    <Person className="sidebarIcon" />
-                    <StyledDiv>
-                      <Link to="/sellerprofile">Seller Profile</Link>
-                    </StyledDiv>
-                  </li>
-                  <button
-                    className="logoutButton"
+                <StyledTypography>About</StyledTypography>
+                <StyledListItem disablePadding>
+                  <StyledListItemButton component={Link} to="/sellerprofile">
+                    <ListItemIcon>
+                      <AccountBox />
+                    </ListItemIcon>
+                    <ListItemText primary="Profile" />
+                  </StyledListItemButton>
+                </StyledListItem>
+                <StyledListItem disablePadding>
+                  <StyledListItemButton
                     onClick={() => {
                       sellerService.logout();
                       history.push("/Login");
                       window.location.reload();
                     }}
                   >
-                    Logout
-                  </button>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+                    <ListItemIcon>
+                      <LogoutIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Logout" />
+                  </StyledListItemButton>
+                </StyledListItem>
+              </List>
+            </Box>
+          </Box>
+        </>
       ) : (
         <div></div>
       )}

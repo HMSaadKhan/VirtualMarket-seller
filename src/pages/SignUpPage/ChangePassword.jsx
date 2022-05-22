@@ -1,6 +1,5 @@
 import React from "react";
-import { makeStyles } from "@mui/styles";
-import { TextField, Button, Grid, Paper } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import sellerService from "../../Services/SellerServices";
 import { toast } from "react-toastify";
 import styled from "styled-components";

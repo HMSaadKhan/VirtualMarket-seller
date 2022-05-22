@@ -1,10 +1,6 @@
 import GenericService from "./GenericService";
 
 import axios from "axios";
-import jwtDecode from "jwt-decode";
-// axios.defaults.baseURL = "http://localhost:3000/api/";
-//axios.defaults.baseURL = "http://192.168.100.144:3000/api/";
-// axios.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
 
 class ProductService extends GenericService {
   constructor() {
@@ -16,8 +12,6 @@ class ProductService extends GenericService {
       axios
         .post("products/add", data)
         .then((data) => {
-          console.log("Product Post");
-          console.log(data);
           resolve(data);
         })
         .catch((err) => {
@@ -40,8 +34,6 @@ class ProductService extends GenericService {
     new Promise((resolve, reject) => {
       this.get("categories/getAll")
         .then((data) => {
-          console.log("Product Post");
-          console.log(data);
           resolve(data);
         })
         .catch((err) => {
@@ -52,8 +44,6 @@ class ProductService extends GenericService {
     new Promise((resolve, reject) => {
       this.post("buyers/upload", image)
         .then((data) => {
-          console.log("Avatar Post");
-          console.log(data);
           resolve(data);
         })
         .catch((err) => {
@@ -64,8 +54,6 @@ class ProductService extends GenericService {
     new Promise((resolve, reject) => {
       this.get("products/getAllBySeller")
         .then((data) => {
-          console.log("Get Product Post");
-          console.log(data);
           resolve(data);
         })
         .catch((err) => {
@@ -77,7 +65,6 @@ class ProductService extends GenericService {
       axios
         .get("products/getDetailsForSeller/" + _id)
         .then((data) => {
-          console.log("edit Product Post");
           resolve(data);
         })
         .catch((err) => {
@@ -89,7 +76,6 @@ class ProductService extends GenericService {
       axios
         .delete("products/del/" + _id)
         .then((data) => {
-          console.log("delete Product Post");
           resolve(data);
         })
         .catch((err) => {
@@ -102,7 +88,6 @@ class ProductService extends GenericService {
       axios
         .patch("products/deleteImage/" + _id, data)
         .then((data) => {
-          console.log("delete Product Image Post");
           resolve(data);
         })
         .catch((err) => {
@@ -115,7 +100,6 @@ class ProductService extends GenericService {
       axios
         .patch("products/addImage/" + _id, data)
         .then((data) => {
-          console.log("update Product Image Post");
           resolve(data);
         })
         .catch((err) => {

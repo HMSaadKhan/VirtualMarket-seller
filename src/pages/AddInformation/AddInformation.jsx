@@ -9,14 +9,19 @@ import {
   Select,
   MenuItem,
   FormControl,
+  Card,
+  CardContent,
   Switch,
   Typography,
 } from "@mui/material";
-import "./AddInformation.css";
 import { toast } from "react-toastify";
-
-import { Publish, Shop2standard } from "@mui/icons-material";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
+import { MarginBox } from "../../Styles/StyledBoxes";
+import { styled } from "@mui/material/styles";
+import { SingleFileUpload } from "../../Components/AddSingleFile/SingleFileUpload";
+import EmailVerification from "../../AuthWrapper/EmailVerification";
+import IsLoggedin from "../../AuthWrapper/IsLoggedin";
+
 export default function AddInformation(props) {
   const [fName, setfName] = useState("");
   const [lName, setlName] = useState("");
@@ -27,34 +32,25 @@ export default function AddInformation(props) {
   const [storeName, setStoreName] = useState("");
   const [onlinePaymentOption, setonlinePaymentOption] = useState("false");
   const [deliveryCharge, setDeliveryCharge] = useState();
-  const [avatar, setAvatar] = useState("");
-  const [avatarPreview, setAvatarPreview] = useState("");
-  const [cnicFront, setCnicFront] = useState("");
-  const [cnicBack, setCnicBack] = useState("");
-  const [loading, setloading] = useState(false);
   const [images, setImages] = useState(["1", "2", "3"]);
   const [cities, setcities] = useState([]);
-  const getVerificationdata = () => {
-    sellerService
-      .getStatus()
-      .then((data) => {
-        console.log(data);
-        if (data.infoCompleted) {
-          props.history.push("/");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  React.useEffect(getVerificationdata, []);
+  const [loading, setloading] = useState(false);
+
+  // const getVerificationdata = () => {
+  //   setloading(true);
+  //   sellerService.getStatus().then((data) => {
+  //     setloading(false);
+  //     if (data.infoCompleted) {
+  //       props.history.push("/");
+  //     }
+  //   });
+  // };
+  // useEffect(getVerificationdata, []);
+
   let temp = images;
-  const imageSet = (e, index) => {
-    console.log(index);
-    temp[index] = e.target.files[0];
-    console.log(temp);
+  const imageArray = (e, index) => {
+    temp[index] = e;
     setImages(temp);
-    console.log(images);
   };
 
   const send = () => {
@@ -80,12 +76,13 @@ export default function AddInformation(props) {
       .then((data) => {
         console.log(data);
         setloading(false);
-        toast.success("Changes Saved Successfully", {
+        toast.success(data.data, {
           position: toast.POSITION.BOTTOM_LEFT,
         });
         props.history.push("/");
       })
       .catch((err) => {
+        setloading(false);
         console.log(err.response);
         toast.error(err.response.data, {
           position: toast.POSITION.BOTTOM_LEFT,
@@ -105,185 +102,183 @@ export default function AddInformation(props) {
       });
   };
   React.useEffect(getCities, []);
+
   const selectChange = (e) => {
     setCity(e.target.value);
   };
+
   const switchChange = (event) => {
     setonlinePaymentOption(event.target.checked);
   };
+
+  const StyledButton = styled(Button)({
+    color: "#FF0000",
+    backgroundColor: "#fff",
+    marginLeft: "10px",
+    fontWeight: "bold",
+    "&:hover": {
+      backgroundColor: "#FF0002",
+      color: "#ffff",
+    },
+  });
+
   return (
-    <div className="seller">
-      <div className="sellerTitleContainer">
-        <h1 className="sellerTitle">Add Information</h1>
-      </div>
+    <IsLoggedin>
+      <EmailVerification>
+        <Box
+          sx={{
+            flex: 4,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: "5%",
+          }}
+        >
+          <LoadingScreen bool={loading} />
+          <Card sx={{ minWidth: 900, maxWidth: 900 }}>
+            <CardContent>
+              <h1>Add Information</h1>
+              <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+                <Box sx={{ width: "25%" }}>
+                  <MarginBox>
+                    <TextField
+                      value={fName}
+                      label="First Name"
+                      variant="standard"
+                      onChange={(e) => {
+                        setfName(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
+                  <MarginBox>
+                    <TextField
+                      label="CNIC"
+                      value={cnic}
+                      variant="standard"
+                      onChange={(e) => {
+                        setCnic(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
+                  <MarginBox>
+                    {" "}
+                    <TextField
+                      label="Store Name"
+                      variant="standard"
+                      value={storeName}
+                      onChange={(e) => {
+                        setStoreName(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
 
-      <div className="sellerContainer">
-        <div className="sellerUpdate">
-          <form className="sellerUpdateForm">
-            <div className="sellerUpdateLeft">
-              <div className="sellerUpdateName">
-                <LoadingScreen bool={loading} />
-                <Box
-                  component="form"
-                  sx={{
-                    "& > :not(style)": { m: 1, width: "30ch" },
-                  }}
-                  noValidate
-                  autoComplete="off"
-                >
-                  <TextField
-                    value={fName}
-                    label="First Name"
-                    variant="standard"
-                    onChange={(e) => {
-                      setfName(e.target.value);
-                    }}
-                  />
-                  <TextField
-                    label="Last Name"
-                    value={lName}
-                    variant="standard"
-                    onChange={(e) => {
-                      setlName(e.target.value);
-                    }}
-                  />
+                  <MarginBox>
+                    <TextField
+                      label="Shop Address"
+                      variant="standard"
+                      value={address}
+                      onChange={(e) => {
+                        setAddress(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
+                  <MarginBox>
+                    <FormLabel component="legend">Online Payments</FormLabel>
+                    <Switch
+                      sx={{ color: "error" }}
+                      checked={onlinePaymentOption}
+                      onChange={switchChange}
+                    />
+                  </MarginBox>
                 </Box>
-              </div>
+                <Box sx={{ width: "25%" }}>
+                  <MarginBox>
+                    <TextField
+                      label="Last Name"
+                      value={lName}
+                      variant="standard"
+                      onChange={(e) => {
+                        setlName(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
+                  <MarginBox>
+                    <TextField
+                      label="Phone No"
+                      variant="standard"
+                      value={phone}
+                      onChange={(e) => {
+                        setPhone(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
+                  <MarginBox>
+                    <FormControl sx={{ width: "100%" }}>
+                      <InputLabel variant="standard">City</InputLabel>
 
-              <div className="sellerUpdateItem">
-                <TextField
-                  label="CNIC"
-                  value={cnic}
-                  variant="standard"
-                  onChange={(e) => {
-                    setCnic(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="sellerUpdateItem">
-                <TextField
-                  label="Store Name"
-                  variant="standard"
-                  value={storeName}
-                  onChange={(e) => {
-                    setStoreName(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="sellerUpdateItem">
-                <TextField
-                  label="Shop Address"
-                  variant="standard"
-                  value={address}
-                  onChange={(e) => {
-                    setAddress(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="sellerUpdateItem">
-                <FormControl sx={{ minWidth: 120 }}>
-                  <InputLabel variant="standard">City</InputLabel>
-
-                  <Select
-                    variant="standard"
-                    value={city}
-                    onChange={(e) => {
-                      selectChange(e);
+                      <Select
+                        variant="standard"
+                        value={city}
+                        onChange={(e) => {
+                          selectChange(e);
+                        }}
+                      >
+                        {cities.map((item) => (
+                          <MenuItem key={item} value={item._id}>
+                            {item.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </MarginBox>
+                  <MarginBox>
+                    <TextField
+                      label="Delivery Charges"
+                      variant="standard"
+                      value={deliveryCharge}
+                      onChange={(e) => {
+                        setDeliveryCharge(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
+                  <MarginBox></MarginBox>
+                  <MarginBox></MarginBox>
+                </Box>
+                <Box sx={{ width: "50%" }}>
+                  <Box
+                    m={5}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                      flexWrap: "wrap",
+                      maxWidth: "80%",
                     }}
                   >
-                    {cities.map((item) => (
-                      <MenuItem key={item} value={item._id}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-
-              <div className="sellerUpdateItem">
-                <TextField
-                  label="Phone No"
-                  variant="standard"
-                  value={phone}
-                  onChange={(e) => {
-                    setPhone(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="sellerUpdateItem">
-                <FormLabel component="legend">Online Payments</FormLabel>
-                <Switch
-                  sx={{ color: "error" }}
-                  checked={onlinePaymentOption}
-                  onChange={switchChange}
-                />
-              </div>
-
-              <div className="sellerUpdateItem">
-                <TextField
-                  label="Delivery Charges"
-                  variant="standard"
-                  value={deliveryCharge}
-                  onChange={(e) => {
-                    setDeliveryCharge(e.target.value);
-                  }}
-                />
-              </div>
-            </div>
-            <div className="sellerUpdateRight">
-              <div className="sellerUpdateUpload">
-                <div>
-                  <Typography>Profile Picture</Typography>
-                  {/* <img className="sellerUpdateImg" src={avatarPreview} /> */}
-                  <>
-                    <br />
-                    <input
-                      type="file"
-                      id="file"
-                      onChange={(e) => imageSet(e, 0)}
-                    />
-                  </>
-                </div>
-              </div>
-              <div className="sellerUpdateUpload">
-                <div>
-                  <Typography>CNIC FRONT</Typography>
-                  {/* <img className="sellerCNICImg" src={cnicFront} /> */}
-                  <>
-                    <input
-                      type="file"
-                      id="file"
-                      onChange={(e) => imageSet(e, 1)}
-                    />
-                  </>
-                </div>
-                <div>
-                  <Typography>CNIC BACK</Typography>
-                  {/* <img className="sellerCNICImg" src={cnicFront} /> */}
-                  <>
-                    <input
-                      type="file"
-                      id="file"
-                      onChange={(e) => imageSet(e, 2)}
-                    />
-                  </>
-                </div>
-              </div>
-              <div>
-                <Box mt={2}>
-                  <Button variant="contained" onClick={send}>
-                    Add
-                  </Button>
+                    <MarginBox>
+                      <Typography>Profile Picture</Typography>
+                      <SingleFileUpload index={0} imageArray={imageArray} />
+                    </MarginBox>
+                    <MarginBox>
+                      <Typography>CNIC Front</Typography>
+                      <SingleFileUpload index={1} imageArray={imageArray} />
+                    </MarginBox>
+                    <MarginBox>
+                      <Typography>CNIC Back</Typography>
+                      <SingleFileUpload index={2} imageArray={imageArray} />
+                    </MarginBox>
+                  </Box>
                 </Box>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+              </Box>
+
+              <MarginBox>
+                <Button variant="contained" onClick={() => send()}>
+                  Add Information
+                </Button>
+              </MarginBox>
+            </CardContent>
+          </Card>
+        </Box>
+      </EmailVerification>
+    </IsLoggedin>
   );
 }

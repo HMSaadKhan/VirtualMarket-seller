@@ -3,35 +3,30 @@ import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import productService from "../../Services/ProductServices";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
-import ProductCard from "./ProductCard";
+import TransactionCard from "./TransactionCard";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
+import transactionServices from "../../Services/TransactionServices";
 
-const SellerProducts = () => {
+const Transactions = () => {
   const [loading, setloading] = useState(false);
   const [sellerProducts, setSellerProducts] = useState([]);
 
-  const getSellerProducts = () => {
-    setloading(true);
-    productService
-      .GetAllBySeller()
-      .then((data) => {
-        console.log(data);
-        setloading(false);
-        setSellerProducts(data);
-        console.log(sellerProducts);
-      })
-      .catch((error) => {
-        setloading(false);
-        console.log(error);
-      });
-  };
-  useEffect(getSellerProducts, []);
+  // const geSellerTransaction = () => {
+  //   setloading(true);
+  //   transactionServices
+  //     .getTransactions()
+  //     .then((data) => {
+  //       console.log(data);
+  //       setloading(false);
+  //     })
+  //     .catch((error) => {
+  //       setloading(false);
+  //       console.log(error);
+  //     });
+  // };
+  // useEffect(geSellerTransaction, []);
 
-  const handleDelete = async (_id) => {
-    await productService.deleteProduct(_id);
-    getSellerProducts();
-  };
   return (
     <IsLoggedin>
       <EmailVerification>
@@ -45,8 +40,8 @@ const SellerProducts = () => {
           }}
         >
           <LoadingScreen bool={loading} />
-
-          <ProductCard products={sellerProducts} handleDelete={handleDelete} />
+          {/* 
+          <ProductCard products={sellerProducts} /> */}
 
           <Box></Box>
         </Box>
@@ -54,4 +49,4 @@ const SellerProducts = () => {
     </IsLoggedin>
   );
 };
-export default SellerProducts;
+export default Transactions;

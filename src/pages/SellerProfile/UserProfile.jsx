@@ -18,6 +18,9 @@ import Switch from "@mui/material/Switch";
 import { toast } from "react-toastify";
 import { DisplayImage } from "../../Components/AddSingleFile/DisplayImage";
 import { styled } from "@mui/material/styles";
+import { MarginBox } from "../../Styles/StyledBoxes";
+import EmailVerification from "../../AuthWrapper/EmailVerification";
+import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 
 export default function UserProfile() {
   const [fName, setfName] = useState("");
@@ -93,23 +96,7 @@ export default function UserProfile() {
   const switchChange = (event) => {
     setonlinePaymentOption(event.target.checked);
   };
-  const StyledBox = styled(Box)({
-    margin: "10px",
-  });
-  const LeftBox = styled(Box)({});
-  const CenterBox = styled(Box)({});
-  const RightBox = styled(Box)({});
-  const Container = styled(Box)({
-    display: "flex",
-    justifyContent: "center",
-    paddingTop: "5%",
-    paddingBottom: "10%",
-    paddingLeft: "10%",
-  });
-  const InnerContainer = styled(Box)({
-    display: "flex",
-    justifyContent: "space-around",
-  });
+
   const StyledButton = styled(Button)({
     color: "#FF0000",
     backgroundColor: "#fff",
@@ -122,188 +109,201 @@ export default function UserProfile() {
   });
 
   return (
-    <Container>
-      <Card>
-        <CardContent>
-          <StyledBox>
-            <Typography
-              sx={{
-                fontSize: "20px",
-                fontWeight: "bold",
-                color: "red",
-              }}
-            >
-              Seller Profile
-            </Typography>
-          </StyledBox>
-          <InnerContainer>
-            <LeftBox>
-              <StyledBox>
-                <TextField
-                  disabled
-                  value={fName}
-                  label="First Name"
-                  variant="standard"
-                  onChange={(e) => {
-                    setfName(e.target.value);
+    <IsLoggedin>
+      <EmailVerification>
+        <Box
+          sx={{
+            flex: 4,
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: "5%",
+            paddingBottom: "10%",
+            paddingLeft: "10%",
+          }}
+        >
+          <Card>
+            <CardContent>
+              <MarginBox>
+                <Typography
+                  sx={{
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    color: "red",
                   }}
-                />
-              </StyledBox>
-              <StyledBox>
-                <TextField
-                  disabled
-                  label="CNIC"
-                  value={cnic}
-                  variant="standard"
-                  onChange={(e) => {
-                    setCnic(e.target.value);
-                  }}
-                />
-              </StyledBox>
-              <StyledBox>
-                <TextField
-                  label="Store Name"
-                  variant="standard"
-                  value={storeName}
-                  InputLabelProps={{ shrink: storeName ? true : false }}
-                  onChange={(e) => {
-                    setStoreName(e.target.value);
-                  }}
-                />
-              </StyledBox>
-              <StyledBox>
-                <TextField
-                  id="address"
-                  multiline
-                  label="Shop Address"
-                  variant="standard"
-                  value={address}
-                  InputLabelProps={{ shrink: address ? true : false }}
-                  onChange={(e) => {
-                    setAddress(e.target.value);
-                  }}
-                />
-              </StyledBox>
-              <StyledBox>
-                <FormLabel component="legend">Online Payments</FormLabel>
-                <Switch
-                  sx={{ color: "red" }}
-                  checked={onlinePaymentOption}
-                  onChange={switchChange}
-                />
-              </StyledBox>
-            </LeftBox>
-
-            <CenterBox>
-              <StyledBox>
-                <TextField
-                  disabled
-                  label="Last Name"
-                  value={lName}
-                  variant="standard"
-                  readOnly={true}
-                  onChange={(e) => {
-                    setlName(e.target.value);
-                  }}
-                />
-              </StyledBox>
-              <StyledBox>
-                <TextField
-                  label="Phone No"
-                  variant="standard"
-                  value={phone}
-                  onChange={(e) => {
-                    setPhone(e.target.value);
-                  }}
-                />
-              </StyledBox>
-              <StyledBox>
-                <FormControl sx={{ width: 200 }}>
-                  <InputLabel variant="standard">City</InputLabel>
-
-                  <Select
-                    variant="standard"
-                    value={city}
-                    onChange={(e) => {
-                      selectChange(e);
-                    }}
-                  >
-                    {cities.map((item) => (
-                      <MenuItem key={item} value={item._id}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </StyledBox>
-              <StyledBox>
-                <TextField
-                  label="Delivery Charges"
-                  variant="standard"
-                  value={deliveryCharge}
-                  onChange={(e) => {
-                    setDeliveryCharge(e.target.value);
-                  }}
-                />
-              </StyledBox>
-            </CenterBox>
-            <RightBox>
-              <StyledBox>
-                <img height="200" weight="200" src={avatar} />
-
-                <form>
-                  <>
-                    <label htmlFor="file"></label>
-                    <input
-                      type="file"
-                      id="file"
+                >
+                  Seller Profile
+                </Typography>
+              </MarginBox>
+              <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+                <Box>
+                  <MarginBox>
+                    <TextField
+                      disabled
+                      value={fName}
+                      label="First Name"
+                      variant="standard"
                       onChange={(e) => {
-                        setImage(e.target.files[0]);
+                        setfName(e.target.value);
                       }}
                     />
-                  </>
-                </form>
-              </StyledBox>
-              <StyledBox>
-                <StyledButton variant="contained" onClick={send}>
-                  Update Image
+                  </MarginBox>
+                  <MarginBox>
+                    <TextField
+                      disabled
+                      label="CNIC"
+                      value={cnic}
+                      variant="standard"
+                      onChange={(e) => {
+                        setCnic(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
+                  <MarginBox>
+                    <TextField
+                      label="Store Name"
+                      variant="standard"
+                      value={storeName}
+                      InputLabelProps={{ shrink: storeName ? true : false }}
+                      onChange={(e) => {
+                        setStoreName(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
+                  <MarginBox>
+                    <TextField
+                      id="address"
+                      multiline
+                      label="Shop Address"
+                      variant="standard"
+                      value={address}
+                      InputLabelProps={{ shrink: address ? true : false }}
+                      onChange={(e) => {
+                        setAddress(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
+                  <MarginBox>
+                    <FormLabel component="legend">Online Payments</FormLabel>
+                    <Switch
+                      sx={{ color: "red" }}
+                      checked={onlinePaymentOption}
+                      onChange={switchChange}
+                    />
+                  </MarginBox>
+                </Box>
+
+                <Box>
+                  <MarginBox>
+                    <TextField
+                      disabled
+                      label="Last Name"
+                      value={lName}
+                      variant="standard"
+                      readOnly={true}
+                      onChange={(e) => {
+                        setlName(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
+                  <MarginBox>
+                    <TextField
+                      label="Phone No"
+                      variant="standard"
+                      value={phone}
+                      onChange={(e) => {
+                        setPhone(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
+                  <MarginBox>
+                    <FormControl sx={{ width: 200 }}>
+                      <InputLabel variant="standard">City</InputLabel>
+
+                      <Select
+                        variant="standard"
+                        value={city}
+                        onChange={(e) => {
+                          selectChange(e);
+                        }}
+                      >
+                        {cities.map((item) => (
+                          <MenuItem key={item} value={item._id}>
+                            {item.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </MarginBox>
+                  <MarginBox>
+                    <TextField
+                      label="Delivery Charges"
+                      variant="standard"
+                      value={deliveryCharge}
+                      onChange={(e) => {
+                        setDeliveryCharge(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
+                </Box>
+                <Box>
+                  <MarginBox>
+                    <img height="200" weight="200" src={avatar} />
+
+                    <form>
+                      <>
+                        <label htmlFor="file"></label>
+                        <input
+                          type="file"
+                          id="file"
+                          onChange={(e) => {
+                            setImage(e.target.files[0]);
+                          }}
+                        />
+                      </>
+                    </form>
+                  </MarginBox>
+                  <MarginBox>
+                    <StyledButton variant="contained" onClick={send}>
+                      Update Image
+                    </StyledButton>
+                  </MarginBox>
+                </Box>
+              </Box>
+              <MarginBox>
+                <StyledButton
+                  variant="contained"
+                  onClick={(e) => {
+                    sellerService
+                      .editUserDetails({
+                        phone,
+                        address,
+                        city,
+                        storeName,
+                        deliveryCharge,
+                        onlinePaymentOption,
+                      })
+                      .then((data) => {
+                        console.log(data);
+                        // window.location.reload();
+                        toast.success("Changes Saved Successfully", {
+                          position: toast.POSITION.BOTTOM_LEFT,
+                        });
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                        toast.error(err.response.data, {
+                          position: toast.POSITION.BOTTOM_LEFT,
+                        });
+                      });
+                  }}
+                >
+                  Update
                 </StyledButton>
-              </StyledBox>
-            </RightBox>
-          </InnerContainer>
-          <StyledBox>
-            <StyledButton
-              variant="contained"
-              onClick={(e) => {
-                sellerService
-                  .editUserDetails({
-                    phone,
-                    address,
-                    city,
-                    storeName,
-                    deliveryCharge,
-                    onlinePaymentOption,
-                  })
-                  .then((data) => {
-                    console.log(data);
-                    // window.location.reload();
-                    toast.success("Changes Saved Successfully", {
-                      position: toast.POSITION.BOTTOM_LEFT,
-                    });
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                    toast.error(err.response.data, {
-                      position: toast.POSITION.BOTTOM_LEFT,
-                    });
-                  });
-              }}
-            >
-              Update
-            </StyledButton>
-          </StyledBox>
-        </CardContent>
-      </Card>
-    </Container>
+              </MarginBox>
+            </CardContent>
+          </Card>
+        </Box>
+      </EmailVerification>
+    </IsLoggedin>
   );
 }

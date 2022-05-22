@@ -1,32 +1,28 @@
 import React from "react";
-import "./topbar.css";
-import { NotificationsNone, AccountCircle, Settings } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 
-export default function Topbar() {
+import { AppBar, Toolbar, Typography } from "@mui/material";
+
+const Topbar = (props) => {
+  const history = useHistory();
+
   return (
-    <div className="topbar">
-      <div className="topbarWrapper">
-        <div className="topLeft">
-          <span className="logo">
-            Virtual<span className="logoinner">Market</span>
-          </span>
+    <AppBar sx={{ background: "white", zIndex: 4 }} position="fixed">
+      <Toolbar>
+        <div>
+          <Typography
+            sx={{ color: "red", fontWeight: "bold", cursor: "pointer" }}
+            variant="h6"
+            onClick={(e) => {
+              history.push("/");
+            }}
+          >
+            VirtualMarket
+          </Typography>
         </div>
-        {/* <div className="topRight">
-          <div className="topbarIconContainer">
-            <NotificationsNone />
-            <span className="topIconBadge">2</span>
-          </div>
-
-          <div className="topbarIconContainer">
-            <Settings />
-          </div>
-
-          <div className="topbarIconContainer">
-            <AccountCircle />
-          </div>
-        </div> */}
-      </div>
-    </div>
+      </Toolbar>
+    </AppBar>
   );
-}
+};
+
+export default Topbar;

@@ -3,7 +3,7 @@ import { TextField, Button, Box, Card, CardContent } from "@mui/material";
 import sellerService from "../../Services/SellerServices";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import { Container, ColumnBox } from "../../Styles/StyledBoxes";
+import { Container } from "../../Styles/StyledBoxes";
 
 const Title = styled.h1`
   font-size: 24px;
@@ -19,7 +19,7 @@ const NewPassword = (props) => {
 
   return (
     <Container>
-      <Card>
+      <Card sx={{ minWidth: 300 }}>
         <CardContent>
           <Title>New Password</Title>
 

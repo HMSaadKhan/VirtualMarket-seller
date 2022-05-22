@@ -42,6 +42,17 @@ class OrderService extends GenericService {
           reject(err);
         });
     });
+  OrdersCount = () =>
+    new Promise((resolve, reject) => {
+      axios
+        .get("orders/getOrdersCount/")
+        .then((data) => {
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
 }
 
 let orderService = new OrderService();

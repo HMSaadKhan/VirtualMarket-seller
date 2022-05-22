@@ -1,16 +1,34 @@
-import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import React from "react";
-import "./featuredinfo.css";
 
 export default function Featuredinfo({ name, num }) {
+  const Colors = (num) => {
+    if (num > 10) {
+      return "yellow";
+    }
+    if (num <= 10) {
+      return "Black";
+    }
+  };
   return (
     <Box>
       <Box sx={{ width: 250 }}>
-        <Card sx={{ maxWidth: 250, height: 150 }}>
+        <Card sx={{ maxWidth: 250, height: 120, color: "#fafafafa" }}>
           <CardContent>
-            <Typography>{name}</Typography>
-            <Typography>{num}</Typography>
+            <Typography
+              mt={2}
+              align="center"
+              sx={{ color: Colors(num), fontWeight: "bold", fontSize: "30px" }}
+            >
+              {num}
+              {name === "Current Balance" ? " $" : ""}
+            </Typography>
+            <Typography
+              align="center"
+              sx={{ color: "red", fontWeight: "bold", fontSize: "20px" }}
+            >
+              {name}
+            </Typography>
           </CardContent>
         </Card>
       </Box>

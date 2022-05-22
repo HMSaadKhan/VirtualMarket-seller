@@ -1,26 +1,12 @@
 import React, { Fragment } from "react";
-import { makeStyles } from "@mui/styles";
-import { TextField, Button, Grid, Paper, Box } from "@material-ui/core";
+import { TextField, Button, Card, CardContent, Box } from "@mui/material";
 import sellerService from "../../Services/SellerServices";
 import { toast } from "react-toastify";
-import { bgcolor } from "@mui/system";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
-
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Wrapper = styled.div`
-  width: 25%;
-  padding: 20px;
-  background-color: white;
-`;
+import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
+import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 
 const Title = styled.h1`
   font-size: 24px;
@@ -35,90 +21,122 @@ const Form = styled.form`
 
 const ForgotPassword = (props) => {
   const [otp, setOtp] = React.useState();
+  const [otpsent, setOtpsent] = React.useState(true);
+  const [loading, setloading] = React.useState(false);
   const [emailVerificationCheck, setEmailVerificationCheck] =
     React.useState("");
-  const getVerificationdata = () => {
-    sellerService
-      .getStatus()
-      .then((data) => {
-        console.log(data);
-        if (data.emailVerified) {
-          props.history.push("/add-information");
-        }
+  // const getVerificationdata = () => {
+  // setloading(true);
+  //   sellerService
+  //     .getStatus()
+  //     .then((data) => {
+  //setloading(false);
+  //       console.log(data);
+  //       if (data.emailVerified) {
+  //         props.history.push("/add-information");
+  //       }
 
-        setEmailVerificationCheck(data.emailVerified);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  React.useEffect(getVerificationdata, []);
+  //       setEmailVerificationCheck(data.emailVerified);
+  //     })
+  //     .catch((error) => {
+  //setloading(false);
+  //       console.log(error);
+  //     });
+  // };
+  // React.useEffect(getVerificationdata, []);
   const history = useHistory();
 
   return (
-    <>
+    <IsLoggedin>
+      <LoadingScreen bool={loading} />
       {emailVerificationCheck ? (
         history.push("/add-information")
       ) : (
-        <Container>
-          <Wrapper>
-            <Form>
-              <Title>Verify Your Otp</Title>
-              <TextField
-                required
-                id="filled-required"
-                label="OTP"
-                defaultValue={otp}
-                onChange={(e) => {
-                  setOtp(e.target.value);
-                }}
-              />
-            </Form>
-            <Box mt={2}>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={(e) => {
-                  sellerService
-                    .VerifyOtp({ otp })
-                    .then((data) => {
-                      console.log(data);
-                      window.location.reload();
-                    })
-                    .catch((err) => {
-                      console.log(err);
-                      toast.error(err.response.data, {
-                        position: toast.POSITION.BOTTOM_LEFT,
-                      });
-                    });
-                }}
-              >
-                Verify{" "}
-              </Button>
+        <Box
+          sx={{
+            width: "100%",
+            height: "100%",
+            paddingTop: "200px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Card sx={{ minWidth: 300 }}>
+            <CardContent>
+              <Form>
+                <Title>Verify Your Otp</Title>
+                <Box mt={2} mb={2}>
+                  <Button
+                    variant="contained"
+                    onClick={(e) => {
+                      setOtpsent(true);
+                      setloading(true);
+                      sellerService
+                        .verificationOTP()
+                        .then((data) => {
+                          setOtpsent(false);
+                          setloading(false);
+                          toast.success(data.data, {
+                            position: toast.POSITION.BOTTOM_LEFT,
+                          });
+                        })
+                        .catch((err) => {
+                          setloading(false);
+                          toast.error(err.response.data, {
+                            position: toast.POSITION.BOTTOM_LEFT,
+                          });
+                        });
+                    }}
+                  >
+                    Send Otp{" "}
+                  </Button>
+                </Box>
+                <Box>
+                  <TextField
+                    autoFocus
+                    required
+                    id="filled-required"
+                    label="OTP"
+                    defaultValue={otp}
+                    onChange={(e) => {
+                      setOtp(e.target.value);
+                    }}
+                  />
+                </Box>
+              </Form>
               <Box mt={2}>
                 <Button
-                  variant="outlined"
+                  disabled={otpsent}
+                  variant="contained"
                   color="primary"
                   onClick={(e) => {
+                    setloading(true);
                     sellerService
-                      .verificationOTP()
+                      .VerifyOtp({ otp })
                       .then((data) => {
                         console.log(data);
+                        setloading(false);
+                        window.location.reload();
                       })
                       .catch((err) => {
+                        setloading(false);
                         console.log(err);
+                        toast.error(err.response.data, {
+                          position: toast.POSITION.BOTTOM_LEFT,
+                        });
                       });
                   }}
                 >
-                  Send Otp{" "}
+                  Verify{" "}
                 </Button>
               </Box>
-            </Box>
-            <br />
-          </Wrapper>
-        </Container>
+              <br />
+            </CardContent>
+          </Card>
+        </Box>
       )}
-    </>
+    </IsLoggedin>
   );
 };
 

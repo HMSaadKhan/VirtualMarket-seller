@@ -35,12 +35,20 @@ const theme = createTheme({
       defaultProps: {
         size: "small",
         variant: "standard",
+        fullWidth: "true",
+        
       },
     },
     MuiMenuItem: {
       defaultProps: {
         divider: "true",
       },
+    },
+    MuiListItem: {
+      height: "30px",
+    },
+    MuiListItemButton: {
+      height: "30px",
     },
   },
 });

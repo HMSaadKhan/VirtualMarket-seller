@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
   TextField,
   Button,
@@ -12,15 +12,41 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import LoginAuth from "../../AuthWrapper/LoginAuth";
 import { styled } from "@mui/material/styles";
+import { VerifyContext } from "../../Contexts/Verification/Verify";
+import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 
 const Title = styled(Typography)({ fontSize: "24px", fontWeight: "bold" });
 
 const Login = (props) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [emailVerified, setEmailVerified] = useState();
+  const [infoCompleted, setinfoCompleted] = useState();
+  const [loading, setloading] = useState(false);
+
+  const Login = () => {
+    setloading(true);
+    sellerService
+      .login(email, password)
+      .then((data) => {
+        console.log(data);
+
+        window.location.href = "/";
+        toast.success("Login Successfull", {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      })
+      .catch((err) => {
+        setloading(false);
+        toast.error(err.response.data, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      });
+  };
 
   return (
     <LoginAuth>
+      <LoadingScreen bool={loading} />
       <Box
         sx={{
           marginLeft: "40%",
@@ -60,21 +86,7 @@ const Login = (props) => {
                   sx={{ width: "100%" }}
                   variant="contained"
                   onClick={(e) => {
-                    sellerService
-                      .login(email, password)
-                      .then((data) => {
-                        console.log(data);
-                        props.history.push("/emailverification");
-                        window.location.reload();
-                        toast.success("Login Successfull", {
-                          position: toast.POSITION.BOTTOM_LEFT,
-                        });
-                      })
-                      .catch((err) => {
-                        toast.error(err.response.data, {
-                          position: toast.POSITION.BOTTOM_LEFT,
-                        });
-                      });
+                    Login();
                   }}
                 >
                   LOGIN
