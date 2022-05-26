@@ -6,7 +6,9 @@ class TransactionServices extends GenericService {
   constructor() {
     super();
   }
-  geTransactions = () => axios.get("transactions/getBySeller/");
+  getCash = () => axios.get("transactions/getBySeller/");
+  withdrawRequest = (data) =>
+    axios.post("transactions/requestWithdrawal", data);
 }
 let transactionServices = new TransactionServices();
 export default transactionServices;

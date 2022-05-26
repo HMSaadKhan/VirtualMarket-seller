@@ -6,8 +6,11 @@ import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import ProductCard from "./ProductCard";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
+import { Container } from "../../Styles/StyledBoxes";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
 
-const SellerProducts = () => {
+const SellerProducts = (props) => {
   const [loading, setloading] = useState(false);
   const [sellerProducts, setSellerProducts] = useState([]);
 
@@ -16,10 +19,8 @@ const SellerProducts = () => {
     productService
       .GetAllBySeller()
       .then((data) => {
-        console.log(data);
         setloading(false);
         setSellerProducts(data);
-        console.log(sellerProducts);
       })
       .catch((error) => {
         setloading(false);
@@ -37,18 +38,26 @@ const SellerProducts = () => {
       <EmailVerification>
         <Box
           sx={{
-            flex: 4,
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
-            paddingTop: "1%",
+            paddingTop: "5%",
+            paddingBottom: "5%",
+            paddingLeft: "200px",
           }}
         >
+          <Fab
+            color="primary"
+            aria-label="add"
+            sx={{ position: "fixed", bottom: 16, right: "1%" }}
+            onClick={(e) => {
+              props.history.push("/addProduct");
+            }}
+          >
+            <AddIcon />
+          </Fab>
           <LoadingScreen bool={loading} />
 
           <ProductCard products={sellerProducts} handleDelete={handleDelete} />
-
-          <Box></Box>
         </Box>
       </EmailVerification>
     </IsLoggedin>

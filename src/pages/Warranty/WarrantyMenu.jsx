@@ -37,30 +37,15 @@ export default function WarrantyMenu() {
     <Box
       sx={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}
     >
-      <Card sx={{ display: "flex", justifyContent: "space-between" }}>
-        <CardContent>
-          {orderStatus.map((status) => {
-            return (
-              <Button
-                sx={{
-                  color: "#FF0000",
-                  backgroundColor: "#fff",
-                  marginLeft: "10px",
-                  fontWeight: "bold",
-                  "&:hover": {
-                    backgroundColor: "#FF0002",
-                    color: "#ffff",
-                  },
-                }}
-                onClick={(e) => {
-                  history.push("/orders/" + status);
-                }}
-              >
-                {status}
-              </Button>
-            );
-          })}
-        </CardContent>
+      <Card
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          minWidth: 500,
+          maxWidth: 500,
+        }}
+      >
+        <CardContent>Warranties</CardContent>
       </Card>
     </Box>
   );

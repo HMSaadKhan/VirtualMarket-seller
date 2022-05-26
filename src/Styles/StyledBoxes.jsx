@@ -6,6 +6,9 @@ export const Container = styled(Box)({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  width: "100%",
+  paddingTop: "5%",
+  marginLeft: "100px",
 });
 export const ColumnBox = styled(Box)({
   display: "flex",

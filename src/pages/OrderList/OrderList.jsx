@@ -6,6 +6,7 @@ import OrderMenu from "./OrderMenu";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
+import { Container } from "../../Styles/StyledBoxes";
 
 export default function OrderList(props) {
   console.log(props);
@@ -60,31 +61,31 @@ export default function OrderList(props) {
   return (
     <IsLoggedin>
       <EmailVerification>
-        <Box
-          sx={{
-            flex: 4,
-          }}
-        >
-          <LoadingScreen bool={loading} />
+        <Container>
           <Box>
-            <OrderMenu />
+            <LoadingScreen bool={loading} />
+            <Box>
+              <OrderMenu />
+            </Box>
+            <Box>
+              {orderDetails.length > 0 ? (
+                <>
+                  {orderDetails.map((order) => (
+                    <OrderComponent
+                      order={order}
+                      key={order._id}
+                      ChangeOrderStatus={ChangeOrderStatus}
+                    />
+                  ))}
+                </>
+              ) : (
+                <Typography sx={{ marginTop: "200px", marginLeft: "250px" }}>
+                  No Orders
+                </Typography>
+              )}
+            </Box>
           </Box>
-          <Box>
-            {orderDetails.length > 0 ? (
-              <>
-                {orderDetails.map((order) => (
-                  <OrderComponent
-                    order={order}
-                    key={order._id}
-                    ChangeOrderStatus={ChangeOrderStatus}
-                  />
-                ))}
-              </>
-            ) : (
-              <Typography sx={{ marginTop: "200px" }}>No Orders</Typography>
-            )}
-          </Box>
-        </Box>
+        </Container>
       </EmailVerification>
     </IsLoggedin>
   );

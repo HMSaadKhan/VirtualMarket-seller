@@ -10,12 +10,14 @@ import { makeStyles } from "@material-ui/styles";
 import { styled } from "@mui/material/styles";
 import CancelIcon from "@mui/icons-material/Cancel";
 import warrantyServices from "../../Services/WarrantyServices";
+import { NameBar } from "../../Styles/NameBar";
+import { MarginBox } from "../../Styles/StyledBoxes";
 
 const StyledButton = styled(Button)({});
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 500,
+    width: 300,
   },
 }));
 
@@ -49,26 +51,7 @@ export default function WarrantyComment({
   return (
     <div>
       <Dialog open={bool} onClose={handleClose}>
-        <Box
-          sx={{
-            height: "40px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <DialogTitle id="responsive-dialog-title"></DialogTitle>
-          <Box>
-            <CancelIcon
-              onClick={(e) => {
-                setbool(false);
-              }}
-            >
-              Close
-            </CancelIcon>
-          </Box>
-        </Box>
-
+        <NameBar name={"Comment"} />
         <DialogContent>
           <div className={classes.root}>
             <Box>
@@ -83,7 +66,17 @@ export default function WarrantyComment({
               />
             </Box>
             <Box sx={{ display: "flex", justifyContent: "right" }}>
-              <StyledButton onClick={respond}>keep</StyledButton>
+              <MarginBox>
+                {" "}
+                <StyledButton variant="contained" onClick={respond}>
+                  Claim
+                </StyledButton>
+              </MarginBox>
+              <MarginBox>
+                <StyledButton variant="contained" onClick={handleClose}>
+                  Cancel
+                </StyledButton>
+              </MarginBox>
             </Box>
           </div>
         </DialogContent>

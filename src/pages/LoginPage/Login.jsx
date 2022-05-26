@@ -14,14 +14,12 @@ import LoginAuth from "../../AuthWrapper/LoginAuth";
 import { styled } from "@mui/material/styles";
 import { VerifyContext } from "../../Contexts/Verification/Verify";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
-
+import { Container } from "../../Styles/StyledBoxes";
 const Title = styled(Typography)({ fontSize: "24px", fontWeight: "bold" });
 
 const Login = (props) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [emailVerified, setEmailVerified] = useState();
-  const [infoCompleted, setinfoCompleted] = useState();
   const [loading, setloading] = useState(false);
 
   const Login = () => {
@@ -49,8 +47,10 @@ const Login = (props) => {
       <LoadingScreen bool={loading} />
       <Box
         sx={{
-          marginLeft: "40%",
-          marginTop: "10%",
+          display: "flex",
+          justifyContent: "center",
+          paddingTop: "10%",
+          paddingBottom: "5%",
         }}
       >
         <Card sx={{ maxWidth: 300, padding: "20px" }}>

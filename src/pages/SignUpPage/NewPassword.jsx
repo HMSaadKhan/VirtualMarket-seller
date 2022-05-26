@@ -18,7 +18,14 @@ const NewPassword = (props) => {
   const _id = props.match.params.id;
 
   return (
-    <Container>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        paddingTop: "15%",
+        paddingBottom: "5%",
+      }}
+    >
       <Card sx={{ minWidth: 300 }}>
         <CardContent>
           <Title>New Password</Title>
@@ -65,7 +72,7 @@ const NewPassword = (props) => {
           </Box>
         </CardContent>
       </Card>
-    </Container>
+    </Box>
   );
 };
 

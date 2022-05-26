@@ -126,7 +126,6 @@ class SellerServices extends GenericService {
     new Promise((resolve, reject) => {
       this.get("sellers/getStatus")
         .then((data) => {
-          console.log("get Status");
           resolve(data);
         })
         .catch((err) => {
@@ -137,8 +136,6 @@ class SellerServices extends GenericService {
     new Promise((resolve, reject) => {
       this.post("sellers/editAvatar", image)
         .then((data) => {
-          console.log("Avatar Post");
-          console.log(data);
           resolve(data);
         })
         .catch((err) => {
@@ -149,8 +146,6 @@ class SellerServices extends GenericService {
     new Promise((resolve, reject) => {
       this.post("products/add", data)
         .then((data) => {
-          console.log("Product Post");
-          console.log(data);
           resolve(data);
         })
         .catch((err) => {
@@ -163,7 +158,6 @@ class SellerServices extends GenericService {
       axios
         .patch("sellers/addDetails", files)
         .then((data) => {
-          console.log("Details Post");
           resolve(data);
         })
         .catch((err) => {
@@ -174,14 +168,13 @@ class SellerServices extends GenericService {
     new Promise((resolve, reject) => {
       this.get("cities/getAll")
         .then((data) => {
-          console.log("Cities Get");
-          console.log(data);
           resolve(data);
         })
         .catch((err) => {
           reject(err);
         });
     });
+  GetBalance = () => axios.get("sellers/getBalance/");
 }
 let sellerServices = new SellerServices();
 export default sellerServices;

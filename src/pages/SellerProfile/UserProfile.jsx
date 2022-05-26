@@ -18,9 +18,10 @@ import Switch from "@mui/material/Switch";
 import { toast } from "react-toastify";
 import { DisplayImage } from "../../Components/AddSingleFile/DisplayImage";
 import { styled } from "@mui/material/styles";
-import { MarginBox } from "../../Styles/StyledBoxes";
+import { Container, MarginBox } from "../../Styles/StyledBoxes";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
+import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 
 export default function UserProfile() {
   const [fName, setfName] = useState("");
@@ -35,8 +36,10 @@ export default function UserProfile() {
   const [avatar, setAvatar] = useState();
   const [image, setImage] = useState();
   const [cities, setcities] = useState([]);
+  const [loading, setloading] = useState(false);
 
   React.useEffect(() => {
+    setloading(true);
     sellerService
       .getUserDetails()
       .then((data) => {
@@ -51,27 +54,28 @@ export default function UserProfile() {
         setDeliveryCharge(data.deliveryCharge);
         setonlinePaymentOption(data.onlinePaymentOption);
         setAvatar(data.avatar.link);
+        setloading(false);
       })
       .catch((err) => {
+        setloading(false);
         console.log(err);
       });
   }, []);
   const send = async (event) => {
-    console.log(avatar);
+    setloading(true);
     const data = new FormData();
     data.append("image", image);
-    console.log(data);
     await sellerService
       .AddAvatar(data)
       .then((data) => {
-        console.log(data);
+        setloading(false);
         window.location.reload();
-        toast.success("Changes Image   Successfully", {
+        toast.success(data.data, {
           position: toast.POSITION.BOTTOM_LEFT,
         });
       })
       .catch((err) => {
-        console.log(err);
+        setloading(false);
         toast.error(err.response.data, {
           position: toast.POSITION.BOTTOM_LEFT,
         });
@@ -111,16 +115,8 @@ export default function UserProfile() {
   return (
     <IsLoggedin>
       <EmailVerification>
-        <Box
-          sx={{
-            flex: 4,
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: "5%",
-            paddingBottom: "10%",
-            paddingLeft: "10%",
-          }}
-        >
+        <LoadingScreen bool={loading} />
+        <Container>
           <Card>
             <CardContent>
               <MarginBox>
@@ -302,7 +298,7 @@ export default function UserProfile() {
               </MarginBox>
             </CardContent>
           </Card>
-        </Box>
+        </Container>
       </EmailVerification>
     </IsLoggedin>
   );

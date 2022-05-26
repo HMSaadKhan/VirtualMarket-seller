@@ -5,7 +5,6 @@ import { withRouter } from "react-router-dom";
 const Emailverification = (props) => {
   React.useEffect(() => {
     sellerService.getStatus().then((data) => {
-      console.log(data);
       if (!data.emailVerified) {
         props.history.push("/emailverification");
       }

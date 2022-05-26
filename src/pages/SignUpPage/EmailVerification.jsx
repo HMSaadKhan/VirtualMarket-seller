@@ -117,7 +117,7 @@ const ForgotPassword = (props) => {
                       .then((data) => {
                         console.log(data);
                         setloading(false);
-                        window.location.reload();
+                        window.location.href = "/";
                       })
                       .catch((err) => {
                         setloading(false);

@@ -16,6 +16,7 @@ const Colors = {
   dove_gray: "#d5d5d5",
   body_bg: "#f3f6f9",
   buyerSite: "#ba6a62",
+  AdminSite: "#85ADBE",
   ///////////////
   // Solid Color
   ///////////////
@@ -36,7 +37,6 @@ const theme = createTheme({
         size: "small",
         variant: "standard",
         fullWidth: "true",
-        
       },
     },
     MuiMenuItem: {
@@ -50,6 +50,7 @@ const theme = createTheme({
     MuiListItemButton: {
       height: "30px",
     },
+   
   },
 });
 export default theme;

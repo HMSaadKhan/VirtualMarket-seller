@@ -4,7 +4,7 @@ import React from "react";
 export default function Featuredinfo({ name, num }) {
   const Colors = (num) => {
     if (num > 10) {
-      return "yellow";
+      return "Black";
     }
     if (num <= 10) {
       return "Black";
@@ -12,26 +12,27 @@ export default function Featuredinfo({ name, num }) {
   };
   return (
     <Box>
-      <Box sx={{ width: 250 }}>
-        <Card sx={{ maxWidth: 250, height: 120, color: "#fafafafa" }}>
-          <CardContent>
-            <Typography
-              mt={2}
-              align="center"
-              sx={{ color: Colors(num), fontWeight: "bold", fontSize: "30px" }}
-            >
-              {num}
-              {name === "Current Balance" ? " $" : ""}
-            </Typography>
-            <Typography
-              align="center"
-              sx={{ color: "red", fontWeight: "bold", fontSize: "20px" }}
-            >
-              {name}
-            </Typography>
-          </CardContent>
-        </Card>
-      </Box>
+      <Card
+        sx={{ maxWidth: 250, minWidth: 250, height: 120, color: "#fafafafa" }}
+      >
+        <CardContent>
+          <Typography
+            mt={2}
+            align="center"
+            sx={{ color: Colors(num), fontWeight: "bold", fontSize: "30px" }}
+          >
+            {name === "Current Balance" ? "PKR " : ""}
+            {num}
+          
+          </Typography>
+          <Typography
+            align="center"
+            sx={{ color: "red", fontWeight: "bold", fontSize: "20px" }}
+          >
+            {name}
+          </Typography>
+        </CardContent>
+      </Card>
     </Box>
   );
 }

@@ -30,11 +30,11 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
 
   const ButtonLabel = () => {
     if (order.status === "PLACED") {
-      setbuttonLabel("PACKAGING");
+      setbuttonLabel("proceed to PACKAGING");
       setindex(1);
     }
     if (order.status === "PACKAGING") {
-      setbuttonLabel("SHIPPING");
+      setbuttonLabel("proceed to SHIPPING");
       setindex(2);
     }
     if (order.status === "SHIPPING") {
@@ -59,15 +59,7 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
   });
 
   return (
-    <Box
-      m={3}
-      sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <Box m={3}>
       <Card sx={{ maxwidth: 800, minWidth: 800, height: "80%" }}>
         <CardContent>
           <Card>
@@ -140,7 +132,7 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
                 <FlexBox>
                   <Typography className={classes.heading}>Sub Total</Typography>
                   <Typography className={classes.text}>
-                    {order.subTotal}
+                    PKR. {order.subTotal}
                   </Typography>
                 </FlexBox>
                 <FlexBox>
@@ -148,14 +140,14 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
                     Delivery Charge
                   </Typography>
                   <Typography className={classes.text}>
-                    {order.deliveryCharge}
+                    PKR. {order.deliveryCharge}
                   </Typography>
                 </FlexBox>
                 <Divider />
                 <FlexBox>
                   <Typography className={classes.heading}>Total</Typography>
                   <Typography className={classes.text}>
-                    {order.total}
+                    PKR.{order.total}
                   </Typography>
                 </FlexBox>
               </CardContent>

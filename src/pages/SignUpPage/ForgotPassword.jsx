@@ -23,7 +23,14 @@ const ForgotPassword = (props) => {
   return (
     <LoginAuth>
       <LoadingScreen bool={loading} />
-      <Container>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          paddingTop: "15%",
+          paddingBottom: "5%",
+        }}
+      >
         <Card sx={{ minWidth: 350 }}>
           <CardContent>
             <ColumnBox>
@@ -40,6 +47,7 @@ const ForgotPassword = (props) => {
             </ColumnBox>
             <Box mt={2}>
               <Button
+                sx={{ width: "100%" }}
                 variant="contained"
                 onClick={(e) => {
                   setloading(true);
@@ -49,7 +57,7 @@ const ForgotPassword = (props) => {
                       setloading(false);
                       console.log(data._id);
                       history.push("/resetPassword/" + data._id);
-                      toast.success(data.data, {
+                      toast.success(data.message, {
                         position: toast.POSITION.BOTTOM_LEFT,
                       });
                     })
@@ -62,14 +70,14 @@ const ForgotPassword = (props) => {
                     });
                 }}
               >
-                Send Email
+                Send Otp
               </Button>
             </Box>
           </CardContent>
         </Card>
 
         <br />
-      </Container>
+      </Box>
     </LoginAuth>
   );
 };

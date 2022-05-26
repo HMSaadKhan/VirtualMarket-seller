@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 import productService from "../../Services/ProductServices";
 import { DisplayImage } from "../../Components/AddSingleFile/DisplayImage";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
-import { MarginBox } from "../../Styles/StyledBoxes";
+import { Container, MarginBox } from "../../Styles/StyledBoxes";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 
@@ -167,16 +167,8 @@ export default function Productupdate(props) {
   return (
     <IsLoggedin>
       <EmailVerification>
-        <Box
-          sx={{
-            flex: 4,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingTop: "5%",
-          }}
-        >
-          <LoadingScreen bool={loading} />
+        <LoadingScreen bool={loading} />
+        <Container>
           <Card sx={{ minWidth: 1000, maxWidth: 1000 }}>
             <CardContent>
               <h1>Update Product</h1>
@@ -209,7 +201,7 @@ export default function Productupdate(props) {
                   <MarginBox>
                     {" "}
                     <TextField
-                      label="Quantity"
+                      label="Min. Order Quantity"
                       type="number"
                       variant="standard"
                       placeholder="e.g. 10"
@@ -376,7 +368,7 @@ export default function Productupdate(props) {
               </MarginBox>
             </CardContent>
           </Card>
-        </Box>
+        </Container>
       </EmailVerification>
     </IsLoggedin>
   );

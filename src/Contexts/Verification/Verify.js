@@ -9,7 +9,7 @@ const Verify = (props) => {
   useEffect(() => {
     sellerService.getStatus().then((data) => {
       console.log(data);
-      
+
       setEmailVerified(data.emailVerified);
       setinfoCompleted(data.infoCompleted);
     });
@@ -17,7 +17,6 @@ const Verify = (props) => {
 
   return (
     <>
-      {console.log(emailVerified)}
       // eslint-disable-next-line react/jsx-pascal-case
       <VerifyContext.Provider value={{ emailVerified, infoCompleted }}>
         {props.children}

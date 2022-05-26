@@ -154,7 +154,7 @@ export default function AddProduct(props) {
                   <MarginBox>
                     {" "}
                     <TextField
-                      label="Quantity"
+                      label="Min. Order Quantity"
                       type="number"
                       variant="standard"
                       placeholder="e.g. 10"

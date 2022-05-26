@@ -12,13 +12,13 @@ const orderStatus = [
   "SHIPPING",
   "DELIVERED",
   "RETURNED",
-  "CANCELED",
+  
 ];
 export default function OrderMenu() {
   const history = useHistory();
 
   return (
-    <Box sx={{ marginTop: "100px", display: "flex", justifyContent: "center" }}>
+    <Box sx={{  display: "flex", justifyContent: "center" }}>
       <Box>
         <Card
           sx={{

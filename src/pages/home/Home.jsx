@@ -8,6 +8,8 @@ import { styled } from "@mui/material/styles";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import { VerifyContext } from "../../Contexts/Verification/Verify";
 import sellerService from "../../Services/SellerServices";
+import { Container } from "../../Styles/StyledBoxes";
+import sellerServices from "../../Services/SellerServices";
 
 export const MarginBox = styled(Box)({
   margin: "20px",
@@ -16,9 +18,9 @@ export default function Home(props) {
   const [completedOrder, setcompletedOrder] = useState(0);
   const [pendingOrder, setpendingOrder] = useState(0);
   const [newOrder, setnewOrder] = useState(0);
+  const [Balance, setBalance] = useState(0);
   const [loading, setloading] = useState(false);
-  const infoCompleted = useContext(VerifyContext);
-  console.log(infoCompleted);
+
   useEffect(() => {
     setloading(true);
     orderService.OrdersCount().then((data) => {
@@ -28,18 +30,34 @@ export default function Home(props) {
       setloading(false);
     });
   }, []);
+  useEffect(() => {
+    setloading(true);
+    sellerService.GetBalance().then((data) => {
+      console.log(data.data.balance);
+      setBalance(data.data.balance);
+      setloading(false);
+    });
+  }, []);
 
   return (
     <IsLoggedin>
       <EmailVerification>
         <LoadingScreen bool={loading} />
-        <Box sx={{ flex: 4 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: "5%",
+            paddingBottom: "5%",
+            marginLeft: "200px",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              paddingTop: "5%",
+              flexWrap: "wrap",
             }}
           >
             <MarginBox>
@@ -52,7 +70,7 @@ export default function Home(props) {
               <Featuredinfo name={"Completed Orders"} num={completedOrder} />
             </MarginBox>
             <MarginBox>
-              <Featuredinfo name={"Current Balance"} num={"10"} />
+              <Featuredinfo name={"Current Balance"} num={Balance} />
             </MarginBox>
           </Box>
         </Box>

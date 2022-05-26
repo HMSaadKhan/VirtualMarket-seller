@@ -1,5 +1,4 @@
 import React from "react";
-import "./sidebar.css";
 import { useHistory, Link } from "react-router-dom";
 import sellerService from "../../Services/SellerServices";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
@@ -8,7 +7,7 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import BuildIcon from "@mui/icons-material/Build";
 import ReceiptIcon from "@mui/icons-material/Receipt";
-import { AccountBox, Home, Settings } from "@mui/icons-material";
+import { AccountBox, Home } from "@mui/icons-material";
 import {
   Box,
   List,
@@ -32,20 +31,16 @@ const StyledTypography = styled(Typography)({
 
 export default function Sidebar(props) {
   const history = useHistory();
-  const [Ordersopen, setOrderOpen] = React.useState(false);
-  const [Warrantyopen, setWarrantyOpen] = React.useState(false);
   console.log(history);
-  const handleClick = () => {
-    setOrderOpen(!Ordersopen);
-  };
-  const WarrantyClick = () => {
-    setWarrantyOpen(!Warrantyopen);
+
+  const direct = () => {
+    window.location.href = "/login";
   };
   return (
     <>
       {sellerService.isLoggedIn() ? (
         <>
-          <Box sx={{ width: "400px" }}>
+          <Box sx={{ width: "300px" }}>
             <Box
               position="fixed"
               sx={{
@@ -128,8 +123,8 @@ export default function Sidebar(props) {
                   <StyledListItemButton
                     onClick={() => {
                       sellerService.logout();
-                      history.push("/Login");
-                      window.location.reload();
+
+                      setTimeout(direct, 1000);
                     }}
                   >
                     <ListItemIcon>

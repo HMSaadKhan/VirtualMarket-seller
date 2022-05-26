@@ -11,7 +11,8 @@ import { Button, Typography } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
 import productService from "../../Services/ProductServices";
 import { useHistory } from "react-router-dom";
-
+import { ColumnBox, Container, MarginBox } from "../../Styles/StyledBoxes";
+import { WhiteButton } from "../../Styles/StyledButtons";
 const useStyles = makeStyles((theme) => ({
   images: {
     width: "70px",
@@ -21,6 +22,19 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "cover",
   },
 }));
+
+const HeadingText = styled(Typography)({
+  fontSize: "15px",
+  fontWeight: "bold",
+  color: "red",
+});
+const SubText = styled(Typography)({
+  fontSize: "18px",
+  color: "black",
+});
+const FlexBox = styled(Box)({
+  display: "flex",
+});
 
 export default function ProductInformation(props) {
   const history = useHistory();
@@ -36,6 +50,7 @@ export default function ProductInformation(props) {
   const [price, setPrice] = useState();
   const [selectedImages, setSelectedImages] = useState([]);
   const [categories, setCategories] = useState([]);
+  // const [imageIndex, setImageIndex] = useState(0);
 
   const _id = props.match.params.id;
   const temp = useRef();
@@ -74,145 +89,115 @@ export default function ProductInformation(props) {
   React.useEffect(getCategories, []);
 
   return (
-    <Card sx={{ height: "100%", marginLeft: "15%", marginTop: "30px" }}>
-      <Button
+    <Container>
+      <Card
         sx={{
-          color: "#FF0000",
-          backgroundColor: "#fff",
-          marginLeft: "10px",
-          fontWeight: "bold",
-          "&:hover": {
-            backgroundColor: "#FF0002",
-            color: "#ffff",
-          },
-        }}
-        onClick={() => {
-          history.push("/editDetails/" + _id);
+          minWidth: 1000,
+          maxWidth: 1000,
         }}
       >
-        Edit
-      </Button>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Box m={3}>
-          <Box>
-            <Typography
-              m={1}
-              sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
-            >
-              Name
-            </Typography>
-            <Typography m={1} sx={{ fontSize: "15px" }}>
-              {name}
-            </Typography>
-            <Typography
-              m={1}
-              sx={{ fontSize: "20px", fontWeight: "bold", color: "red" }}
-            >
-              PKR. {price}
-            </Typography>
-          </Box>
+        <WhiteButton
+          onClick={() => {
+            history.push("/editDetails/" + _id);
+          }}
+        >
+          Edit
+        </WhiteButton>
 
-          <Box>
-            <Typography
-              m={1}
-              sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
-            >
-              Brand
-            </Typography>
-            <Typography m={1} sx={{ color: "secondary" }}>
-              {brand}
-            </Typography>
-            <Typography
-              m={1}
-              sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
-            >
-              Mininum Order Quantity
-            </Typography>
-            <Typography m={1} sx={{ color: "secondary" }}>
-              {minOrder}
-            </Typography>
-            <Box sx={{ display: "flex" }}>
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Typography
-                  m={1}
-                  sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
-                >
-                  Category
-                </Typography>
-                <Typography m={1} sx={{ color: "secondary" }}>
-                  {category}
-                </Typography>
-              </Box>
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Typography
-                  m={1}
-                  sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
-                >
-                  Sample Order
-                </Typography>
-                <Typography m={1} sx={{ color: "secondary" }}>
-                  {sampleOrder ? <>Yes</> : <>No</>}
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-
-          <Box sx={{ display: "flex" }}>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography
-                m={1}
-                sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
-              >
-                Warranty Period
-              </Typography>
-              <Typography m={1} sx={{ color: "secondary" }}>
-                {warrantyPeriod}
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography
-                m={1}
-                sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
-              >
-                Available Stock
-              </Typography>
-              <Typography m={1} sx={{ color: "secondary" }}>
-                {stock} pieces
-              </Typography>
-            </Box>
-          </Box>
-          <Box sx={{ height: "150px", width: "auto" }}>
-            <Typography
-              m={1}
-              sx={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
-            >
-              Description
-            </Typography>
-            <Typography m={1}>{description}</Typography>
-          </Box>
-        </Box>
-        <Box m={2}>
-          <Box
-            mt={5}
-            sx={{ display: "flex", flexDirection: "row", flexwrap: "wrap" }}
+        <Box>
+          <MarginBox>
+            <SubText sx={{ fontSize: "30px" }}>{name}</SubText>
+          </MarginBox>
+          <FlexBox
+            sx={{
+              justifyContent: "space-around",
+            }}
           >
-            {selectedImages.map((item) => {
-              return (
-                <Box mr={2}>
-                  <img
-                    width="80px"
-                    height="100px"
-                    background-size="cover"
-                    src={item.link}
-                    alt={item.title}
-                    loading="lazy"
-                  />
-                </Box>
-              );
-            })}
-          </Box>
+            <ColumnBox sx={{ width: "33%" }}>
+              <ColumnBox>
+                <MarginBox>
+                  <HeadingText>Brand</HeadingText>
+                  <SubText>{brand}</SubText>
+                </MarginBox>
+              </ColumnBox>
+              <ColumnBox>
+                <MarginBox>
+                  <HeadingText>Price</HeadingText>
+                  <SubText>PKR.{price}</SubText>
+                </MarginBox>
+              </ColumnBox>
+              <ColumnBox>
+                <MarginBox>
+                  <HeadingText>Min. Order Quantity</HeadingText>
+                  <SubText>{minOrder} Piece</SubText>
+                </MarginBox>
+              </ColumnBox>
+              <ColumnBox>
+                <MarginBox>
+                  <HeadingText>Category</HeadingText>
+                  <SubText>{category}</SubText>
+                </MarginBox>
+              </ColumnBox>
+              <ColumnBox>
+                <MarginBox>
+                  <HeadingText>Description</HeadingText>
+                  <SubText>{description}</SubText>
+                </MarginBox>
+              </ColumnBox>
+            </ColumnBox>
+            <Box sx={{ width: "33%" }}>
+              <ColumnBox>
+                <MarginBox>
+                  <HeadingText>Stock</HeadingText>
+                  <SubText>{stock} pieces</SubText>
+                </MarginBox>
+              </ColumnBox>
+              <ColumnBox>
+                <MarginBox>
+                  <HeadingText>Warranty</HeadingText>
+                  <SubText>{warrantyPeriod} Days</SubText>
+                </MarginBox>
+              </ColumnBox>
+              <ColumnBox>
+                <MarginBox>
+                  <HeadingText>Sample Orders</HeadingText>
+                  <SubText>{sampleOrder ? <>Yes</> : <>No</>}</SubText>
+                </MarginBox>
+              </ColumnBox>
+            </Box>
+
+            <ColumnBox
+              sx={{
+                width: "34%",
+                flexDirection: "row",
+                flexWrap: "wrap",
+              }}
+            >
+              {selectedImages.map((item) => {
+                return (
+                  <Box
+                    key={item._id}
+                    m={1}
+                    onClick={(e) => {
+                      console.log("imageClick");
+                      window.open(item.link, "");
+                    }}
+                  >
+                    <img
+                      width="150px"
+                      height="150px"
+                      background-size="cover"
+                      src={item.link}
+                      alt={item.title}
+                      loading="lazy"
+                    />
+                  </Box>
+                );
+              })}
+            </ColumnBox>
+          </FlexBox>
         </Box>
-      </Box>
-    </Card>
+      </Card>
+    </Container>
   );
 }

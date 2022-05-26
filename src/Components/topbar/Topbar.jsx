@@ -19,6 +19,17 @@ const Topbar = (props) => {
           >
             VirtualMarket
           </Typography>
+          <Typography
+            align="right"
+            sx={{
+              color: "black",
+              fontWeight: "bold",
+              cursor: "pointer",
+              fontSize: "12px",
+            }}
+          >
+            Seller
+          </Typography>
         </div>
       </Toolbar>
     </AppBar>

@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Container, ColumnBox } from "../../Styles/StyledBoxes";
+import LoginAuth from "../../AuthWrapper/LoginAuth";
 
 const Title = styled(Typography)({ fontSize: "24px", fontWeight: "bold" });
 
@@ -23,89 +24,97 @@ const Register = (props) => {
   const [lName, setlName] = React.useState("");
 
   return (
-    
-    <Container>
-      <Card sx={{ maxWidth: 350 }}>
-        <CardContent>
-          <ColumnBox>
-            <Title>Sign Up</Title>
-            <>
-              <TextField
-                label="First name"
-                value={fName}
-                onChange={(e) => {
-                  setfName(e.target.value);
-                }}
-              />
-              <TextField
-                label="Last name"
-                value={lName}
-                onChange={(e) => {
-                  setlName(e.target.value);
-                }}
-              />
+    <LoginAuth>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          paddingTop: "10%",
+          paddingBottom: "5%",
+        }}
+      >
+        <Card sx={{ maxWidth: 350, minWidth: 350 }}>
+          <CardContent>
+            <ColumnBox>
+              <Title>Sign Up</Title>
+              <>
+                <TextField
+                  label="First name"
+                  value={fName}
+                  onChange={(e) => {
+                    setfName(e.target.value);
+                  }}
+                />
+                <TextField
+                  label="Last name"
+                  value={lName}
+                  onChange={(e) => {
+                    setlName(e.target.value);
+                  }}
+                />
 
-              <TextField
-                label="Email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-              />
-              <TextField
-                label="Password"
-                type="password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
-              <TextField
-                type="password"
-                label="Confirm Password"
-                value={confirmPassword}
-                onChange={(e) => {
-                  setCPassword(e.target.value);
-                }}
-              />
-            </>
-            <Box mt={2}>
-              <Button
-                sx={{ width: "100%" }}
-                variant="contained"
-                onClick={(e) => {
-                  sellerService
-                    .register({
-                      fName,
-                      lName,
-                      email,
-                      password,
-                      confirmPassword,
-                    })
-                    .then((res) => {
-                      toast.success(res.data, {
-                        position: toast.POSITION.BOTTOM_LEFT,
+                <TextField
+                  label="Email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+                <TextField
+                  label="Password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                <TextField
+                  type="password"
+                  label="Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => {
+                    setCPassword(e.target.value);
+                  }}
+                />
+              </>
+              <Box mt={2}>
+                <Button
+                  sx={{ width: "100%" }}
+                  variant="contained"
+                  onClick={(e) => {
+                    sellerService
+                      .register({
+                        fName,
+                        lName,
+                        email,
+                        password,
+                        confirmPassword,
+                      })
+                      .then((res) => {
+                        toast.success(res.data, {
+                          position: toast.POSITION.BOTTOM_LEFT,
+                        });
+                        props.history.push("/login");
+                      })
+                      .catch((err) => {
+                        console.log(err);
+                        toast.error(err.response.data, {
+                          position: toast.POSITION.BOTTOM_LEFT,
+                        });
                       });
-                      props.history.push("/login");
-                    })
-                    .catch((err) => {
-                      console.log(err);
-                      toast.error(err.response.data, {
-                        position: toast.POSITION.BOTTOM_LEFT,
-                      });
-                    });
-                }}
-              >
-                CREATE
-              </Button>
-            </Box>
-            <Typography>
-              Already have an account? <Link to="/Login">Login</Link>
-            </Typography>
-          </ColumnBox>
-        </CardContent>
-      </Card>
-    </Container>
+                  }}
+                >
+                  CREATE
+                </Button>
+              </Box>
+              <Typography mt={1}>
+                Already have an account? <Link to="/Login">Login</Link>
+              </Typography>
+            </ColumnBox>
+          </CardContent>
+        </Card>
+      </Box>
+    </LoginAuth>
   );
 };
 
