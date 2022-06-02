@@ -63,6 +63,7 @@ const Login = (props) => {
                   fullWidth
                   id="filled-required"
                   label="Email"
+                  helperText="example@example.com"
                   defaultValue={email}
                   onChange={(e) => {
                     setEmail(e.target.value);

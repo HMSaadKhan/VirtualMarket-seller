@@ -11,7 +11,7 @@ import sellerService from "../../Services/SellerServices";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { Container, ColumnBox } from "../../Styles/StyledBoxes";
+import { ColumnBox } from "../../Styles/StyledBoxes";
 import LoginAuth from "../../AuthWrapper/LoginAuth";
 
 const Title = styled(Typography)({ fontSize: "24px", fontWeight: "bold" });
@@ -20,8 +20,8 @@ const Register = (props) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setCPassword] = React.useState("");
-  const [fName, setfName] = React.useState("");
-  const [lName, setlName] = React.useState("");
+  // const [fName, setfName] = React.useState("saad");
+  // const [lName, setlName] = React.useState("khan");
 
   return (
     <LoginAuth>
@@ -39,23 +39,9 @@ const Register = (props) => {
               <Title>Sign Up</Title>
               <>
                 <TextField
-                  label="First name"
-                  value={fName}
-                  onChange={(e) => {
-                    setfName(e.target.value);
-                  }}
-                />
-                <TextField
-                  label="Last name"
-                  value={lName}
-                  onChange={(e) => {
-                    setlName(e.target.value);
-                  }}
-                />
-
-                <TextField
                   label="Email"
                   value={email}
+                  helperText="example@example.com"
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
@@ -63,6 +49,7 @@ const Register = (props) => {
                 <TextField
                   label="Password"
                   type="password"
+                  helperText="should be 6 character"
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
@@ -84,8 +71,6 @@ const Register = (props) => {
                   onClick={(e) => {
                     sellerService
                       .register({
-                        fName,
-                        lName,
                         email,
                         password,
                         confirmPassword,

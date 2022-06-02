@@ -148,6 +148,7 @@ export default function UserProfile() {
                       disabled
                       label="CNIC"
                       value={cnic}
+                      helperText="e.g 3520259658962"
                       variant="standard"
                       onChange={(e) => {
                         setCnic(e.target.value);
@@ -167,9 +168,20 @@ export default function UserProfile() {
                   </MarginBox>
                   <MarginBox>
                     <TextField
+                      label="Delivery Charges"
+                      variant="standard"
+                      helperText=" Same city Delivery Charges"
+                      value={deliveryCharge}
+                      onChange={(e) => {
+                        setDeliveryCharge(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
+                  <MarginBox>
+                    <TextField
                       id="address"
                       multiline
-                      label="Shop Address"
+                      label="Store Address"
                       variant="standard"
                       value={address}
                       InputLabelProps={{ shrink: address ? true : false }}
@@ -206,6 +218,7 @@ export default function UserProfile() {
                       label="Phone No"
                       variant="standard"
                       value={phone}
+                      helperText="03xxxxxxxxx"
                       onChange={(e) => {
                         setPhone(e.target.value);
                       }}
@@ -235,6 +248,7 @@ export default function UserProfile() {
                       label="Delivery Charges"
                       variant="standard"
                       value={deliveryCharge}
+                      helperText="Different city Delivery Charges"
                       onChange={(e) => {
                         setDeliveryCharge(e.target.value);
                       }}

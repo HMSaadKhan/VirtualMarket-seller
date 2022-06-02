@@ -21,6 +21,7 @@ import { styled } from "@mui/material/styles";
 import { SingleFileUpload } from "../../Components/AddSingleFile/SingleFileUpload";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
+import { Container } from "../../Styles/StyledBoxes";
 
 export default function AddInformation(props) {
   const [fName, setfName] = useState("");
@@ -32,7 +33,7 @@ export default function AddInformation(props) {
   const [storeName, setStoreName] = useState("");
   const [onlinePaymentOption, setonlinePaymentOption] = useState("false");
   const [deliveryCharge, setDeliveryCharge] = useState();
-  const [images, setImages] = useState(["1", "2", "3"]);
+  const [images, setImages] = useState([]);
   const [cities, setcities] = useState([]);
   const [loading, setloading] = useState(false);
 
@@ -66,9 +67,9 @@ export default function AddInformation(props) {
     formData.append("storeName", storeName);
     formData.append("onlinePaymentOption", onlinePaymentOption);
     formData.append("deliveryCharge", deliveryCharge);
-    formData.append("image", images[0]);
-    formData.append("image", images[1]);
-    formData.append("image", images[2]);
+    // formData.append("image", images[0]);
+    // formData.append("image", images[1]);
+    // formData.append("image", images[2]);
 
     console.log(formData);
     sellerService
@@ -111,28 +112,18 @@ export default function AddInformation(props) {
     setonlinePaymentOption(event.target.checked);
   };
 
-  const StyledButton = styled(Button)({
-    color: "#FF0000",
-    backgroundColor: "#fff",
-    marginLeft: "10px",
-    fontWeight: "bold",
-    "&:hover": {
-      backgroundColor: "#FF0002",
-      color: "#ffff",
-    },
-  });
-
   return (
     <IsLoggedin>
       <EmailVerification>
-        <Box
-          sx={{
-            flex: 4,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingTop: "5%",
-          }}
+        <Container
+          sx={{ marginLeft: "200px" }}
+          // sx={{
+          //   flex: 4,
+          //   display: "flex",
+          //   justifyContent: "center",
+          //   alignItems: "center",
+          //   paddingTop: "5%",
+          // }}
         >
           <LoadingScreen bool={loading} />
           <Card sx={{ minWidth: 900, maxWidth: 900 }}>
@@ -155,6 +146,7 @@ export default function AddInformation(props) {
                       label="CNIC"
                       value={cnic}
                       variant="standard"
+                      helperText="e.g. 3520265935693"
                       onChange={(e) => {
                         setCnic(e.target.value);
                       }}
@@ -168,6 +160,17 @@ export default function AddInformation(props) {
                       value={storeName}
                       onChange={(e) => {
                         setStoreName(e.target.value);
+                      }}
+                    />
+                  </MarginBox>
+                  <MarginBox>
+                    <TextField
+                      label="Delivery charges"
+                      helperText=" Same city Delivery Charges"
+                      variant="standard"
+                      value={deliveryCharge}
+                      onChange={(e) => {
+                        setDeliveryCharge(e.target.value);
                       }}
                     />
                   </MarginBox>
@@ -206,6 +209,7 @@ export default function AddInformation(props) {
                     <TextField
                       label="Phone No"
                       variant="standard"
+                      helperText="03XXXXXXXXX "
                       value={phone}
                       onChange={(e) => {
                         setPhone(e.target.value);
@@ -235,6 +239,7 @@ export default function AddInformation(props) {
                     <TextField
                       label="Delivery Charges"
                       variant="standard"
+                      helperText="Different city Delivery Charges"
                       value={deliveryCharge}
                       onChange={(e) => {
                         setDeliveryCharge(e.target.value);
@@ -277,7 +282,7 @@ export default function AddInformation(props) {
               </MarginBox>
             </CardContent>
           </Card>
-        </Box>
+        </Container>
       </EmailVerification>
     </IsLoggedin>
   );

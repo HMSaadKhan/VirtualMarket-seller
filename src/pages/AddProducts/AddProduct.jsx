@@ -10,6 +10,7 @@ import {
   FormLabel,
   Select,
   MenuItem,
+  Typography,
   InputLabel,
   Card,
   CardContent,
@@ -29,7 +30,7 @@ export default function AddProduct(props) {
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState([]);
   const [description, setDescription] = useState("");
-  const [sampleOrder, setSampleOrder] = useState("");
+  const [sampleOrder, setSampleOrder] = useState(false);
   const [stock, setStock] = useState("");
   const [warrantyPeriod, setWarrantyPeriod] = useState();
   const [minOrder, setMinOrder] = useState();
@@ -100,17 +101,6 @@ export default function AddProduct(props) {
       });
   };
 
-  const StyledButton = styled(Button)({
-    color: "#FF0000",
-    backgroundColor: "#fff",
-    marginLeft: "10px",
-    fontWeight: "bold",
-    "&:hover": {
-      backgroundColor: "#FF0002",
-      color: "#ffff",
-    },
-  });
-
   return (
     <IsLoggedin>
       <EmailVerification>
@@ -126,61 +116,143 @@ export default function AddProduct(props) {
           <LoadingScreen Loading={bool} />
           <Card sx={{ minWidth: 1000, maxWidth: 1000 }}>
             <CardContent>
-              <h1>Add Product</h1>
-              <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-                <Box sx={{ width: "25%" }}>
-                  <MarginBox>
-                    <TextField
-                      label="Product Name"
-                      variant="standard"
-                      value={name}
-                      onChange={(e) => {
-                        setName(e.target.value);
-                      }}
-                    />
-                  </MarginBox>
-                  <MarginBox>
-                    <TextField
-                      label="Product Price"
-                      type="number"
-                      variant="standard"
-                      placeholder="e.g. Electronics"
-                      value={price}
-                      onChange={(e) => {
-                        setPrice(e.target.value);
-                      }}
-                    />
-                  </MarginBox>
-                  <MarginBox>
-                    {" "}
-                    <TextField
-                      label="Min. Order Quantity"
-                      type="number"
-                      variant="standard"
-                      placeholder="e.g. 10"
-                      value={minOrder}
-                      onChange={(e) => {
-                        setMinOrder(e.target.value);
-                      }}
-                    />
-                  </MarginBox>
-                  <MarginBox>
-                    <InputLabel variant="standard">Product category</InputLabel>
-                    <Select
-                      fullWidth
-                      variant="standard"
-                      value={category}
-                      onChange={(e) => {
-                        selectChange(e);
-                      }}
-                    >
-                      {categories.map((item) => (
-                        <MenuItem key={item} value={item._id}>
-                          {item.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </MarginBox>
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: "bold",
+                  color: "red",
+                }}
+              >
+                Add Product
+              </Typography>
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    width: "60%",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Box
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Box>
+                      <MarginBox>
+                        <TextField
+                          label="Product Name"
+                          variant="standard"
+                          value={name}
+                          onChange={(e) => {
+                            setName(e.target.value);
+                          }}
+                        />
+                      </MarginBox>
+                      <MarginBox>
+                        <TextField
+                          label="Product Price"
+                          type="number"
+                          variant="standard"
+                          placeholder="e.g. Electronics"
+                          value={price}
+                          onChange={(e) => {
+                            setPrice(e.target.value);
+                          }}
+                        />
+                      </MarginBox>
+                      <MarginBox>
+                        {" "}
+                        <TextField
+                          label="Min. Order Quantity"
+                          type="number"
+                          variant="standard"
+                          helperText="Must be greater than 0"
+                          value={minOrder}
+                          onChange={(e) => {
+                            setMinOrder(e.target.value);
+                          }}
+                        />
+                      </MarginBox>
+                      <MarginBox>
+                        <InputLabel variant="standard">
+                          Product category
+                        </InputLabel>
+                        <Select
+                          fullWidth
+                          variant="standard"
+                          value={category}
+                          onChange={(e) => {
+                            selectChange(e);
+                          }}
+                        >
+                          {categories.map((item) => (
+                            <MenuItem key={item} value={item._id}>
+                              {item.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </MarginBox>
+
+                      <MarginBox>
+                        <FormControl>
+                          <FormLabel>Sample</FormLabel>
+                          <RadioGroup
+                            defaultValue="included"
+                            value={sampleOrder}
+                            onChange={handleChange}
+                          >
+                            <FormControlLabel
+                              value="true"
+                              control={<Radio />}
+                              label="Included"
+                            />
+
+                            <FormControlLabel
+                              value="false"
+                              control={<Radio />}
+                              label="Not Included"
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </MarginBox>
+                    </Box>
+                    <Box>
+                      <MarginBox>
+                        <TextField
+                          label="Product Brand"
+                          variant="standard"
+                          placeholder="e.g. Samsung"
+                          value={brand}
+                          onChange={(e) => {
+                            setBrand(e.target.value);
+                          }}
+                        />
+                      </MarginBox>
+                      <MarginBox>
+                        <TextField
+                          type="number"
+                          label="Stock"
+                          variant="standard"
+                          value={stock}
+                          onChange={(e) => {
+                            setStock(e.target.value);
+                          }}
+                        />
+                      </MarginBox>
+                      <MarginBox>
+                        <TextField
+                          label="Warranty Period"
+                          variant="standard"
+                          helperText="should be in Days"
+                          value={warrantyPeriod}
+                          onChange={(e) => {
+                            setWarrantyPeriod(e.target.value);
+                          }}
+                        />
+                      </MarginBox>
+                      <MarginBox></MarginBox>
+                      <MarginBox></MarginBox>
+                    </Box>
+                  </Box>
                   <MarginBox>
                     <TextField
                       label="Product Description"
@@ -192,89 +264,67 @@ export default function AddProduct(props) {
                       }}
                     />
                   </MarginBox>
-                  <MarginBox>
-                    <FormControl>
-                      <FormLabel>Sample</FormLabel>
-                      <RadioGroup
-                        defaultValue="included"
-                        value={sampleOrder}
-                        onChange={handleChange}
-                      >
-                        <FormControlLabel
-                          value="true"
-                          control={<Radio />}
-                          label="Included"
-                        />
-
-                        <FormControlLabel
-                          value="false"
-                          control={<Radio />}
-                          label="Not Included"
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </MarginBox>
                 </Box>
-                <Box sx={{ width: "25%" }}>
-                  <MarginBox>
-                    <TextField
-                      label="Product Brand"
-                      variant="standard"
-                      placeholder="e.g. Samsung"
-                      value={brand}
-                      onChange={(e) => {
-                        setBrand(e.target.value);
-                      }}
-                    />
-                  </MarginBox>
-                  <MarginBox>
-                    <TextField
-                      type="number"
-                      label="Stock"
-                      variant="standard"
-                      value={stock}
-                      onChange={(e) => {
-                        setStock(e.target.value);
-                      }}
-                    />
-                  </MarginBox>
-                  <MarginBox>
-                    <TextField
-                      label="Warranty Period"
-                      variant="standard"
-                      placeholder="e.g. 2 Years"
-                      value={warrantyPeriod}
-                      onChange={(e) => {
-                        setWarrantyPeriod(e.target.value);
-                      }}
-                    />
-                  </MarginBox>
-                  <MarginBox></MarginBox>
-                  <MarginBox></MarginBox>
-                </Box>
-                <Box sx={{ width: "50%" }}>
+                <Box
+                  sx={{
+                    width: "40%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      color: "red",
+                      fontWeight: "bold",
+                      fontSize: "20px",
+                    }}
+                  >
+                    Add Product Images
+                  </Typography>
                   <Box
-                    m={5}
                     sx={{
                       display: "flex",
                       justifyContent: "space-around",
+                      flexDirection: "column",
                       flexWrap: "wrap",
-                      maxWidth: "80%",
                     }}
                   >
                     <MarginBox>
+                      <Typography sx={{ fontWeight: "bold", fontSize: "15px" }}>
+                        Image 1:
+                      </Typography>
                       <SingleFileUpload index={0} imageArray={imageArray} />
                     </MarginBox>
+
                     <MarginBox>
+                      <Typography sx={{ fontWeight: "bold", fontSize: "15px" }}>
+                        Image 2:
+                      </Typography>
                       <SingleFileUpload index={1} imageArray={imageArray} />
                     </MarginBox>
                     <MarginBox>
+                      <Typography
+                        sx={{
+                          fontWeight: "bold",
+                          fontSize: "15px",
+                        }}
+                      >
+                        Image 3:
+                      </Typography>
                       <SingleFileUpload index={2} imageArray={imageArray} />
                     </MarginBox>
                     <MarginBox>
+                      <Typography sx={{ fontWeight: "bold", fontSize: "15px" }}>
+                        Image 4:
+                      </Typography>
                       <SingleFileUpload index={3} imageArray={imageArray} />
                     </MarginBox>
                     <MarginBox>
+                      <Typography sx={{ fontWeight: "bold", fontSize: "15px" }}>
+                        Image 5:
+                      </Typography>
                       <SingleFileUpload index={4} imageArray={imageArray} />
                     </MarginBox>
                   </Box>
@@ -282,12 +332,12 @@ export default function AddProduct(props) {
               </Box>
 
               <MarginBox>
-                <StyledButton
+                <Button
                   variant="contained"
                   onClick={() => UploadMultipleFiles()}
                 >
                   Add
-                </StyledButton>
+                </Button>
               </MarginBox>
             </CardContent>
           </Card>

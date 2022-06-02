@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
 import useState from "react-usestateref";
 import styled from "styled-components";
+import Box from "@mui/material/Box";
 import CancelIcon from "@mui/icons-material/Cancel";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 const Image = styled.img`
-float: left;
-width: 100px;
-height: 100px;
-margin: 5px;
-border: 1px solid #ddd;
-}`;
+  float: left;
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+  border: 1px solid #ddd;
+`;
+
 const SingleFileUpload = (props) => {
   const { index, imageArray } = props;
   const [ImagePreview, SetImagePreview, imgprRef] = useState(null);
@@ -30,13 +32,15 @@ const SingleFileUpload = (props) => {
     <>
       {ImagePreview ? (
         <>
-          <Image src={ImagePreview} />
-          <CancelIcon onClick={() => SetImagePreview(null)} />
+          <Box sx={{ display: "flex" }}>
+            <Image src={ImagePreview} />
+            <CancelIcon onClick={() => SetImagePreview(null)} />
+          </Box>
         </>
       ) : (
         <>
           <label htmlFor="file">
-            <UploadFileIcon fontSize="large" />
+            <AddPhotoAlternateIcon fontSize="large" />
           </label>
           <form>
             <input
