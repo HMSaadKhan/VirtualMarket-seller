@@ -12,25 +12,25 @@ export default function Featuredinfo({ name, num }) {
   };
   return (
     <Box>
-      <Card
-        sx={{ maxWidth: 250, minWidth: 250, height: 120, color: "#fafafafa" }}
-      >
+      <Card sx={{ backgroundColor: "#fafafa" }}>
         <CardContent>
-          <Typography
-            mt={2}
-            align="center"
-            sx={{ color: Colors(num), fontWeight: "bold", fontSize: "30px" }}
-          >
-            {name === "Current Balance" ? "PKR " : ""}
-            {num}
-          
-          </Typography>
-          <Typography
-            align="center"
-            sx={{ color: "red", fontWeight: "bold", fontSize: "20px" }}
-          >
-            {name}
-          </Typography>
+          <>
+            <Typography
+              align="left"
+              variant="caption"
+              sx={{ color: "red", fontWeight: "bold" }}
+            >
+              {name}
+            </Typography>
+            <Typography
+              mt={2}
+              align="center"
+              sx={{ color: Colors(num), fontWeight: "bold", fontSize: "30px" }}
+            >
+              {name === "Current Balance" ? "PKR " : ""}
+              {num}
+            </Typography>
+          </>
         </CardContent>
       </Card>
     </Box>

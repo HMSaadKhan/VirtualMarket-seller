@@ -1,27 +1,14 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 import { useState, useEffect, useRef } from "react";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
-import { Card, CardContent } from "@mui/material";
+
+import { Card } from "@mui/material";
 import { Button, Typography } from "@mui/material";
-import { makeStyles } from "@material-ui/styles";
+
 import productService from "../../Services/ProductServices";
 import { useHistory } from "react-router-dom";
-import { ColumnBox, Container, MarginBox } from "../../Styles/StyledBoxes";
-import { WhiteButton } from "../../Styles/StyledButtons";
-const useStyles = makeStyles((theme) => ({
-  images: {
-    width: "70px",
-    height: "100px",
-    marginRight: "10px",
-    //objectFit: "cover",
-    backgroundSize: "cover",
-  },
-}));
+import { ColumnBox, MarginBox } from "../../Styles/StyledBoxes";
 
 const HeadingText = styled(Typography)({
   fontSize: "15px",
@@ -38,7 +25,7 @@ const FlexBox = styled(Box)({
 
 export default function ProductInformation(props) {
   const history = useHistory();
-  const classes = useStyles();
+
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
@@ -89,115 +76,120 @@ export default function ProductInformation(props) {
   React.useEffect(getCategories, []);
 
   return (
-    <Container>
-      <Card
-        sx={{
-          minWidth: 1000,
-          maxWidth: 1000,
-        }}
-      >
-        <WhiteButton
-          onClick={() => {
-            history.push("/editDetails/" + _id);
-          }}
-        >
-          Edit
-        </WhiteButton>
-
-        <Box>
-          <MarginBox>
-            <SubText sx={{ fontSize: "30px" }}>{name}</SubText>
-          </MarginBox>
-          <FlexBox
-            sx={{
-              justifyContent: "space-around",
-            }}
-          >
-            <ColumnBox sx={{ width: "33%" }}>
-              <ColumnBox>
-                <MarginBox>
-                  <HeadingText>Brand</HeadingText>
-                  <SubText>{brand}</SubText>
-                </MarginBox>
-              </ColumnBox>
-              <ColumnBox>
-                <MarginBox>
-                  <HeadingText>Price</HeadingText>
-                  <SubText>PKR.{price}</SubText>
-                </MarginBox>
-              </ColumnBox>
-              <ColumnBox>
-                <MarginBox>
-                  <HeadingText>Min. Order Quantity</HeadingText>
-                  <SubText>{minOrder} Piece</SubText>
-                </MarginBox>
-              </ColumnBox>
-              <ColumnBox>
-                <MarginBox>
-                  <HeadingText>Category</HeadingText>
-                  <SubText>{category}</SubText>
-                </MarginBox>
-              </ColumnBox>
-              <ColumnBox>
-                <MarginBox>
-                  <HeadingText>Description</HeadingText>
-                  <SubText>{description}</SubText>
-                </MarginBox>
-              </ColumnBox>
-            </ColumnBox>
-            <Box sx={{ width: "33%" }}>
-              <ColumnBox>
-                <MarginBox>
-                  <HeadingText>Stock</HeadingText>
-                  <SubText>{stock} pieces</SubText>
-                </MarginBox>
-              </ColumnBox>
-              <ColumnBox>
-                <MarginBox>
-                  <HeadingText>Warranty</HeadingText>
-                  <SubText>{warrantyPeriod} Days</SubText>
-                </MarginBox>
-              </ColumnBox>
-              <ColumnBox>
-                <MarginBox>
-                  <HeadingText>Sample Orders</HeadingText>
-                  <SubText>{sampleOrder ? <>Yes</> : <>No</>}</SubText>
-                </MarginBox>
-              </ColumnBox>
-            </Box>
-
-            <ColumnBox
-              sx={{
-                width: "34%",
-                flexDirection: "row",
-                flexWrap: "wrap",
+    <Box
+      sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+    >
+      <Box sx={{ width: "100%" }}>
+        <Box mt={10} ml={2} mr={2} sx={{ marginLeft: "220px" }}>
+          <Card sx={{ padding: "20px" }}>
+            <Button
+              sx={{ marginLeft: "10px" }}
+              variant="contained"
+              onClick={() => {
+                history.push("/editDetails/" + _id);
               }}
             >
-              {selectedImages.map((item) => {
-                return (
-                  <Box
-                    key={item._id}
-                    m={1}
-                    onClick={(e) => {
-                      console.log("imageClick");
-                      window.open(item.link, "");
-                    }}
-                  >
-                    <img
-                      width="150px"
-                      height="150px"
-                      background-size="cover"
-                      src={item.link}
-                      alt={item.title}
-                      loading="lazy"
-                    />
-                  </Box>
-                );
-              })}
-            </ColumnBox>
-          </FlexBox>
+              Edit
+            </Button>
+
+            <Box>
+              <MarginBox>
+                <SubText sx={{ fontSize: "30px" }}>{name}</SubText>
+              </MarginBox>
+              <FlexBox
+                sx={{
+                  justifyContent: "space-around",
+                }}
+              >
+                <ColumnBox sx={{ width: "33%" }}>
+                  <ColumnBox>
+                    <MarginBox>
+                      <HeadingText>Brand</HeadingText>
+                      <SubText>{brand}</SubText>
+                    </MarginBox>
+                  </ColumnBox>
+                  <ColumnBox>
+                    <MarginBox>
+                      <HeadingText>Price</HeadingText>
+                      <SubText>PKR.{price}</SubText>
+                    </MarginBox>
+                  </ColumnBox>
+                  <ColumnBox>
+                    <MarginBox>
+                      <HeadingText>Min. Order Quantity</HeadingText>
+                      <SubText>{minOrder} Piece</SubText>
+                    </MarginBox>
+                  </ColumnBox>
+                  <ColumnBox>
+                    <MarginBox>
+                      <HeadingText>Category</HeadingText>
+                      <SubText>{category}</SubText>
+                    </MarginBox>
+                  </ColumnBox>
+                  <ColumnBox>
+                    <MarginBox>
+                      <HeadingText>Description</HeadingText>
+                      <SubText>{description}</SubText>
+                    </MarginBox>
+                  </ColumnBox>
+                </ColumnBox>
+                <Box sx={{ width: "33%" }}>
+                  <ColumnBox>
+                    <MarginBox>
+                      <HeadingText>Stock</HeadingText>
+                      <SubText>{stock} pieces</SubText>
+                    </MarginBox>
+                  </ColumnBox>
+                  <ColumnBox>
+                    <MarginBox>
+                      <HeadingText>Warranty</HeadingText>
+                      <SubText>{warrantyPeriod} Days</SubText>
+                    </MarginBox>
+                  </ColumnBox>
+                  <ColumnBox>
+                    <MarginBox>
+                      <HeadingText>Sample Orders</HeadingText>
+                      <SubText>{sampleOrder ? <>Yes</> : <>No</>}</SubText>
+                    </MarginBox>
+                  </ColumnBox>
+                </Box>
+
+                <ColumnBox
+                  sx={{
+                    width: "34%",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  {selectedImages.map((item) => {
+                    return (
+                      <Box
+                        key={item._id}
+                        m={1}
+                        sx={{ cursor: "pointer" }}
+                        onClick={(e) => {
+                          console.log("imageClick");
+                          window.open(item.link, "");
+                        }}
+                      >
+                        <img
+                          width="150px"
+                          height="150px"
+                          border="1"
+                          background-size="cover"
+                          src={item.link}
+                          alt={item.title}
+                          loading="lazy"
+                        />
+                      </Box>
+                    );
+                  })}
+                </ColumnBox>
+              </FlexBox>
+            </Box>
+          </Card>
         </Box>
-      </Card>
-    </Container>
+      </Box>
+    </Box>
   );
 }

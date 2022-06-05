@@ -1,51 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { makeStyles } from "@material-ui/styles";
 import { useHistory } from "react-router-dom";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import orderService from "../../Services/OrderService";
-import OrderComponent from "./WarrantyComponent";
+import PageHeader from "../../Components/PageHeader";
 
-const steps = [
-  "Received Date",
-  "Packaging Date",
-  "Shipping Date",
-  "completion Date",
-];
-const useStyles = makeStyles({
-  button: {},
-});
-const orderStatus = [
-  "PLACED",
-  "PACKAGING",
-  "SHIPPING",
-  "DELIVERED",
-  "RETURNED",
-  "CANCELED",
-];
+const warrantyStatus = ["REQUESTED", "RESPONDED", "IN-WARRANTY", "EXPIRED"];
 export default function WarrantyMenu() {
-  const classes = useStyles();
   const history = useHistory();
-
   return (
-    <Box
-      sx={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}
-    >
+    <Box mt={10} ml={2} mr={2} sx={{ marginLeft: "220px" }}>
+      <PageHeader heading={"WARRANTIES"} />
+
       <Card
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          minWidth: 500,
-          maxWidth: 500,
-        }}
+        sx={{ width: "100%", backgroundColor: "#eeeeee", marginTop: "10px" }}
       >
-        <CardContent>Warranties</CardContent>
+        <CardContent
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          {warrantyStatus.map((warranty, index) => {
+            return (
+              <Box key={index} sx={{ width: "100%" }}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={() => {
+                    history.push(`/warranty/${warranty}`);
+                  }}
+                >
+                  {warranty}
+                </Button>
+              </Box>
+            );
+          })}
+        </CardContent>
       </Card>
     </Box>
   );

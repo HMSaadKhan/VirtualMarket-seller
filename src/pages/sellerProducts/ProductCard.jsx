@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React from "react";
 import { useHistory } from "react-router-dom";
 
@@ -6,15 +7,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { styled } from "@mui/material/styles";
 import { Divider } from "@mui/material";
+import PageHeader from "../../Components/PageHeader";
 
-const FlexBox = styled(Box)({
-  display: "flex",
-  flexWrap: "wrap",
-  alignItems: "center",
-  height: "50px",
-});
+// const Box = styled(Box)({
+//   display: "flex",
+
+//   height: "50px",
+// });
 const ProductText = styled(Typography)({
-  align: "center",
   fontWeight: "bold",
   color: "red",
 });
@@ -25,145 +25,173 @@ const ProductCard = ({ products, handleDelete }) => {
   const history = useHistory();
   console.log(products);
   return (
-    <>
-      <FlexBox sx={{ justifyContent: "center" }}>
-        <Box position="fixed" sx={{ zIndex: 3 }}>
-          <Card
+    <Box mt={10} ml={2} mr={2} sx={{ marginLeft: "220px" }}>
+      <Box>
+        <PageHeader heading={"PRODUCTS"} />
+        <Card
+          sx={{ width: "100%", backgroundColor: "#eeeeee", marginTop: "10px" }}
+        >
+          <CardContent
             sx={{
-              minWidth: 900,
-              marginTop: "30px",
-              backgroundColor: "#fafafa",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexDirection: "row",
             }}
           >
-            <CardContent>
-              <FlexBox sx={{ justifyContent: "space-between" }}>
-                <FlexBox sx={{ width: "25%" }}>
-                  <ProductText>Product Name</ProductText>
-                </FlexBox>
-                <FlexBox sx={{ width: "15%" }}>
-                  <ProductText>Product Brand</ProductText>
-                </FlexBox>
-                <FlexBox sx={{ width: "20%" }}>
-                  <ProductText>Product Category</ProductText>
-                </FlexBox>
-                <FlexBox sx={{ width: "5%" }}>
-                  <ProductText>Stock</ProductText>
-                </FlexBox>
+            <Box sx={{ width: "100%" }}>
+              <ProductText>Product Image</ProductText>
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              <ProductText>Product Name</ProductText>
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              <ProductText align="center">Product Brand</ProductText>
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              <ProductText align="center">Product Category</ProductText>
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              <ProductText align="center">Stock</ProductText>
+            </Box>
 
-                <FlexBox sx={{ width: "10%" }}>
-                  <ProductText>Status</ProductText>
-                </FlexBox>
-                <FlexBox sx={{ width: "10%" }}>
-                  <ProductText>Action</ProductText>
-                </FlexBox>
-              </FlexBox>
-              <Divider />
-            </CardContent>
-          </Card>
-        </Box>
-        {products.length > 0 ? (
-          <>
-            <Card sx={{ minWidth: 900, marginTop: "100px" }}>
-              <CardContent>
-                {products.map((product) => {
-                  return (
-                    <>
-                      <FlexBox sx={{ justifyContent: "space-between" }}>
-                        <FlexBox sx={{ width: "25%" }}>
+            <Box sx={{ width: "100%" }}>
+              <ProductText align="center">Status</ProductText>
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              <ProductText align="center">Action</ProductText>
+            </Box>
+
+            <Divider />
+          </CardContent>
+        </Card>
+      </Box>
+      <Box>
+        {products.map((product) => {
+          return (
+            <Box mt={1} key={product._id}>
+              <Card sx={{ width: "100%", backgroundColor: "#fafafa" }}>
+                <CardContent>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Box sx={{ width: "100%" }}>
+                      <Box sx={{ width: "100px", height: "120px" }}>
+                        <img
+                          src={product.images[0].link}
+                          alt="product image"
+                          width="100%"
+                          height="100%"
+                          objectFit="contain"
+                        />
+                      </Box>
+                    </Box>
+                    <Box sx={{ width: "100%" }}>
+                      <DataText
+                        sx={{ cursor: "pointer" }}
+                        onClick={(e) => {
+                          history.push("/product-information/" + product._id);
+                        }}
+                      >
+                        {product.name}
+                      </DataText>
+                    </Box>
+                    <Box sx={{ width: "100%" }}>
+                      <DataText align="center">{product.brand}</DataText>
+                    </Box>
+                    <Box sx={{ width: "100%" }}>
+                      <DataText align="center">
+                        {product.category.name}
+                      </DataText>
+                    </Box>
+                    <Box
+                      sx={{
+                        width: "100%",
+                      }}
+                    >
+                      <DataText align="center">
+                        {" "}
+                        {product.stock > 10 ? (
+                          <DataText>{product.stock}</DataText>
+                        ) : (
+                          <DataText sx={{ fontWeight: "bold", color: "Red" }}>
+                            {product.stock}
+                          </DataText>
+                        )}
+                      </DataText>
+                    </Box>
+                    {console.log(product.status)}
+                    <Box
+                      sx={{
+                        width: "100%",
+                      }}
+                    >
+                      <DataText align="center">
+                        {product.status === "APPROVED" ? (
                           <DataText
-                            sx={{ cursor: "pointer" }}
-                            onClick={(e) => {
-                              history.push(
-                                "/product-information/" + product._id
-                              );
-                            }}
+                            align="center"
+                            sx={{ fontWeight: "bold", color: "green" }}
                           >
-                            {product.name}
+                            {product.status}
                           </DataText>
-                        </FlexBox>
-                        <FlexBox sx={{ width: "15%" }}>
-                          <DataText>{product.brand}</DataText>
-                        </FlexBox>
-                        <FlexBox sx={{ width: "20%" }}>
-                          {product.category.name}
-                        </FlexBox>
-                        <FlexBox sx={{ width: "5%" }}>
-                          <DataText>
-                            {" "}
-                            {product.stock > 10 ? (
-                              <DataText>{product.stock}</DataText>
-                            ) : (
-                              <DataText
-                                sx={{ fontWeight: "bold", color: "Red" }}
-                              >
-                                {product.stock}
-                              </DataText>
-                            )}
+                        ) : (
+                          <></>
+                        )}
+                        {product.status === "PENDING" ? (
+                          <DataText
+                            align="center"
+                            sx={{ fontWeight: "bold", color: "orange" }}
+                          >
+                            {product.status}
                           </DataText>
-                        </FlexBox>
-                        {console.log(product.status)}
-                        <FlexBox sx={{ width: "10%" }}>
-                          <DataText>
-                            {product.status === "APPROVED" ? (
-                              <DataText
-                                sx={{ fontWeight: "bold", color: "green" }}
-                              >
-                                {product.status}
-                              </DataText>
-                            ) : (
-                              <></>
-                            )}
-                            {product.status === "PENDING" ? (
-                              <DataText
-                                sx={{ fontWeight: "bold", color: "orange" }}
-                              >
-                                {product.status}
-                              </DataText>
-                            ) : (
-                              <></>
-                            )}
-                            {product.status === "DENIED" ? (
-                              <DataText
-                                sx={{ fontWeight: "bold", color: "red" }}
-                              >
-                                {product.status}
-                              </DataText>
-                            ) : (
-                              <></>
-                            )}
+                        ) : (
+                          <></>
+                        )}
+                        {product.status === "DENIED" ? (
+                          <DataText sx={{ fontWeight: "bold", color: "red" }}>
+                            {product.status}
                           </DataText>
-                        </FlexBox>
-                        <FlexBox sx={{ width: "10%" }}>
-                          <FlexBox sx={{ justifyContent: "space-between" }}>
-                            <IconButton
-                              onClick={() => {
-                                history.push("/editDetails/" + product._id);
-                              }}
-                            >
-                              <EditIcon />
-                            </IconButton>
-                            <IconButton
-                              onClick={(e) => {
-                                handleDelete(product._id);
-                              }}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          </FlexBox>
-                        </FlexBox>
-                      </FlexBox>
-                      <Divider />
-                    </>
-                  );
-                })}
-              </CardContent>
-            </Card>
-          </>
-        ) : (
-          <Typography sx={{ marginTop: "200px" }}>No products</Typography>
-        )}
-      </FlexBox>
-    </>
+                        ) : (
+                          <></>
+                        )}
+                      </DataText>
+                    </Box>
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <IconButton
+                        onClick={() => {
+                          history.push("/editDetails/" + product._id);
+                        }}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        onClick={(e) => {
+                          handleDelete(product._id);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                  {/* <Divider /> */}
+                </CardContent>
+              </Card>
+            </Box>
+          );
+        })}
+      </Box>
+    </Box>
   );
 };
 export default ProductCard;

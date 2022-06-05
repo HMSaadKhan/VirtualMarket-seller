@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-constructor */
 import GenericService from "./GenericService";
 
 import axios from "axios";

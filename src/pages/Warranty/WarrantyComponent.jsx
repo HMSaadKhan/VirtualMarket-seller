@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -8,8 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
-import Divider from "@mui/material/Divider";
-import { Container } from "../../Styles/StyledBoxes";
+
 import { styled } from "@mui/material/styles";
 import WarrantyComment from "../../Components/PopUps/WarrantyComment";
 import { useHistory } from "react-router-dom";
@@ -27,13 +26,18 @@ const useStyles = makeStyles({
   },
 });
 
-export default function WarrantyComponent({ WarrantyDetails, warranties }) {
+export default function WarrantyComponent({
+  WarrantyDetails,
+  warranties,
+  status,
+}) {
+  console.log(status);
   const classes = useStyles();
   const history = useHistory();
   const response = ["DENIED", "REPLACED", "REPAIRED"];
 
   const [bool, setbool] = useState(false);
-  const [respond, setrespond] = useState("");
+  const [respond, setrespond] = useState(null);
 
   const selectRespond = (e) => {
     setrespond(e.target.value);
@@ -41,24 +45,13 @@ export default function WarrantyComponent({ WarrantyDetails, warranties }) {
   };
 
   return (
-    <Box>
-      <Card sx={{ maxWidth: 800, minWidth: 800, backgroundColor: "#fafafa" }}>
-        <CardContent>
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Typography
-              sx={{ fontSize: "25px", fontWeight: "bold", color: "red" }}
-            >
-              Warranties
-            </Typography>
-          </Box>
-        </CardContent>
-      </Card>
+    <Box mt={2} ml={2} mr={2} sx={{ marginLeft: "220px" }}>
       {WarrantyDetails.length > 0 ? (
         <>
           {WarrantyDetails.map((warranty) => {
             return (
-              <>
-                <Card sx={{ maxWidth: 800, minWidth: 800, height: "80%" }}>
+              <Box key={warranty._id} mt={2}>
+                <Card sx={{ backgroundColor: "#fafafa" }}>
                   <CardContent
                     sx={{
                       display: "flex",
@@ -121,25 +114,40 @@ export default function WarrantyComponent({ WarrantyDetails, warranties }) {
                             </Typography>
                           </Box>
                           <StyledBox sx={{ width: "25%" }}>
-                            <FormControl sx={{ width: 150 }}>
-                              <InputLabel variant="standard">
-                                Response
-                              </InputLabel>
+                            {status === "RESPONDED" ||
+                            status === "IN-WARRANTY" ? (
+                              <>
+                                {" "}
+                                <Typography
+                                  align="left"
+                                  className={classes.heading}
+                                >
+                                  {warranty.status}
+                                </Typography>
+                              </>
+                            ) : (
+                              <>
+                                <FormControl sx={{ width: 150 }}>
+                                  <InputLabel variant="standard">
+                                    Response
+                                  </InputLabel>
 
-                              <Select
-                                variant="standard"
-                                value={respond}
-                                onChange={(e) => {
-                                  selectRespond(e);
-                                }}
-                              >
-                                {response.map((item) => (
-                                  <MenuItem key={item.id} value={item}>
-                                    {item}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
+                                  <Select
+                                    variant="standard"
+                                    value={respond}
+                                    onChange={(e) => {
+                                      selectRespond(e);
+                                    }}
+                                  >
+                                    {response.map((item) => (
+                                      <MenuItem key={item.id} value={item}>
+                                        {item}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                </FormControl>
+                              </>
+                            )}
                           </StyledBox>
                           {respond ? (
                             <WarrantyComment
@@ -155,66 +163,69 @@ export default function WarrantyComponent({ WarrantyDetails, warranties }) {
                         </StyledBox>
                       </CardContent>
                     </Card>
-                    <Card sx={{ margin: "10px" }}>
-                      <CardContent>
-                        <Typography className={classes.heading}>
-                          Buyer Comment:
-                        </Typography>
-                        <Typography>{warranty.buyerComment}</Typography>
-                      </CardContent>
-                    </Card>
-                    <>
-                      <Card sx={{ marginLeft: "10px" }}>
-                        <CardContent>
-                          <Typography className={classes.heading}>
-                            Shipping Details
-                          </Typography>
-                          <StyledBox>
+                    {status === "IN-WARRANTY" || status === "EXPIRED" ? (
+                      <></>
+                    ) : (
+                      <>
+                        {" "}
+                        <Card sx={{ margin: "10px" }}>
+                          <CardContent>
                             <Typography className={classes.heading}>
-                              Name{" "}
+                              Buyer Comment:
                             </Typography>
-                            <Typography className={classes.text}>
-                              {warranty.Order.buyerName}
-                            </Typography>
-                          </StyledBox>
-                          <StyledBox>
+                            <Typography>{warranty.buyerComment}</Typography>
+                          </CardContent>
+                        </Card>
+                        <Card sx={{ marginLeft: "10px" }}>
+                          <CardContent>
                             <Typography className={classes.heading}>
-                              Address
+                              Shipping Details
                             </Typography>
-                            <Typography className={classes.text}>
-                              {warranty.Order.deliveryAddress}{" "}
-                            </Typography>
-                          </StyledBox>
-                          <StyledBox>
-                            <Typography className={classes.heading}>
-                              City{" "}
-                            </Typography>
-                            <Typography className={classes.text}>
-                              {warranty.Order.deliveryCity.name}
-                            </Typography>
-                          </StyledBox>
-                          <StyledBox>
-                            <Typography className={classes.heading}>
-                              Phone{" "}
-                            </Typography>
-                            <Typography className={classes.text}>
-                              {warranty.Order.buyerContact}
-                            </Typography>
-                          </StyledBox>
-                        </CardContent>
-                      </Card>
-                    </>
+                            <StyledBox>
+                              <Typography className={classes.heading}>
+                                Name{" "}
+                              </Typography>
+                              <Typography className={classes.text}>
+                                {warranty.Order.buyerName}
+                              </Typography>
+                            </StyledBox>
+                            <StyledBox>
+                              <Typography className={classes.heading}>
+                                Address
+                              </Typography>
+                              <Typography className={classes.text}>
+                                {warranty.Order.deliveryAddress}{" "}
+                              </Typography>
+                            </StyledBox>
+                            <StyledBox>
+                              <Typography className={classes.heading}>
+                                City{" "}
+                              </Typography>
+                              <Typography className={classes.text}>
+                                {warranty.Order.deliveryCity.name}
+                              </Typography>
+                            </StyledBox>
+                            <StyledBox>
+                              <Typography className={classes.heading}>
+                                Phone{" "}
+                              </Typography>
+                              <Typography className={classes.text}>
+                                {warranty.Order.buyerContact}
+                              </Typography>
+                            </StyledBox>
+                          </CardContent>
+                        </Card>
+                      </>
+                    )}
                   </CardContent>
                 </Card>
-              </>
+              </Box>
             );
           })}
         </>
       ) : (
         <></>
       )}
-
-      <Divider />
     </Box>
   );
 }

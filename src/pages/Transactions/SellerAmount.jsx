@@ -3,16 +3,17 @@ import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
-import productService from "../../Services/ProductServices";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import TransactionCard from "./AmountCard";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 import transactionServices from "../../Services/TransactionServices";
-import { Container } from "../../Styles/StyledBoxes";
+
 import TransactionRequest from "../../Components/PopUps/TransactionRequest";
+import sellerService from "../../Services/SellerServices";
 
 const SellerAmount = () => {
+  const [Balance, setBalance] = useState(0);
   const [loading, setloading] = useState(false);
   const [requestPopup, setrequestPopup] = useState(false);
   const [transactions, settransactions] = useState([]);
@@ -32,10 +33,19 @@ const SellerAmount = () => {
       });
   };
   useEffect(getSellerAmount, []);
+  useEffect(() => {
+    setloading(true);
+    sellerService.GetBalance().then((data) => {
+      console.log(data.data.balance);
+      setBalance(data.data.balance);
+      setloading(false);
+    });
+  }, []);
 
   return (
     <IsLoggedin>
       <EmailVerification>
+        <LoadingScreen bool={loading} />
         <TransactionRequest
           bool={requestPopup}
           setbool={setrequestPopup}
@@ -51,13 +61,17 @@ const SellerAmount = () => {
         >
           <AddIcon />
         </Fab>
-        <Container>
-          <LoadingScreen bool={loading} />
-
-          <TransactionCard transactions={transactions} />
-
-          <Box></Box>
-        </Container>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Box sx={{ width: "100%" }}>
+            <TransactionCard transactions={transactions} Balance={Balance} />
+          </Box>
+        </Box>
       </EmailVerification>
     </IsLoggedin>
   );

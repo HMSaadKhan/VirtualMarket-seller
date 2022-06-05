@@ -6,7 +6,6 @@ import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import ProductCard from "./ProductCard";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
-import { Container } from "../../Styles/StyledBoxes";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 
@@ -36,15 +35,8 @@ const SellerProducts = (props) => {
   return (
     <IsLoggedin>
       <EmailVerification>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: "5%",
-            paddingBottom: "5%",
-            paddingLeft: "200px",
-          }}
-        >
+        <LoadingScreen bool={loading} />
+        <Box>
           <Fab
             color="primary"
             aria-label="add"
@@ -55,9 +47,20 @@ const SellerProducts = (props) => {
           >
             <AddIcon />
           </Fab>
-          <LoadingScreen bool={loading} />
-
-          <ProductCard products={sellerProducts} handleDelete={handleDelete} />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ width: "100%" }}>
+              <ProductCard
+                products={sellerProducts}
+                handleDelete={handleDelete}
+              />
+            </Box>
+          </Box>
         </Box>
       </EmailVerification>
     </IsLoggedin>

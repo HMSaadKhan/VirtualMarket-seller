@@ -20,8 +20,27 @@ const Register = (props) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setCPassword] = React.useState("");
-  // const [fName, setfName] = React.useState("saad");
-  // const [lName, setlName] = React.useState("khan");
+
+  const SignUpFunction = () => {
+    sellerService
+      .register({
+        email,
+        password,
+        confirmPassword,
+      })
+      .then((res) => {
+        toast.success(res.data, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+        props.history.push("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response.data, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      });
+  };
 
   return (
     <LoginAuth>
@@ -29,8 +48,7 @@ const Register = (props) => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          paddingTop: "10%",
-          paddingBottom: "5%",
+         marginTop:"200px"
         }}
       >
         <Card sx={{ maxWidth: 350, minWidth: 350 }}>
@@ -45,6 +63,12 @@ const Register = (props) => {
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      SignUpFunction();
+                      // write your functionality here
+                    }
+                  }}
                 />
                 <TextField
                   label="Password"
@@ -54,6 +78,12 @@ const Register = (props) => {
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      SignUpFunction();
+                      // write your functionality here
+                    }
+                  }}
                 />
                 <TextField
                   type="password"
@@ -62,6 +92,12 @@ const Register = (props) => {
                   onChange={(e) => {
                     setCPassword(e.target.value);
                   }}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      SignUpFunction();
+                      // write your functionality here
+                    }
+                  }}
                 />
               </>
               <Box mt={2}>
@@ -69,24 +105,13 @@ const Register = (props) => {
                   sx={{ width: "100%" }}
                   variant="contained"
                   onClick={(e) => {
-                    sellerService
-                      .register({
-                        email,
-                        password,
-                        confirmPassword,
-                      })
-                      .then((res) => {
-                        toast.success(res.data, {
-                          position: toast.POSITION.BOTTOM_LEFT,
-                        });
-                        props.history.push("/login");
-                      })
-                      .catch((err) => {
-                        console.log(err);
-                        toast.error(err.response.data, {
-                          position: toast.POSITION.BOTTOM_LEFT,
-                        });
-                      });
+                    SignUpFunction();
+                  }}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      SignUpFunction();
+                      // write your functionality here
+                    }
                   }}
                 >
                   CREATE

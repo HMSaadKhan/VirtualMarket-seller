@@ -12,6 +12,8 @@ import OrderItems from "./OrderItems";
 import Divider from "@mui/material/Divider";
 import { styled } from "@mui/material/styles";
 import moment from "moment";
+import PageHeader from "../../Components/PageHeader";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -23,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function OrderComponent({ order, ChangeOrderStatus }) {
+  const history = useHistory();
   const classes = useStyles();
   const [buttonLabel, setbuttonLabel] = useState("");
 
@@ -30,11 +33,11 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
 
   const ButtonLabel = () => {
     if (order.status === "PLACED") {
-      setbuttonLabel("proceed to PACKAGING");
+      setbuttonLabel("Add to PACKAGING");
       setindex(1);
     }
     if (order.status === "PACKAGING") {
-      setbuttonLabel("proceed to SHIPPING");
+      setbuttonLabel("Add to SHIPPING");
       setindex(2);
     }
     if (order.status === "SHIPPING") {
@@ -48,7 +51,7 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
       setindex(4);
     }
   };
-  useEffect(ButtonLabel, []);
+  useEffect(ButtonLabel, [order.status]);
   console.log(order);
 
   const FlexBox = styled(Box)({
@@ -59,10 +62,11 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
   });
 
   return (
-    <Box m={3}>
-      <Card sx={{ maxwidth: 800, minWidth: 800, height: "80%" }}>
+    <Box mt={10} ml={2} mr={2} sx={{ marginLeft: "220px" }}>
+      <Card sx={{ backgroundColor: "#fafafa" }}>
         <CardContent>
-          <Card>
+          <PageHeader heading={"ORDER DETAILS"} />
+          <Card sx={{ marginTop: "10px" }}>
             <CardContent>
               <FlexBox>
                 <FlexBox>
@@ -78,8 +82,13 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
               </FlexBox>
             </CardContent>
           </Card>
-
-          <Card sx={{ marginTop: "10px" }}>
+          <Typography
+            ml={1}
+            sx={{ fontSize: "20px", fontWeight: "bold", color: "red" }}
+          >
+            Ordered Products
+          </Typography>
+          <Card sx={{}}>
             <CardContent>
               {order.items.map((items) => (
                 <OrderItems items={items} key={items.id} />
@@ -88,17 +97,19 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
           </Card>
           <Box
             sx={{
-              margin: "10px",
               display: "flex",
               justifyContent: "space-around",
+              flexDirection: "column",
             }}
           >
-            <Card sx={{ minWidth: 250, maxWidth: 300 }}>
+            <Typography
+              ml={1}
+              sx={{ fontSize: "20px", fontWeight: "bold", color: "red" }}
+            >
+              Shipping Details
+            </Typography>
+            <Card sx={{}}>
               <CardContent>
-                <Typography className={classes.heading}>
-                  Shipping Details
-                </Typography>
-
                 <FlexBox>
                   <Typography className={classes.heading}>Name </Typography>
                   <Typography className={classes.text}>
@@ -127,7 +138,13 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
                 </FlexBox>
               </CardContent>
             </Card>
-            <Card sx={{ minWidth: 250, maxWidth: 300 }}>
+            <Typography
+              ml={1}
+              sx={{ fontSize: "20px", fontWeight: "bold", color: "red" }}
+            >
+              Billing Details
+            </Typography>
+            <Card>
               <CardContent>
                 <FlexBox>
                   <Typography className={classes.heading}>Sub Total</Typography>
@@ -184,6 +201,7 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
                   }}
                   onClick={(e) => {
                     ChangeOrderStatus(order._id, e.target.value);
+                    history.push("/orders/" + order.status);
                   }}
                 >
                   Returned
@@ -211,6 +229,7 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
                   }}
                   onClick={(e) => {
                     ChangeOrderStatus(order._id, e.target.value);
+                    history.push("/orders/" + order.status);
                   }}
                 >
                   {buttonLabel}

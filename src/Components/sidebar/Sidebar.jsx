@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { useHistory, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import sellerService from "../../Services/SellerServices";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -18,6 +19,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { VerifyContext } from "../../Contexts/Verification/Verify";
 
 const StyledListItem = styled(ListItem)({ height: "35px" });
 const StyledListItemButton = styled(ListItemButton)({
@@ -30,17 +32,32 @@ const StyledTypography = styled(Typography)({
 });
 
 export default function Sidebar(props) {
-  const history = useHistory();
-  console.log(history);
+  const [isdisable, setisdisable] = React.useState(false);
+  const Verification = React.useContext(VerifyContext);
+
+  const Checker = () => {
+    if (Verification) {
+      if (
+        Verification.blocked === false &&
+        Verification.emailVerified === true &&
+        !(Verification.status === "APPROVED")
+      ) {
+        setisdisable(false);
+      } else {
+        setisdisable(true);
+      }
+    }
+  };
+  React.useEffect(Checker, [Verification]);
 
   const direct = () => {
     window.location.href = "/login";
   };
   return (
-    <>
+    <Box>
       {sellerService.isLoggedIn() ? (
         <>
-          <Box sx={{ width: "300px" }}>
+          <Box sx={{ width: "200px" }}>
             <Box
               position="fixed"
               sx={{
@@ -56,7 +73,11 @@ export default function Sidebar(props) {
                 <StyledTypography>Dashboard</StyledTypography>
 
                 <StyledListItem disablePadding>
-                  <StyledListItemButton component={Link} to="/">
+                  <StyledListItemButton
+                    component={Link}
+                    to="/"
+                    disabled={isdisable}
+                  >
                     <ListItemIcon>
                       <Home />
                     </ListItemIcon>
@@ -67,7 +88,11 @@ export default function Sidebar(props) {
                 <StyledTypography>Menu</StyledTypography>
 
                 <StyledListItem disablePadding>
-                  <StyledListItemButton component={Link} to="/warranty">
+                  <StyledListItemButton
+                    component={Link}
+                    to="/warranty/REQUESTED/"
+                    disabled={isdisable}
+                  >
                     <ListItemIcon>
                       <BuildIcon />
                     </ListItemIcon>
@@ -75,7 +100,11 @@ export default function Sidebar(props) {
                   </StyledListItemButton>
                 </StyledListItem>
                 <StyledListItem disablePadding>
-                  <StyledListItemButton component={Link} to="/products">
+                  <StyledListItemButton
+                    component={Link}
+                    to="/products"
+                    disabled={isdisable}
+                  >
                     <ListItemIcon>
                       <InventoryIcon />
                     </ListItemIcon>
@@ -83,7 +112,11 @@ export default function Sidebar(props) {
                   </StyledListItemButton>
                 </StyledListItem>
                 <StyledListItem disablePadding>
-                  <StyledListItemButton component={Link} to="/orders/PLACED">
+                  <StyledListItemButton
+                    component={Link}
+                    to="/orders/PLACED"
+                    disabled={isdisable}
+                  >
                     <ListItemIcon>
                       <LocalShippingIcon />
                     </ListItemIcon>
@@ -91,7 +124,11 @@ export default function Sidebar(props) {
                   </StyledListItemButton>
                 </StyledListItem>
                 <StyledListItem disablePadding>
-                  <StyledListItemButton component={Link} to="/transactions">
+                  <StyledListItemButton
+                    component={Link}
+                    to="/transactions"
+                    disabled={isdisable}
+                  >
                     <ListItemIcon>
                       <ReceiptIcon />
                     </ListItemIcon>
@@ -102,7 +139,11 @@ export default function Sidebar(props) {
                 <StyledTypography>Notifications</StyledTypography>
 
                 <StyledListItem disablePadding>
-                  <StyledListItemButton component={Link} to="#simple-list">
+                  <StyledListItemButton
+                    component={Link}
+                    to="#simple-list"
+                    disabled={isdisable}
+                  >
                     <ListItemIcon>
                       <InboxIcon />
                     </ListItemIcon>
@@ -112,7 +153,11 @@ export default function Sidebar(props) {
 
                 <StyledTypography>About</StyledTypography>
                 <StyledListItem disablePadding>
-                  <StyledListItemButton component={Link} to="/sellerprofile">
+                  <StyledListItemButton
+                    component={Link}
+                    to="/sellerprofile"
+                    disabled={isdisable}
+                  >
                     <ListItemIcon>
                       <AccountBox />
                     </ListItemIcon>
@@ -140,6 +185,6 @@ export default function Sidebar(props) {
       ) : (
         <div></div>
       )}
-    </>
+    </Box>
   );
 }

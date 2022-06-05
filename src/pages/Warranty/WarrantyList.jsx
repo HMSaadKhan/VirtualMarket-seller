@@ -5,23 +5,22 @@ import warrantyServices from "../../Services/WarrantyServices";
 import WarrantyComponent from "./WarrantyComponent";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
-import { Container } from "../../Styles/StyledBoxes";
-import { NameBar } from "../../Styles/NameBar";
+
 import WarrantyMenu from "./WarrantyMenu";
 
 export default function WarrantyList(props) {
   const [WarrantyDetails, setWarrantyDetails] = useState([]);
   const [loading, setloading] = useState(false);
   const [error, seterror] = useState("");
-
+  const status = props.match.params.status;
   const getwarranties = () => {
     setloading(true);
     warrantyServices
-      .getWarranty()
+      .getWarranty(status)
       .then((data) => {
-        console.log(data);
         setWarrantyDetails(data.data);
         setloading(false);
+        seterror("");
       })
       .catch((data) => {
         setloading(false);
@@ -30,7 +29,7 @@ export default function WarrantyList(props) {
         console.log(data.response);
       });
   };
-  useEffect(getwarranties, []);
+  useEffect(getwarranties, [status]);
 
   return (
     <EmailVerification>
@@ -40,16 +39,28 @@ export default function WarrantyList(props) {
         sx={{
           display: "flex",
           justifyContent: "center",
-          paddingTop: "5%",
-          paddingBottom: "5%",
-          paddingLeft: "200px",
+          alignItems: "center",
         }}
       >
-        <Box>
-          <WarrantyComponent
-            WarrantyDetails={WarrantyDetails}
-            warranties={getwarranties}
-          />
+        <Box sx={{ width: "100%" }}>
+          <Box>
+            <WarrantyMenu />
+          </Box>
+          <Box>
+            {error.length > 0 ? (
+              <Box sx={{ width: "100%" }}>
+                <Typography align="center">{error}</Typography>
+              </Box>
+            ) : (
+              <>
+                <WarrantyComponent
+                  WarrantyDetails={WarrantyDetails}
+                  warranties={getwarranties}
+                  status={status}
+                />
+              </>
+            )}
+          </Box>
         </Box>
       </Box>
     </EmailVerification>

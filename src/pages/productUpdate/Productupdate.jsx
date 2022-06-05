@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
 import productService from "../../Services/ProductServices";
 import { DisplayImage } from "../../Components/AddSingleFile/DisplayImage";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
-import { Container, MarginBox } from "../../Styles/StyledBoxes";
+import { MarginBox } from "../../Styles/StyledBoxes";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 

@@ -1,18 +1,10 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-
-import { Box, IconButton, Card, CardContent, Typography } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, Card, CardContent, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { Divider } from "@mui/material";
 
-const FlexBox = styled(Box)({
-  display: "flex",
-  flexWrap: "wrap",
-  alignItems: "center",
-  height: "50px",
-});
+import moment from "moment";
+import PageHeader from "../../Components/PageHeader";
+
 const ProductText = styled(Typography)({
   align: "center",
   fontWeight: "bold",
@@ -21,61 +13,86 @@ const ProductText = styled(Typography)({
 const DataText = styled(Typography)({
   align: "center",
 });
-const TransactionCard = ({ transactions, handleDelete }) => {
-  const history = useHistory();
-
+const TransactionCard = ({ transactions, Balance }) => {
   return (
-    <FlexBox sx={{ justifyContent: "center" }}>
-      <Box position="fixed" sx={{ zIndex: 3 }}>
-        <Card
-          sx={{ minWidth: 900, marginTop: "30px", backgroundColor: "#fafafa" }}
-        >
+    <Box mt={10} ml={2} mr={2} sx={{ marginLeft: "220px" }}>
+      <PageHeader heading={"TRANSACTIONS"} />
+      <Box sx={{ width: "20%", marginTop: "10px" }}>
+        <Card>
           <CardContent>
-            <FlexBox sx={{ justifyContent: "space-between" }}>
-              <FlexBox sx={{ width: "25%" }}>
-                <ProductText>Transaction ID</ProductText>
-              </FlexBox>
-              <FlexBox sx={{ width: "15%" }}>
-                <ProductText>Amount</ProductText>
-              </FlexBox>
-              <FlexBox sx={{ width: "20%" }}>
-                <ProductText>Status</ProductText>
-              </FlexBox>
-            </FlexBox>
+            <Typography
+              sx={{ fontWeight: "bold", color: "red", fontSize: "20px" }}
+            >
+              {"Balance : PKR " + Balance}
+            </Typography>
+          </CardContent>
+        </Card>
+      </Box>
+      <Box>
+        <Card
+          sx={{ minWidth: 900, marginTop: "10px", backgroundColor: "#eeeeee" }}
+        >
+          <CardContent
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ width: "100%" }}>
+              <ProductText>Transaction ID</ProductText>
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              <ProductText align="center">Transaction Amount</ProductText>
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              <ProductText align="center">Transaction Date</ProductText>
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              <ProductText align="center">Status</ProductText>
+            </Box>
           </CardContent>
         </Card>
       </Box>
       {transactions.length > 0 ? (
-        <>
-          <Card sx={{ minWidth: 900, marginTop: "150px" }}>
-            <CardContent>
-              {transactions.map((transaction) => {
-                return (
-                  <>
-                    <FlexBox sx={{ justifyContent: "space-between" }}>
-                      <FlexBox sx={{ width: "25%" }}>
-                        <DataText>{transaction._id}</DataText>
-                      </FlexBox>
-                      <FlexBox sx={{ width: "15%" }}>
-                        <DataText>{transaction.amount}</DataText>
-                      </FlexBox>
-                      <FlexBox sx={{ width: "20%" }}>
-                        <DataText sx={{ fontWeight: "bold" }}>
-                          {transaction.status}
-                        </DataText>
-                      </FlexBox>
-                    </FlexBox>
-                    <Divider />
-                  </>
-                );
-              })}
-            </CardContent>
-          </Card>
-        </>
+        <Box>
+          {transactions.map((transaction) => {
+            return (
+              <Box mt={2}>
+                <Card sx={{ backgroundColor: "#fafafa" }}>
+                  <CardContent
+                    sx={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <Box sx={{ width: "100%" }}>
+                      <DataText>{transaction._id}</DataText>
+                    </Box>
+                    <Box sx={{ width: "100%" }}>
+                      <DataText align="center">
+                        {"PKR " + transaction.amount}
+                      </DataText>
+                    </Box>
+                    <Box sx={{ width: "100%" }}>
+                      <DataText align="center">
+                        {moment(transaction.createdAt).format("MMMM Do YYYY")}
+                      </DataText>
+                    </Box>
+                    <Box sx={{ width: "100%" }}>
+                      <DataText align="center" sx={{ fontWeight: "bold" }}>
+                        {transaction.status}
+                      </DataText>
+                    </Box>
+
+                    {/* <Divider /> */}
+                  </CardContent>
+                </Card>
+              </Box>
+            );
+          })}
+        </Box>
       ) : (
-        <Typography sx={{ marginTop: "200px" }}>No transaction</Typography>
+        <Typography sx={{ marginLeft: "220px" }}>No transaction</Typography>
       )}
-    </FlexBox>
+    </Box>
   );
 };
 export default TransactionCard;

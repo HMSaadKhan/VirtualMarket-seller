@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import sellerService from "../../Services/SellerServices";
 import {
   TextField,
@@ -17,11 +17,9 @@ import {
 import { toast } from "react-toastify";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import { MarginBox } from "../../Styles/StyledBoxes";
-import { styled } from "@mui/material/styles";
 import { SingleFileUpload } from "../../Components/AddSingleFile/SingleFileUpload";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
-import { Container } from "../../Styles/StyledBoxes";
 
 export default function AddInformation(props) {
   const [fName, setfName] = useState("");
@@ -36,17 +34,6 @@ export default function AddInformation(props) {
   const [images, setImages] = useState([]);
   const [cities, setcities] = useState([]);
   const [loading, setloading] = useState(false);
-
-  // const getVerificationdata = () => {
-  //   setloading(true);
-  //   sellerService.getStatus().then((data) => {
-  //     setloading(false);
-  //     if (data.infoCompleted) {
-  //       props.history.push("/");
-  //     }
-  //   });
-  // };
-  // useEffect(getVerificationdata, []);
 
   let temp = images;
   const imageArray = (e, index) => {
@@ -67,15 +54,15 @@ export default function AddInformation(props) {
     formData.append("storeName", storeName);
     formData.append("onlinePaymentOption", onlinePaymentOption);
     formData.append("deliveryCharge", deliveryCharge);
-    // formData.append("image", images[0]);
-    // formData.append("image", images[1]);
-    // formData.append("image", images[2]);
+
+    for (let i = 0; i < images.length; i++) {
+      formData.append("image", images[i]);
+    }
 
     console.log(formData);
     sellerService
       .addDetails(formData)
       .then((data) => {
-        console.log(data);
         setloading(false);
         toast.success(data.data, {
           position: toast.POSITION.BOTTOM_LEFT,
@@ -84,7 +71,6 @@ export default function AddInformation(props) {
       })
       .catch((err) => {
         setloading(false);
-        console.log(err.response);
         toast.error(err.response.data, {
           position: toast.POSITION.BOTTOM_LEFT,
         });
@@ -115,174 +101,182 @@ export default function AddInformation(props) {
   return (
     <IsLoggedin>
       <EmailVerification>
-        <Container
-          sx={{ marginLeft: "200px" }}
-          // sx={{
-          //   flex: 4,
-          //   display: "flex",
-          //   justifyContent: "center",
-          //   alignItems: "center",
-          //   paddingTop: "5%",
-          // }}
+        <LoadingScreen bool={loading} />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
-          <LoadingScreen bool={loading} />
-          <Card sx={{ minWidth: 900, maxWidth: 900 }}>
-            <CardContent>
-              <h1>Add Information</h1>
-              <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-                <Box sx={{ width: "25%" }}>
-                  <MarginBox>
-                    <TextField
-                      value={fName}
-                      label="First Name"
-                      variant="standard"
-                      onChange={(e) => {
-                        setfName(e.target.value);
-                      }}
-                    />
-                  </MarginBox>
-                  <MarginBox>
-                    <TextField
-                      label="CNIC"
-                      value={cnic}
-                      variant="standard"
-                      helperText="e.g. 3520265935693"
-                      onChange={(e) => {
-                        setCnic(e.target.value);
-                      }}
-                    />
-                  </MarginBox>
-                  <MarginBox>
-                    {" "}
-                    <TextField
-                      label="Store Name"
-                      variant="standard"
-                      value={storeName}
-                      onChange={(e) => {
-                        setStoreName(e.target.value);
-                      }}
-                    />
-                  </MarginBox>
-                  <MarginBox>
-                    <TextField
-                      label="Delivery charges"
-                      helperText=" Same city Delivery Charges"
-                      variant="standard"
-                      value={deliveryCharge}
-                      onChange={(e) => {
-                        setDeliveryCharge(e.target.value);
-                      }}
-                    />
-                  </MarginBox>
+          <Box sx={{ width: "100%" }}>
+            <Box mt={10} ml={2} mr={2} sx={{ marginLeft: "220px" }}>
+              <Card sx={{}}>
+                <CardContent>
+                  <h1>Add Information</h1>
+                  <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+                    <Box sx={{ width: "25%" }}>
+                      <MarginBox>
+                        <TextField
+                          value={fName}
+                          label="First Name"
+                          variant="standard"
+                          onChange={(e) => {
+                            setfName(e.target.value);
+                          }}
+                        />
+                      </MarginBox>
+                      <MarginBox>
+                        <TextField
+                          label="CNIC"
+                          value={cnic}
+                          variant="standard"
+                          helperText="e.g. 3520265935693"
+                          onChange={(e) => {
+                            setCnic(e.target.value);
+                          }}
+                        />
+                      </MarginBox>
+                      <MarginBox>
+                        {" "}
+                        <TextField
+                          label="Store Name"
+                          variant="standard"
+                          value={storeName}
+                          onChange={(e) => {
+                            setStoreName(e.target.value);
+                          }}
+                        />
+                      </MarginBox>
+                      <MarginBox>
+                        <TextField
+                          label="Delivery charges"
+                          helperText=" Same city Delivery Charges"
+                          variant="standard"
+                          value={deliveryCharge}
+                          onChange={(e) => {
+                            setDeliveryCharge(e.target.value);
+                          }}
+                        />
+                      </MarginBox>
 
-                  <MarginBox>
-                    <TextField
-                      label="Shop Address"
-                      variant="standard"
-                      value={address}
-                      onChange={(e) => {
-                        setAddress(e.target.value);
-                      }}
-                    />
-                  </MarginBox>
-                  <MarginBox>
-                    <FormLabel component="legend">Online Payments</FormLabel>
-                    <Switch
-                      sx={{ color: "error" }}
-                      checked={onlinePaymentOption}
-                      onChange={switchChange}
-                    />
-                  </MarginBox>
-                </Box>
-                <Box sx={{ width: "25%" }}>
-                  <MarginBox>
-                    <TextField
-                      label="Last Name"
-                      value={lName}
-                      variant="standard"
-                      onChange={(e) => {
-                        setlName(e.target.value);
-                      }}
-                    />
-                  </MarginBox>
-                  <MarginBox>
-                    <TextField
-                      label="Phone No"
-                      variant="standard"
-                      helperText="03XXXXXXXXX "
-                      value={phone}
-                      onChange={(e) => {
-                        setPhone(e.target.value);
-                      }}
-                    />
-                  </MarginBox>
-                  <MarginBox>
-                    <FormControl sx={{ width: "100%" }}>
-                      <InputLabel variant="standard">City</InputLabel>
+                      <MarginBox>
+                        <TextField
+                          label="Shop Address"
+                          variant="standard"
+                          value={address}
+                          onChange={(e) => {
+                            setAddress(e.target.value);
+                          }}
+                        />
+                      </MarginBox>
+                      <MarginBox>
+                        <FormLabel component="legend">
+                          Online Payments
+                        </FormLabel>
+                        <Switch
+                          sx={{ color: "error" }}
+                          checked={onlinePaymentOption}
+                          onChange={switchChange}
+                        />
+                      </MarginBox>
+                    </Box>
+                    <Box sx={{ width: "25%" }}>
+                      <MarginBox>
+                        <TextField
+                          label="Last Name"
+                          value={lName}
+                          variant="standard"
+                          onChange={(e) => {
+                            setlName(e.target.value);
+                          }}
+                        />
+                      </MarginBox>
+                      <MarginBox>
+                        <TextField
+                          label="Phone No"
+                          variant="standard"
+                          helperText="03XXXXXXXXX "
+                          value={phone}
+                          onChange={(e) => {
+                            setPhone(e.target.value);
+                          }}
+                        />
+                      </MarginBox>
+                      <MarginBox>
+                        <FormControl sx={{ width: "100%" }}>
+                          <InputLabel variant="standard">City</InputLabel>
 
-                      <Select
-                        variant="standard"
-                        value={city}
-                        onChange={(e) => {
-                          selectChange(e);
+                          <Select
+                            variant="standard"
+                            value={city}
+                            onChange={(e) => {
+                              selectChange(e);
+                            }}
+                          >
+                            {cities.map((item) => (
+                              <MenuItem key={item} value={item._id}>
+                                {item.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </MarginBox>
+                      <MarginBox>
+                        <TextField
+                          label="Delivery Charges"
+                          variant="standard"
+                          helperText="Different city Delivery Charges"
+                          value={deliveryCharge}
+                          onChange={(e) => {
+                            setDeliveryCharge(e.target.value);
+                          }}
+                        />
+                      </MarginBox>
+                      <MarginBox></MarginBox>
+                      <MarginBox></MarginBox>
+                    </Box>
+                    <Box
+                      sx={{
+                        width: "50%",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Box
+                        m={5}
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          flexDirection: "column",
                         }}
                       >
-                        {cities.map((item) => (
-                          <MenuItem key={item} value={item._id}>
-                            {item.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </MarginBox>
-                  <MarginBox>
-                    <TextField
-                      label="Delivery Charges"
-                      variant="standard"
-                      helperText="Different city Delivery Charges"
-                      value={deliveryCharge}
-                      onChange={(e) => {
-                        setDeliveryCharge(e.target.value);
-                      }}
-                    />
-                  </MarginBox>
-                  <MarginBox></MarginBox>
-                  <MarginBox></MarginBox>
-                </Box>
-                <Box sx={{ width: "50%" }}>
-                  <Box
-                    m={5}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-around",
-                      flexWrap: "wrap",
-                      maxWidth: "80%",
-                    }}
-                  >
-                    <MarginBox>
-                      <Typography>Profile Picture</Typography>
-                      <SingleFileUpload index={0} imageArray={imageArray} />
-                    </MarginBox>
-                    <MarginBox>
-                      <Typography>CNIC Front</Typography>
-                      <SingleFileUpload index={1} imageArray={imageArray} />
-                    </MarginBox>
-                    <MarginBox>
-                      <Typography>CNIC Back</Typography>
-                      <SingleFileUpload index={2} imageArray={imageArray} />
-                    </MarginBox>
+                        <MarginBox>
+                          <Typography>Profile Picture</Typography>
+                          <SingleFileUpload index={0} imageArray={imageArray} />
+                        </MarginBox>
+                        <MarginBox>
+                          <Typography>CNIC Front</Typography>
+                          <SingleFileUpload index={1} imageArray={imageArray} />
+                        </MarginBox>
+                        <MarginBox>
+                          <Typography>CNIC Back</Typography>
+                          <SingleFileUpload index={2} imageArray={imageArray} />
+                        </MarginBox>
+                      </Box>
+                    </Box>
                   </Box>
-                </Box>
-              </Box>
 
-              <MarginBox>
-                <Button variant="contained" onClick={() => send()}>
-                  Add Information
-                </Button>
-              </MarginBox>
-            </CardContent>
-          </Card>
-        </Container>
+                  <MarginBox>
+                    <Button variant="contained" onClick={() => send()}>
+                      Add Information
+                    </Button>
+                  </MarginBox>
+                </CardContent>
+              </Card>
+            </Box>
+          </Box>
+        </Box>
       </EmailVerification>
     </IsLoggedin>
   );

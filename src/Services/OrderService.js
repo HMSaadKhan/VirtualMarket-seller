@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-constructor */
 import GenericService from "./GenericService";
 
 import axios from "axios";
@@ -11,7 +12,16 @@ class OrderService extends GenericService {
     new Promise((resolve, reject) => {
       this.get("orders/getSellerOrders/" + status)
         .then((data) => {
-          console.log("Get Orders");
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  GetOrderDetails = (id) =>
+    new Promise((resolve, reject) => {
+      this.get("orders/getorderdetails/" + id)
+        .then((data) => {
           resolve(data);
         })
         .catch((err) => {
@@ -23,7 +33,6 @@ class OrderService extends GenericService {
       axios
         .patch("orders/changeStatus/" + _id)
         .then((data) => {
-          console.log("Get Orders");
           resolve(data);
         })
         .catch((err) => {
@@ -35,7 +44,6 @@ class OrderService extends GenericService {
       axios
         .patch("orders/concludeOrder/" + _id, data)
         .then((data) => {
-          console.log("Get Orders");
           resolve(data);
         })
         .catch((err) => {

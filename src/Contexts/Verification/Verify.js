@@ -1,24 +1,25 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useState, useEffect, createContext } from "react";
 import sellerService from "../../Services/SellerServices";
 export const VerifyContext = createContext({});
 
 const Verify = (props) => {
-  const [emailVerified, setEmailVerified] = useState();
-  const [infoCompleted, setinfoCompleted] = useState();
+  const [emailVerified, setEmailVerified] = useState(true);
+  const [status, setstatus] = useState("");
+  const [blocked, setblocked] = useState(false);
 
   useEffect(() => {
     sellerService.getStatus().then((data) => {
       console.log(data);
-
+      setblocked(data.blocked);
       setEmailVerified(data.emailVerified);
-      setinfoCompleted(data.infoCompleted);
+      setstatus(data.status);
     });
   }, []);
 
   return (
     <>
-      // eslint-disable-next-line react/jsx-pascal-case
-      <VerifyContext.Provider value={{ emailVerified, infoCompleted }}>
+      <VerifyContext.Provider value={{ emailVerified, setstatus, blocked }}>
         {props.children}
       </VerifyContext.Provider>
     </>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   TextField,
   Button,
@@ -12,9 +12,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import LoginAuth from "../../AuthWrapper/LoginAuth";
 import { styled } from "@mui/material/styles";
-import { VerifyContext } from "../../Contexts/Verification/Verify";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
-import { Container } from "../../Styles/StyledBoxes";
 const Title = styled(Typography)({ fontSize: "24px", fontWeight: "bold" });
 
 const Login = (props) => {
@@ -49,59 +47,75 @@ const Login = (props) => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          paddingTop: "10%",
-          paddingBottom: "5%",
+          marginTop: { xs: "200px", md: "200px", lg: "200px" },
+          marginBottom: { xs: "200px", md: "200px", lg: "200px" },
         }}
       >
-        <Card sx={{ maxWidth: 300, padding: "20px" }}>
-          <CardContent>
-            <Title>SIGN IN</Title>
-            <Box sx={{}}>
-              <>
-                <TextField
-                  required
-                  fullWidth
-                  id="filled-required"
-                  label="Email"
-                  helperText="example@example.com"
-                  defaultValue={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                />
-              </>
-              <>
-                <TextField
-                  label="Password"
-                  type="password"
-                  fullWidth
-                  autoComplete="current-password"
-                  defaultValue={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                />
-              </>
-              <Box mt={2}>
-                <Button
-                  sx={{ width: "100%" }}
-                  variant="contained"
-                  onClick={(e) => {
-                    Login();
-                  }}
-                >
-                  LOGIN
-                </Button>
-              </Box>
-              <Box mt={1}>
-                <Typography>
-                  Don't have an account? <Link to="/signup">SignUp</Link>
-                </Typography>
-                <Link to="/forgotpassword">Forgot Password</Link>
-              </Box>
-            </Box>
-          </CardContent>
-        </Card>
+        <Box sx={{ width: "100%" }}>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Card sx={{ maxWidth: 300, padding: "20px" }}>
+              <CardContent>
+                <Title>SIGN IN</Title>
+                <Box sx={{}}>
+                  <>
+                    <TextField
+                      required
+                      fullWidth
+                      id="filled-required"
+                      label="Email"
+                      helperText="example@example.com"
+                      defaultValue={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                      }}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          Login();
+                          // write your functionality here
+                        }
+                      }}
+                    />
+                  </>
+                  <>
+                    <TextField
+                      label="Password"
+                      type="password"
+                      fullWidth
+                      autoComplete="current-password"
+                      defaultValue={password}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          Login();
+                          // write your functionality here
+                        }
+                      }}
+                    />
+                  </>
+                  <Box mt={2}>
+                    <Button
+                      sx={{ width: "100%" }}
+                      variant="contained"
+                      onClick={(e) => {
+                        Login();
+                      }}
+                    >
+                      LOGIN
+                    </Button>
+                  </Box>
+                  <Box mt={1}>
+                    <Typography>
+                      Don't have an account? <Link to="/signup">SignUp</Link>
+                    </Typography>
+                    <Link to="/forgotpassword">Forgot Password</Link>
+                  </Box>
+                </Box>
+              </CardContent>
+            </Card>
+          </Box>
+        </Box>
       </Box>
     </LoginAuth>
   );
