@@ -5,9 +5,15 @@ export default function PageHeader({ heading }) {
   return (
     <div>
       <Card sx={{ backgroundColor: "#fafafa" }}>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            backgroundColor: "#c9485b",
+          }}
+        >
           <Typography
-            sx={{ fontSize: "25px", fontWeight: "bold", color: "red" }}
+            sx={{ fontSize: "25px", fontWeight: "bold", color: "white" }}
           >
             {heading}
           </Typography>

@@ -8,25 +8,33 @@ import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
+import Typography from "@mui/material/Typography";
+import Pagination from "@mui/material/Pagination";
 
 const SellerProducts = (props) => {
   const [loading, setloading] = useState(false);
   const [sellerProducts, setSellerProducts] = useState([]);
+  const [totalpages, settotalpages] = useState();
+  const page = props.match.params.page ? props.match.params.page : 1;
 
   const getSellerProducts = () => {
     setloading(true);
     productService
-      .GetAllBySeller()
+      .GetAllBySeller(page)
       .then((data) => {
+        console.log(data);
         setloading(false);
-        setSellerProducts(data);
+        setSellerProducts(data.products);
+        settotalpages(data.pages);
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       })
       .catch((error) => {
         setloading(false);
         console.log(error);
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       });
   };
-  useEffect(getSellerProducts, []);
+  useEffect(getSellerProducts, [page]);
 
   const handleDelete = async (_id) => {
     await productService.deleteProduct(_id);
@@ -60,6 +68,23 @@ const SellerProducts = (props) => {
                 handleDelete={handleDelete}
               />
             </Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography align="center">Page: {page}</Typography>
+            <Pagination
+              size="large"
+              count={totalpages}
+              page={page}
+              onChange={(e, value) => {
+                props.history.push("/products/" + value);
+              }}
+            />
           </Box>
         </Box>
       </EmailVerification>

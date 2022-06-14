@@ -51,9 +51,9 @@ class ProductService extends GenericService {
           reject(err);
         });
     });
-  GetAllBySeller = () =>
+  GetAllBySeller = (page) =>
     new Promise((resolve, reject) => {
-      this.get("products/getAllBySeller")
+      this.get("products/getAllBySeller/" + page)
         .then((data) => {
           resolve(data);
         })

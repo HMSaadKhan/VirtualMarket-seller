@@ -102,7 +102,7 @@ export default function Sidebar(props) {
                 <StyledListItem disablePadding>
                   <StyledListItemButton
                     component={Link}
-                    to="/products"
+                    to="/products/:page"
                     disabled={isdisable}
                   >
                     <ListItemIcon>

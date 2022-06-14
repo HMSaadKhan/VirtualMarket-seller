@@ -80,7 +80,7 @@ const ProductCard = ({ products, handleDelete }) => {
                     }}
                   >
                     <Box sx={{ width: "100%" }}>
-                      <Box sx={{ width: "100px", height: "120px" }}>
+                      <Box sx={{ width: "55px", height: "55px" }}>
                         <img
                           src={product.images[0].link}
                           alt="product image"

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import sellerService from "../Services/SellerServices";
 import { withRouter } from "react-router-dom";

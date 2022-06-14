@@ -45,10 +45,10 @@ function App() {
               component={OrdersDetails}
             />
             <Route path="/warranty/:status" component={WarrantyList} />
-            <Route path="/products" component={SellerProduct} />
+            <Route path="/products/:page?" component={SellerProduct} />
             <Route path="/sellerprofile" component={UserProfile} />
             <Route path="/addproduct" component={AddProduct} />
-            <Route path="/editDetails/:id" component={ProductUpdate} />
+            <Route path="/editDetails/:id" component={ProductUpdate} /> 
             <Route
               path="/product-information/:id"
               component={ProductInformation}
