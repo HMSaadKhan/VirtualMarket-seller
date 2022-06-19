@@ -17,6 +17,7 @@ const Colors = {
   body_bg: "#f3f6f9",
   buyerSite: "#ba6a62",
   AdminSite: "#85ADBE",
+  sellerSite: "#c9485b",
   ///////////////
   // Solid Color
   ///////////////
@@ -28,7 +29,7 @@ const Colors = {
 const theme = createTheme({
   palette: {
     primary: {
-      main: Colors.red,
+      main: Colors.sellerSite,
     },
   },
   components: {
@@ -50,7 +51,6 @@ const theme = createTheme({
     MuiListItemButton: {
       height: "30px",
     },
-   
   },
 });
 export default theme;

@@ -9,19 +9,23 @@ import { styled } from "@mui/material/styles";
 import { Divider } from "@mui/material";
 import PageHeader from "../../Components/PageHeader";
 
-// const Box = styled(Box)({
-//   display: "flex",
+import { makeStyles } from "@mui/styles";
 
-//   height: "50px",
-// });
+const useStyles = makeStyles({
+  image: {
+    width: "60px",
+    height: "60px",
+    objectFit: "contain",
+  },
+});
 const ProductText = styled(Typography)({
   fontWeight: "bold",
-  color: "red",
 });
 const DataText = styled(Typography)({
   align: "center",
 });
 const ProductCard = ({ products, handleDelete }) => {
+  const classes = useStyles();
   const history = useHistory();
   console.log(products);
   return (
@@ -40,26 +44,34 @@ const ProductCard = ({ products, handleDelete }) => {
             }}
           >
             <Box sx={{ width: "100%" }}>
-              <ProductText>Product Image</ProductText>
+              <ProductText color="primary">Product Image</ProductText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <ProductText>Product Name</ProductText>
+              <ProductText color="primary">Product Name</ProductText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <ProductText align="center">Product Brand</ProductText>
+              <ProductText color="primary">Product Brand</ProductText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <ProductText align="center">Product Category</ProductText>
+              <ProductText align="center" color="primary">
+                Product Category
+              </ProductText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <ProductText align="center">Stock</ProductText>
+              <ProductText align="center" color="primary">
+                Stock
+              </ProductText>
             </Box>
 
             <Box sx={{ width: "100%" }}>
-              <ProductText align="center">Status</ProductText>
+              <ProductText align="center" color="primary">
+                Status
+              </ProductText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <ProductText align="center">Action</ProductText>
+              <ProductText align="center" color="primary">
+                Action
+              </ProductText>
             </Box>
 
             <Divider />
@@ -79,16 +91,12 @@ const ProductCard = ({ products, handleDelete }) => {
                       alignItems: "center",
                     }}
                   >
-                    <Box sx={{ width: "100%" }}>
-                      <Box sx={{ width: "55px", height: "55px" }}>
-                        <img
-                          src={product.images[0].link}
-                          alt="product image"
-                          width="100%"
-                          height="100%"
-                          objectFit="contain"
-                        />
-                      </Box>
+                    <Box sx={{ width: "90%" }}>
+                      <img
+                        src={product.images[0].link}
+                        alt="product image"
+                        className={classes.image}
+                      />
                     </Box>
                     <Box sx={{ width: "100%" }}>
                       <DataText
@@ -100,13 +108,11 @@ const ProductCard = ({ products, handleDelete }) => {
                         {product.name}
                       </DataText>
                     </Box>
-                    <Box sx={{ width: "100%" }}>
-                      <DataText align="center">{product.brand}</DataText>
+                    <Box ml={5} sx={{ width: "100%" }}>
+                      <DataText>{product.brand}</DataText>
                     </Box>
                     <Box sx={{ width: "100%" }}>
-                      <DataText align="center">
-                        {product.category.name}
-                      </DataText>
+                      <DataText>{product.category.name}</DataText>
                     </Box>
                     <Box
                       sx={{

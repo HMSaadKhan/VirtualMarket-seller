@@ -5,7 +5,7 @@ import warrantyServices from "../../Services/WarrantyServices";
 import WarrantyComponent from "./WarrantyComponent";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
-
+import { MidPager } from "../../Styles/MidPager";
 import WarrantyMenu from "./WarrantyMenu";
 
 export default function WarrantyList(props) {
@@ -49,7 +49,7 @@ export default function WarrantyList(props) {
           <Box>
             {error.length > 0 ? (
               <Box sx={{ width: "100%" }}>
-                <Typography align="center">{error}</Typography>
+                <MidPager name={error} />
               </Box>
             ) : (
               <>

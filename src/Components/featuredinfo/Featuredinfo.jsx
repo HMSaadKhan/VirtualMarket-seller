@@ -18,7 +18,8 @@ export default function Featuredinfo({ name, num }) {
             <Typography
               align="left"
               variant="caption"
-              sx={{ color: "red", fontWeight: "bold" }}
+              color="primary"
+              sx={{ fontWeight: "bold" }}
             >
               {name}
             </Typography>

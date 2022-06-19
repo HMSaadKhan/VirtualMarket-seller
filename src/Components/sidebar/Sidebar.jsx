@@ -2,7 +2,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import sellerService from "../../Services/SellerServices";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import LogoutIcon from "@mui/icons-material/Logout";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
@@ -102,7 +101,7 @@ export default function Sidebar(props) {
                 <StyledListItem disablePadding>
                   <StyledListItemButton
                     component={Link}
-                    to="/products/:page"
+                    to="/products/1"
                     disabled={isdisable}
                   >
                     <ListItemIcon>
@@ -133,21 +132,6 @@ export default function Sidebar(props) {
                       <ReceiptIcon />
                     </ListItemIcon>
                     <ListItemText primary="Transactions" />
-                  </StyledListItemButton>
-                </StyledListItem>
-
-                <StyledTypography>Notifications</StyledTypography>
-
-                <StyledListItem disablePadding>
-                  <StyledListItemButton
-                    component={Link}
-                    to="#simple-list"
-                    disabled={isdisable}
-                  >
-                    <ListItemIcon>
-                      <InboxIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Messages" />
                   </StyledListItemButton>
                 </StyledListItem>
 

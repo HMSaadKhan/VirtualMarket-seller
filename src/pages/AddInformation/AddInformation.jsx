@@ -30,9 +30,12 @@ export default function AddInformation(props) {
   const [address, setAddress] = useState("");
   const [storeName, setStoreName] = useState("");
   const [onlinePaymentOption, setonlinePaymentOption] = useState("false");
-  const [deliveryCharge, setDeliveryCharge] = useState();
+  const [sameCityDeliveryCharge, setDeliveryCharge] = useState();
+  const [diffCityDeliveryCharge, setDifDeliveryCharge] = useState();
   const [images, setImages] = useState([]);
   const [cities, setcities] = useState([]);
+  const [NTN, setNTN] = useState();
+
   const [loading, setloading] = useState(false);
 
   let temp = images;
@@ -53,7 +56,9 @@ export default function AddInformation(props) {
     formData.append("address", address);
     formData.append("storeName", storeName);
     formData.append("onlinePaymentOption", onlinePaymentOption);
-    formData.append("deliveryCharge", deliveryCharge);
+    formData.append("sameCityDeliveryCharge", sameCityDeliveryCharge);
+    formData.append("diffCityDeliveryCharge", diffCityDeliveryCharge);
+    formData.append("ntn", NTN);
 
     for (let i = 0; i < images.length; i++) {
       formData.append("image", images[i]);
@@ -113,130 +118,259 @@ export default function AddInformation(props) {
             <Box mt={10} ml={2} mr={2} sx={{ marginLeft: "220px" }}>
               <Card sx={{}}>
                 <CardContent>
-                  <h1>Add Information</h1>
+                  <Typography
+                    variant="h4"
+                    color="primary"
+                    sx={{ fontWeight: "bold" }}
+                  >
+                    Personal Information
+                  </Typography>
                   <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-                    <Box sx={{ width: "25%" }}>
-                      <MarginBox>
-                        <TextField
-                          value={fName}
-                          label="First Name"
-                          variant="standard"
-                          onChange={(e) => {
-                            setfName(e.target.value);
-                          }}
-                        />
-                      </MarginBox>
-                      <MarginBox>
-                        <TextField
-                          label="CNIC"
-                          value={cnic}
-                          variant="standard"
-                          helperText="e.g. 3520265935693"
-                          onChange={(e) => {
-                            setCnic(e.target.value);
-                          }}
-                        />
-                      </MarginBox>
-                      <MarginBox>
-                        {" "}
-                        <TextField
-                          label="Store Name"
-                          variant="standard"
-                          value={storeName}
-                          onChange={(e) => {
-                            setStoreName(e.target.value);
-                          }}
-                        />
-                      </MarginBox>
-                      <MarginBox>
-                        <TextField
-                          label="Delivery charges"
-                          helperText=" Same city Delivery Charges"
-                          variant="standard"
-                          value={deliveryCharge}
-                          onChange={(e) => {
-                            setDeliveryCharge(e.target.value);
-                          }}
-                        />
-                      </MarginBox>
+                    <Box sx={{ width: "100%" }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "start",
+                          justifyContent: "space-between",
 
-                      <MarginBox>
-                        <TextField
-                          label="Shop Address"
-                          variant="standard"
-                          value={address}
-                          onChange={(e) => {
-                            setAddress(e.target.value);
+                          height: "200px",
+                        }}
+                      >
+                        <Box>
+                          <Box sx={{ display: "flex" }}>
+                            <MarginBox>
+                              <TextField
+                                value={fName}
+                                label="First Name"
+                                variant="standard"
+                                onChange={(e) => {
+                                  setfName(e.target.value);
+                                }}
+                              />
+                            </MarginBox>
+                            <MarginBox>
+                              <TextField
+                                label="Last Name"
+                                value={lName}
+                                variant="standard"
+                                onChange={(e) => {
+                                  setlName(e.target.value);
+                                }}
+                              />
+                            </MarginBox>
+                          </Box>
+                          <Box sx={{ display: "flex" }}>
+                            <MarginBox>
+                              <TextField
+                                type="number"
+                                label="CNIC"
+                                value={cnic}
+                                variant="standard"
+                                helperText="e.g. 3520265935693"
+                                onChange={(e) => {
+                                  setCnic(e.target.value);
+                                }}
+                              />
+                            </MarginBox>
+                            <MarginBox>
+                              <TextField
+                                type="number"
+                                label="Phone No"
+                                variant="standard"
+                                helperText="03XXXXXXXXX "
+                                value={phone}
+                                onChange={(e) => {
+                                  setPhone(e.target.value);
+                                }}
+                              />
+                            </MarginBox>
+                          </Box>
+                        </Box>
+                        <Box
+                          mr={5}
+                          sx={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            justifyContent: "space-between",
                           }}
-                        />
-                      </MarginBox>
-                      <MarginBox>
-                        <FormLabel component="legend">
-                          Online Payments
-                        </FormLabel>
-                        <Switch
-                          sx={{ color: "error" }}
-                          checked={onlinePaymentOption}
-                          onChange={switchChange}
-                        />
-                      </MarginBox>
-                    </Box>
-                    <Box sx={{ width: "25%" }}>
-                      <MarginBox>
-                        <TextField
-                          label="Last Name"
-                          value={lName}
-                          variant="standard"
-                          onChange={(e) => {
-                            setlName(e.target.value);
-                          }}
-                        />
-                      </MarginBox>
-                      <MarginBox>
-                        <TextField
-                          label="Phone No"
-                          variant="standard"
-                          helperText="03XXXXXXXXX "
-                          value={phone}
-                          onChange={(e) => {
-                            setPhone(e.target.value);
-                          }}
-                        />
-                      </MarginBox>
-                      <MarginBox>
-                        <FormControl sx={{ width: "100%" }}>
-                          <InputLabel variant="standard">City</InputLabel>
+                        >
+                          <MarginBox sx={{ width: "150px" }}>
+                            <Typography>Profile Picture</Typography>
+                            <SingleFileUpload
+                              index={0}
+                              imageArray={imageArray}
+                            />
+                          </MarginBox>
+                          <MarginBox sx={{ width: "150px" }}>
+                            <Typography>CNIC Front</Typography>
+                            <SingleFileUpload
+                              index={1}
+                              imageArray={imageArray}
+                            />
+                          </MarginBox>
+                          <MarginBox sx={{ width: "150px" }}>
+                            <Typography>CNIC Back</Typography>
+                            <SingleFileUpload
+                              index={2}
+                              imageArray={imageArray}
+                            />
+                          </MarginBox>
+                        </Box>
+                      </Box>
+                      <Typography
+                        variant="h4"
+                        color="primary"
+                        sx={{ fontWeight: "bold" }}
+                      >
+                        Business Information
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "start",
+                          justifyContent: "space-between",
+                          height: "350px",
+                        }}
+                      >
+                        <Box>
+                          <Box sx={{ display: "flex" }}>
+                            <MarginBox>
+                              {" "}
+                              <TextField
+                                label="Store Name"
+                                variant="standard"
+                                value={storeName}
+                                onChange={(e) => {
+                                  setStoreName(e.target.value);
+                                }}
+                              />
+                            </MarginBox>
+                            <MarginBox>
+                              <FormControl
+                                sx={{ width: "200px", maxWidth: "200px" }}
+                              >
+                                <InputLabel variant="standard">City</InputLabel>
 
-                          <Select
-                            variant="standard"
-                            value={city}
-                            onChange={(e) => {
-                              selectChange(e);
+                                <Select
+                                  fullWidth
+                                  variant="standard"
+                                  value={city}
+                                  onChange={(e) => {
+                                    selectChange(e);
+                                  }}
+                                >
+                                  {cities.map((item) => (
+                                    <MenuItem key={item} value={item._id}>
+                                      {item.name}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                              </FormControl>
+                            </MarginBox>
+                          </Box>
+                          <Box sx={{ display: "flex" }}>
+                            <MarginBox>
+                              <TextField
+                                type="number"
+                                label="Delivery charges"
+                                helperText=" Same city Delivery Charges"
+                                variant="standard"
+                                value={sameCityDeliveryCharge}
+                                onChange={(e) => {
+                                  setDeliveryCharge(e.target.value);
+                                }}
+                              />
+                            </MarginBox>
+                            <MarginBox>
+                              <TextField
+                                type="number"
+                                label="Delivery charges"
+                                helperText="Different city Delivery Charges"
+                                variant="standard"
+                                value={diffCityDeliveryCharge}
+                                onChange={(e) => {
+                                  setDifDeliveryCharge(e.target.value);
+                                }}
+                              />
+                            </MarginBox>
+                          </Box>
+
+                          <Box
+                            sx={{
+                              marginLeft: "10px",
+                              marginRight: "10px",
                             }}
                           >
-                            {cities.map((item) => (
-                              <MenuItem key={item} value={item._id}>
-                                {item.name}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </MarginBox>
-                      <MarginBox>
-                        <TextField
-                          label="Delivery Charges"
-                          variant="standard"
-                          helperText="Different city Delivery Charges"
-                          value={deliveryCharge}
-                          onChange={(e) => {
-                            setDeliveryCharge(e.target.value);
+                            <TextField
+                              fullWidth
+                              label="NTN"
+                              variant="standard"
+                              value={NTN}
+                              onChange={(e) => {
+                                setNTN(e.target.value);
+                              }}
+                            />
+                          </Box>
+                          <Box
+                            sx={{
+                              marginLeft: "10px",
+                              marginRight: "10px",
+                            }}
+                          >
+                            <TextField
+                              fullWidth
+                              label="Shop Address"
+                              variant="standard"
+                              value={address}
+                              onChange={(e) => {
+                                setAddress(e.target.value);
+                              }}
+                            />
+                          </Box>
+                          <MarginBox>
+                            <FormLabel component="legend">
+                              Online Payments
+                            </FormLabel>
+                            <Switch
+                              checked={onlinePaymentOption}
+                              onChange={switchChange}
+                            />
+                          </MarginBox>
+                        </Box>
+                        <Box
+                          mr={5}
+                          sx={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            justifyContent: "space-between",
                           }}
-                        />
-                      </MarginBox>
-                      <MarginBox></MarginBox>
-                      <MarginBox></MarginBox>
+                        >
+                          <MarginBox sx={{ width: "150px" }}>
+                            <Typography>Utility Bill 1</Typography>
+                            <SingleFileUpload
+                              index={3}
+                              imageArray={imageArray}
+                            />
+                          </MarginBox>
+                          <MarginBox sx={{ width: "150px" }}>
+                            <Typography>Utility Bill 2</Typography>
+                            <SingleFileUpload
+                              index={4}
+                              imageArray={imageArray}
+                            />
+                          </MarginBox>
+                          <MarginBox sx={{ width: "150px" }}>
+                            <Typography>Account Statement</Typography>
+                            <SingleFileUpload
+                              index={5}
+                              imageArray={imageArray}
+                            />
+                          </MarginBox>
+                        </Box>
+                      </Box>
                     </Box>
-                    <Box
+
+                    {/* <Box
                       sx={{
                         width: "50%",
                         display: "flex",
@@ -264,7 +398,7 @@ export default function AddInformation(props) {
                           <SingleFileUpload index={2} imageArray={imageArray} />
                         </MarginBox>
                       </Box>
-                    </Box>
+                    </Box> */}
                   </Box>
 
                   <MarginBox>

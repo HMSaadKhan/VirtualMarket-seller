@@ -17,7 +17,7 @@ const Emailverification = (props) => {
           if (data.status === "NEW" || data.status === "REJECTED") {
             props.history.push("/add-information");
           }
-          if (data.status === "REQUESTED") {
+          if (data.status === "PENDING") {
             props.history.push("/APPROVALWAIT");
           }
         }

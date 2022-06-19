@@ -107,7 +107,7 @@ const Login = (props) => {
                   </Box>
                   <Box mt={1}>
                     <Typography>
-                      Don't have an account? <Link to="/signup">SignUp</Link>
+                      <Link to="/signup">Regiter as a new seller</Link>
                     </Typography>
                     <Link to="/forgotpassword">Forgot Password</Link>
                   </Box>

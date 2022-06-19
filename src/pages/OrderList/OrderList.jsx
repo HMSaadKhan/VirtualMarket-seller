@@ -6,7 +6,6 @@ import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 const HeadingText = styled(Typography)({
   fontWeight: "bold",
-  color: "red",
 });
 export default function OrderList({ orderDetails }) {
   return (
@@ -20,22 +19,32 @@ export default function OrderList({ orderDetails }) {
             }}
           >
             <Box sx={{ width: "100%" }}>
-              <HeadingText>Order ID</HeadingText>
+              <HeadingText color="primary">Order ID</HeadingText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <HeadingText align="center">Order Payment</HeadingText>
+              <HeadingText align="center" color="primary">
+                Order Payment
+              </HeadingText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <HeadingText align="center">Order Status</HeadingText>
+              <HeadingText align="center" color="primary">
+                Order Status
+              </HeadingText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <HeadingText align="center">Order City</HeadingText>
+              <HeadingText color="primary" align="center">
+                Order City
+              </HeadingText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <HeadingText align="center">Order Date</HeadingText>
+              <HeadingText color="primary" align="center">
+                Order Date
+              </HeadingText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <HeadingText align="center">Action</HeadingText>
+              <HeadingText align="center" color="primary">
+                Action
+              </HeadingText>
             </Box>
           </CardContent>
         </Card>

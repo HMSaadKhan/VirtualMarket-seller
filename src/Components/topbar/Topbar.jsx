@@ -11,8 +11,9 @@ const Topbar = (props) => {
       <Toolbar>
         <div>
           <Typography
-            sx={{ color: "red", fontWeight: "bold", cursor: "pointer" }}
+            sx={{ fontWeight: "bold", cursor: "pointer" }}
             variant="h6"
+            color="primary"
             onClick={(e) => {
               history.push("/");
             }}
