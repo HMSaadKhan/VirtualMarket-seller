@@ -7,7 +7,7 @@ import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 
 import OrderList from "./OrderList";
-
+import { MidPager } from "../../Styles/MidPager";
 export default function Orders(props) {
   const status = props.match.params.status;
   console.log(status);
@@ -60,12 +60,13 @@ export default function Orders(props) {
               </>
             ) : (
               <Box m={2}>
-                <Typography
+                {/* <Typography
                   align="center"
                   sx={{ fontWeight: "bold", fontSize: "15px" }}
                 >
                   {error}
-                </Typography>
+                </Typography> */}
+                <MidPager name={error} />
               </Box>
             )}
           </Box>

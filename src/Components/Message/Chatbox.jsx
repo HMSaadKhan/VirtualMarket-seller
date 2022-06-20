@@ -17,19 +17,16 @@ import SendIcon from "@mui/icons-material/Send";
 //import { ChatAnchorContext } from "../../Contexts/ChatAnchor/ChatAnchor";
 //import { useHistory } from "react-router-dom";
 import ChatMessages from "./ChatMessages";
-import ChatIcon from "@mui/icons-material/Chat";
 import chatService from "../../Services/ChatServices";
-import {
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
-import { MidPager } from "../../Styles/MidPager";
+import jwtDecode from "jwt-decode";
+import sellerServices from "../../Services/SellerServices";
+import { SocketAPIContext } from "../../Contexts/SocketAPI/SocketAPi";
+
 export default function ChatBox({ bool, setbool, anchor }) {
   const [chats, setchats] = React.useState([]);
   const [chatid, setchatid] = React.useState();
   const [chatperson, setchatperson] = useState();
+  const socket = React.useContext(SocketAPIContext);
   // const [anchor, setanchor] = React.useState();
   console.log("chat box run");
   //const anchorContext = useContext(ChatAnchorContext);
@@ -49,6 +46,12 @@ export default function ChatBox({ bool, setbool, anchor }) {
         console.log(error.response);
       });
   }, [bool]);
+  React.useEffect(() => {
+    if (sellerServices.isLoggedIn()) {
+      const seller = jwtDecode(sellerServices.getToken());
+      socket.emit("connectUser", seller._id);
+    }
+  }, [socket]);
 
   const chatList = (
     <Menu
@@ -120,7 +123,7 @@ export default function ChatBox({ bool, setbool, anchor }) {
                     setmsgbool(true);
                     setchatid(chat._id);
                     setbool(false);
-                    setchatperson(chat.Buyer);
+                    setchatperson(chat);
                   }}
                 >
                   {/* <Card>
@@ -170,9 +173,13 @@ export default function ChatBox({ bool, setbool, anchor }) {
             })}
           </>
         ) : (
-          <>
-            <MidPager sx={{ marginLeft: "0px" }} name={"No Chats"} />
-          </>
+          <Typography
+            align="center"
+            color="primary"
+            sx={{ fontWeight: "bold", marginTop: "100px" }}
+          >
+            No Chats
+          </Typography>
         )}
       </Box>
     </Menu>

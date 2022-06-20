@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 
 import moment from "moment";
 import PageHeader from "../../Components/PageHeader";
+import { MidPager } from "../../Styles/MidPager";
 
 const ProductText = styled(Typography)({
   align: "center",
@@ -29,9 +30,7 @@ const TransactionCard = ({ transactions, Balance }) => {
         </Card>
       </Box>
       <Box>
-        <Card
-          sx={{ minWidth: 900, marginTop: "10px", backgroundColor: "#eeeeee" }}
-        >
+        <Card sx={{ marginTop: "10px", backgroundColor: "#eeeeee" }}>
           <CardContent
             sx={{
               display: "flex",
@@ -90,7 +89,7 @@ const TransactionCard = ({ transactions, Balance }) => {
           })}
         </Box>
       ) : (
-        <Typography sx={{ marginLeft: "220px" }}>No transaction</Typography>
+        <MidPager name={"No Transactions"} />
       )}
     </Box>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import { Box } from "@mui/material";
 import productService from "../../Services/ProductServices";
@@ -9,13 +9,15 @@ import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import Typography from "@mui/material/Typography";
+import useState from "react-usestateref";
 import Pagination from "@mui/material/Pagination";
 
 const SellerProducts = (props) => {
   const [loading, setloading] = useState(false);
   const [sellerProducts, setSellerProducts] = useState([]);
   const [totalpages, settotalpages] = useState();
-  const page = props.match.params.page ? props.match.params.page : 1;
+  const pageC = props.match.params.page ? props.match.params.page : 1;
+  const [page, setPage, pageRef] = useState(pageC);
 
   const getSellerProducts = () => {
     setloading(true);
@@ -76,13 +78,14 @@ const SellerProducts = (props) => {
               alignItems: "center",
             }}
           >
-            <Typography align="center">Page: {page}</Typography>
+            <Typography align="center">Page: {pageRef.current}</Typography>
             <Pagination
               size="large"
               count={totalpages}
-              page={page}
+              page={pageRef.current}
               onChange={(e, value) => {
-                props.history.push("/products/" + value);
+                setPage(value);
+                props.history.push("/products/" + pageRef.current);
               }}
             />
           </Box>

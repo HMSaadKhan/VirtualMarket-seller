@@ -22,6 +22,13 @@ import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 
 export default function AddInformation(props) {
+  const [progress, setprogress] = useState();
+  const config = {
+    onUploadProgress: (progressEvent) => {
+      setprogress((progressEvent.loaded / progressEvent.total) * 100);
+    },
+  };
+
   const [fName, setfName] = useState("");
   const [lName, setlName] = useState("");
   const [cnic, setCnic] = useState("");
@@ -29,12 +36,15 @@ export default function AddInformation(props) {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [storeName, setStoreName] = useState("");
-  const [onlinePaymentOption, setonlinePaymentOption] = useState("false");
+  const [onlinePaymentOption, setonlinePaymentOption] = useState(false);
   const [sameCityDeliveryCharge, setDeliveryCharge] = useState();
   const [diffCityDeliveryCharge, setDifDeliveryCharge] = useState();
   const [images, setImages] = useState([]);
   const [cities, setcities] = useState([]);
   const [NTN, setNTN] = useState();
+  const [accountNumber, setaccountNumber] = useState("");
+  const [accountTitle, setaccountTitle] = useState("");
+  const [bankTitle, setbankTitle] = useState("");
 
   const [loading, setloading] = useState(false);
 
@@ -59,6 +69,9 @@ export default function AddInformation(props) {
     formData.append("sameCityDeliveryCharge", sameCityDeliveryCharge);
     formData.append("diffCityDeliveryCharge", diffCityDeliveryCharge);
     formData.append("ntn", NTN);
+    formData.append("accountNumber", accountNumber);
+    formData.append("accountTitle", accountTitle);
+    formData.append("bankTitle", bankTitle);
 
     for (let i = 0; i < images.length; i++) {
       formData.append("image", images[i]);
@@ -66,7 +79,7 @@ export default function AddInformation(props) {
 
     console.log(formData);
     sellerService
-      .addDetails(formData)
+      .addDetails(formData, config)
       .then((data) => {
         setloading(false);
         toast.success(data.data, {
@@ -106,7 +119,7 @@ export default function AddInformation(props) {
   return (
     <IsLoggedin>
       <EmailVerification>
-        <LoadingScreen bool={loading} />
+        <LoadingScreen bool={loading} progress={progress} />
         <Box
           sx={{
             display: "flex",
@@ -229,7 +242,6 @@ export default function AddInformation(props) {
                           display: "flex",
                           alignItems: "start",
                           justifyContent: "space-between",
-                          height: "350px",
                         }}
                       >
                         <Box>
@@ -327,15 +339,66 @@ export default function AddInformation(props) {
                               }}
                             />
                           </Box>
-                          <MarginBox>
-                            <FormLabel component="legend">
-                              Online Payments
-                            </FormLabel>
-                            <Switch
-                              checked={onlinePaymentOption}
-                              onChange={switchChange}
-                            />
-                          </MarginBox>
+                          <Box>
+                            <MarginBox>
+                              <FormLabel component="legend">
+                                Online Payments
+                              </FormLabel>
+                              <Switch
+                                checked={onlinePaymentOption}
+                                onChange={switchChange}
+                              />
+                            </MarginBox>
+                            {onlinePaymentOption ? (
+                              <>
+                                {" "}
+                                <Box>
+                                  <Typography
+                                    variant="h4"
+                                    color="primary"
+                                    sx={{ fontWeight: "bold" }}
+                                  >
+                                    Account Information
+                                  </Typography>
+                                  <MarginBox>
+                                    <TextField
+                                      fullWidth
+                                      label="Bank Title"
+                                      variant="standard"
+                                      value={bankTitle}
+                                      onChange={(e) => {
+                                        setbankTitle(e.target.value);
+                                      }}
+                                    />
+                                  </MarginBox>
+                                  <MarginBox>
+                                    <TextField
+                                      fullWidth
+                                      label="Account Title"
+                                      variant="standard"
+                                      value={accountTitle}
+                                      onChange={(e) => {
+                                        setaccountTitle(e.target.value);
+                                      }}
+                                    />
+                                  </MarginBox>
+                                  <MarginBox>
+                                    <TextField
+                                      fullWidth
+                                      label="Account Number"
+                                      variant="standard"
+                                      value={accountNumber}
+                                      onChange={(e) => {
+                                        setaccountNumber(e.target.value);
+                                      }}
+                                    />
+                                  </MarginBox>
+                                </Box>
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </Box>
                         </Box>
                         <Box
                           mr={5}

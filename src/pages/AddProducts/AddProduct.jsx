@@ -24,6 +24,12 @@ import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 
 export default function AddProduct(props) {
+  const [progress, setprogress] = useState();
+  const config = {
+    onUploadProgress: (progressEvent) => {
+      setprogress((progressEvent.loaded / progressEvent.total) * 100);
+    },
+  };
   const [name, setName] = useState();
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
@@ -66,6 +72,7 @@ export default function AddProduct(props) {
 
   const UploadMultipleFiles = async () => {
     setbool(true);
+
     const formData = new FormData();
     formData.append("name", name);
     formData.append("brand", brand);
@@ -82,7 +89,7 @@ export default function AddProduct(props) {
     }
 
     productService
-      .AddProduct(formData)
+      .AddProduct(formData, config)
       .then((data) => {
         console.log(data);
         setbool(false);
@@ -111,7 +118,7 @@ export default function AddProduct(props) {
         >
           <Box sx={{ width: "100%" }}>
             <Box mt={7} ml={2} mr={2} sx={{ marginLeft: "220px" }}>
-              <LoadingScreen Loading={bool} />
+              <LoadingScreen bool={bool} progress={progress} />
               <Card>
                 <CardContent>
                   <Typography

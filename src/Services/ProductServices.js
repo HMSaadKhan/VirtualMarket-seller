@@ -8,10 +8,10 @@ class ProductService extends GenericService {
     super();
   }
 
-  AddProduct = (data) =>
+  AddProduct = (data, config) =>
     new Promise((resolve, reject) => {
       axios
-        .post("products/add", data)
+        .post("products/add", data, config)
         .then((data) => {
           resolve(data);
         })

@@ -36,6 +36,9 @@ class SellerServices extends GenericService {
       return null;
     }
   };
+  getToken = () => {
+    return localStorage.getItem("token");
+  };
 
   getUserName = () =>
     new Promise((resolve, reject) => {
@@ -154,10 +157,10 @@ class SellerServices extends GenericService {
         });
     });
 
-  addDetails = (files) =>
+  addDetails = (files, config) =>
     new Promise((resolve, reject) => {
       axios
-        .patch("sellers/addDetails", files)
+        .patch("sellers/addDetails", files, config)
         .then((data) => {
           resolve(data);
         })

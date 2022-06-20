@@ -22,6 +22,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { styled } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
+import { SocketAPIContext } from "../../Contexts/SocketAPI/SocketAPi";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles({
@@ -39,12 +40,14 @@ export default function ChatMessages({
   anchor,
   setchatbool,
 }) {
+  console.log(chatperson);
   const history = useHistory();
   const classes = useStyles();
   const ref = React.useRef();
   const [messages, setmessages] = React.useState([]);
   const [msgText, setmsgText] = React.useState("");
-
+  const socket = React.useContext(SocketAPIContext);
+  console.log(socket);
   const FlexBox = styled(Box)({
     display: "flex",
     alignItems: "center",
@@ -57,7 +60,7 @@ export default function ChatMessages({
     messageService
       .getMessage(chatId)
       .then((chats) => {
-        console.log(chats);
+        //console.log(chats);
         setmessages(chats.data.reverse());
       })
       .catch((error) => {
@@ -69,19 +72,32 @@ export default function ChatMessages({
     ref?.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, msgText]);
 
+  React.useEffect(() => {
+    socket.on("receivemsg", (senderID, receiverID, msg, roomID) => {
+      console.log(senderID, receiverID, msg, roomID);
+      if (chatId === roomID) {
+        setmessages([msg, ...messages]);
+      }
+    });
+  }, [socket]);
+
   const send = () => {
+    const msg = {
+      sender: "SELLER",
+      createdAt: new Date(),
+      content: msgText,
+      type: "TEXT",
+    };
+    socket.emit("sendmsg", {
+      senderID: chatperson.Buyer._id,
+      receiverID: chatperson.Seller,
+      msg: msg,
+      roomID: chatId,
+    });
     messageService
       .sendMessage(chatId, { content: msgText })
       .then((chats) => {
-        setmessages([
-          {
-            sender: "SELLER",
-            createdAt: new Date(),
-            content: msgText,
-            type: "TEXT",
-          },
-          ...messages,
-        ]);
+        setmessages([msg, ...messages]);
         setmsgText("");
         console.log(chats.data);
       })
@@ -150,7 +166,7 @@ export default function ChatMessages({
               <Box>
                 <Avatar
                   alt="seller avatar"
-                  src={chatperson.avatar}
+                  src={chatperson.Buyer.avatar}
                   sx={{ width: 36, height: 36, border: 1 }}
                 />
               </Box>
@@ -162,7 +178,7 @@ export default function ChatMessages({
                     color: "#ba6a62",
                   }}
                 >
-                  {chatperson.fName + " " + chatperson.lName}
+                  {chatperson.Buyer.fName + " " + chatperson.Buyer.lName}
                 </Typography>
               </Box>
             </Box>
@@ -192,16 +208,16 @@ export default function ChatMessages({
               {messages.map((message) => {
                 return (
                   <Box
-                    key={message._id}
+                    key={message?._id}
                     sx={{ display: "flex", justifyContent: "space-between" }}
                     // ref={ref}
                   >
-                    {message.sender === "BUYER" ? (
+                    {message?.sender === "BUYER" ? (
                       <Box
                         sx={{
                           display: "flex",
                           width: "100%",
-                          justifyContent: "right",
+                          justifyContent: "left",
                           padding: "10px",
                         }}
                       >
@@ -381,7 +397,7 @@ export default function ChatMessages({
                           sx={{
                             display: "flex",
                             width: "100%",
-                            justifyContent: "left",
+                            justifyContent: "right",
                           }}
                         >
                           <Card
@@ -394,11 +410,11 @@ export default function ChatMessages({
                             }}
                           >
                             <Typography align="left">
-                              {message.content}
+                              {message?.content}
                             </Typography>
 
                             <Typography align="right" sx={{ fontSize: "10px" }}>
-                              {moment(message.createdAt).format("LT")}
+                              {moment(message?.createdAt).format("LT")}
                             </Typography>
                           </Card>
                         </Box>
