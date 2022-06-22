@@ -13,7 +13,9 @@ import {
   InputLabel,
   Card,
   CardContent,
+  InputAdornment,
 } from "@mui/material";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { TextField } from "@mui/material";
 import { toast } from "react-toastify";
 import productService from "../../Services/ProductServices";
@@ -22,6 +24,8 @@ import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import { MarginBox } from "../../Styles/StyledBoxes";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
+import { Inputs } from "../../Styles/StyledInputs";
+import SpecificationComponent from "./SpecificationComponent";
 
 export default function AddProduct(props) {
   const [progress, setprogress] = useState();
@@ -122,16 +126,20 @@ export default function AddProduct(props) {
               <Card>
                 <CardContent>
                   <Typography
+                    color="primary"
                     variant="h4"
                     sx={{
                       fontWeight: "bold",
-                      color: "red",
                     }}
                   >
                     Add Product
                   </Typography>
                   <Box
-                    sx={{ display: "flex", justifyContent: "space-between" }}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "start",
+                    }}
                   >
                     <Box
                       sx={{
@@ -146,7 +154,7 @@ export default function AddProduct(props) {
                           justifyContent: "space-between",
                         }}
                       >
-                        <Box>
+                        <Box sx={{ width: "100%" }}>
                           <MarginBox>
                             <TextField
                               label="Product Name"
@@ -158,7 +166,7 @@ export default function AddProduct(props) {
                             />
                           </MarginBox>
                           <MarginBox>
-                            <TextField
+                            <Inputs
                               label="Product Price"
                               type="number"
                               variant="standard"
@@ -171,7 +179,7 @@ export default function AddProduct(props) {
                           </MarginBox>
                           <MarginBox>
                             {" "}
-                            <TextField
+                            <Inputs
                               label="Min. Order Quantity"
                               type="number"
                               variant="standard"
@@ -187,7 +195,6 @@ export default function AddProduct(props) {
                               Product category
                             </InputLabel>
                             <Select
-                              fullWidth
                               variant="standard"
                               value={category}
                               onChange={(e) => {
@@ -225,7 +232,7 @@ export default function AddProduct(props) {
                             </FormControl>
                           </MarginBox>
                         </Box>
-                        <Box>
+                        <Box sx={{ width: "100%" }}>
                           <MarginBox>
                             <TextField
                               label="Product Brand"
@@ -238,7 +245,7 @@ export default function AddProduct(props) {
                             />
                           </MarginBox>
                           <MarginBox>
-                            <TextField
+                            <Inputs
                               type="number"
                               label="Stock"
                               variant="standard"
@@ -249,18 +256,16 @@ export default function AddProduct(props) {
                             />
                           </MarginBox>
                           <MarginBox>
-                            <TextField
+                            <Inputs
                               label="Warranty Period"
                               variant="standard"
-                              helperText="should be in Days"
+                              helperText="Enter in Days"
                               value={warrantyPeriod}
                               onChange={(e) => {
                                 setWarrantyPeriod(e.target.value);
                               }}
                             />
                           </MarginBox>
-                          <MarginBox></MarginBox>
-                          <MarginBox></MarginBox>
                         </Box>
                       </Box>
                       <MarginBox>
@@ -274,10 +279,22 @@ export default function AddProduct(props) {
                           }}
                         />
                       </MarginBox>
+                      <MarginBox>
+                        <Typography
+                          color="primary"
+                          sx={{
+                            fontWeight: "bold",
+                            fontSize: "20px",
+                          }}
+                        >
+                          Add Product Specifications
+                        </Typography>
+                      </MarginBox>
+                      <SpecificationComponent />
                     </Box>
                     <Box
                       sx={{
-                        width: "40%",
+                        width: "50%",
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
@@ -285,8 +302,8 @@ export default function AddProduct(props) {
                       }}
                     >
                       <Typography
+                        color="primary"
                         sx={{
-                          color: "red",
                           fontWeight: "bold",
                           fontSize: "20px",
                         }}
@@ -296,12 +313,13 @@ export default function AddProduct(props) {
                       <Box
                         sx={{
                           display: "flex",
-                          justifyContent: "space-around",
-                          flexDirection: "column",
+                          justifyContent: "left ",
+                          flexDirection: "row",
                           flexWrap: "wrap",
+                          marginLeft: "10%",
                         }}
                       >
-                        <MarginBox>
+                        <MarginBox sx={{ height: "150px", width: "150px" }}>
                           <Typography
                             sx={{ fontWeight: "bold", fontSize: "15px" }}
                           >
@@ -310,7 +328,7 @@ export default function AddProduct(props) {
                           <SingleFileUpload index={0} imageArray={imageArray} />
                         </MarginBox>
 
-                        <MarginBox>
+                        <MarginBox sx={{ height: "150px", width: "150px" }}>
                           <Typography
                             sx={{ fontWeight: "bold", fontSize: "15px" }}
                           >
@@ -318,7 +336,7 @@ export default function AddProduct(props) {
                           </Typography>
                           <SingleFileUpload index={1} imageArray={imageArray} />
                         </MarginBox>
-                        <MarginBox>
+                        <MarginBox sx={{ height: "150px", width: "150px" }}>
                           <Typography
                             sx={{
                               fontWeight: "bold",
@@ -329,7 +347,7 @@ export default function AddProduct(props) {
                           </Typography>
                           <SingleFileUpload index={2} imageArray={imageArray} />
                         </MarginBox>
-                        <MarginBox>
+                        <MarginBox sx={{ height: "150px", width: "150px" }}>
                           <Typography
                             sx={{ fontWeight: "bold", fontSize: "15px" }}
                           >
@@ -337,7 +355,7 @@ export default function AddProduct(props) {
                           </Typography>
                           <SingleFileUpload index={3} imageArray={imageArray} />
                         </MarginBox>
-                        <MarginBox>
+                        <MarginBox sx={{ height: "150px", width: "150px" }}>
                           <Typography
                             sx={{ fontWeight: "bold", fontSize: "15px" }}
                           >
@@ -354,7 +372,7 @@ export default function AddProduct(props) {
                       variant="contained"
                       onClick={() => UploadMultipleFiles()}
                     >
-                      Add
+                      Add Product
                     </Button>
                   </MarginBox>
                 </CardContent>

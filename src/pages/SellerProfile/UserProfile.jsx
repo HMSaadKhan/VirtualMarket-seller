@@ -14,6 +14,7 @@ import {
   CardContent,
   Typography,
   InputAdornment,
+  FormControlLabel,
 } from "@mui/material";
 import Switch from "@mui/material/Switch";
 
@@ -38,6 +39,15 @@ export default function UserProfile() {
   const [sameCityDeliveryCharge, setDeliveryCharge] = useState();
   const [diffCityDeliveryCharge, setDifDeliveryCharge] = useState();
   const [sellerInfo, setSellerInfo] = useState("");
+  const [accountNumber, setaccountNumber] = useState("");
+  const [accountTitle, setaccountTitle] = useState("");
+  const [bankTitle, setbankTitle] = useState("");
+  const [password, setpassword] = useState("");
+  const [updateCheck, setupdateCheck] = useState(false);
+
+  const [advancePaymentOption, setadvancePaymentOption] = useState(false);
+  const [advancePaymentAmount, setadvancePaymentAmount] = useState();
+  const [advancePaymentCriteria, setadvancePaymentCriteria] = useState();
 
   const getSellerInfo = () => {
     setloading(true);
@@ -52,7 +62,12 @@ export default function UserProfile() {
         setStoreName(data.storeName);
         setDeliveryCharge(data.sameCityDeliveryCharge);
         setDifDeliveryCharge(data.diffCityDeliveryCharge);
-
+        setadvancePaymentAmount(data.advancePaymentAmount);
+        setadvancePaymentCriteria(data.advancePaymentCriteria);
+        setadvancePaymentOption(data.advancePayment);
+        setbankTitle(data.accountDetails.bankTitle);
+        setaccountNumber(data.accountDetails.accountNumber);
+        setaccountTitle(data.accountDetails.accountTitle);
         setonlinePaymentOption(data.onlinePaymentOption);
         setAvatar(data.avatar.link);
         setloading(false);
@@ -101,6 +116,12 @@ export default function UserProfile() {
   };
   const switchChange = (event) => {
     setonlinePaymentOption(event.target.checked);
+    if (!event.target.checked) {
+      setadvancePaymentOption(event.target.checked);
+    }
+  };
+  const advancePaymentswitchChange = (event) => {
+    setadvancePaymentOption(event.target.checked);
   };
 
   return (
@@ -136,8 +157,6 @@ export default function UserProfile() {
                               display: "flex",
                               alignItems: "start",
                               justifyContent: "space-between",
-
-                              height: "200px",
                             }}
                           >
                             <Box>
@@ -244,7 +263,6 @@ export default function UserProfile() {
                               display: "flex",
                               alignItems: "start",
                               justifyContent: "space-between",
-                              height: "270px",
                             }}
                           >
                             <Box>
@@ -356,111 +374,232 @@ export default function UserProfile() {
                                   }}
                                 />
                               </Box>
+
                               <MarginBox>
-                                <FormLabel component="legend">
-                                  Online Payments
-                                </FormLabel>
-                                <Switch
-                                  checked={onlinePaymentOption}
-                                  onChange={switchChange}
+                                <FormControlLabel
+                                  label={
+                                    <Typography
+                                      color="primary"
+                                      sx={{
+                                        fontWeight: "bold",
+                                        fontSize: "20px",
+                                      }}
+                                    >
+                                      Online Payments
+                                    </Typography>
+                                  }
+                                  control={
+                                    <Switch
+                                      checked={onlinePaymentOption}
+                                      onChange={switchChange}
+                                    />
+                                  }
                                 />
                               </MarginBox>
-                            </Box>
-                            <Box
-                              mr={5}
-                              sx={{
-                                display: "flex",
-                                flexWrap: "wrap",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              {/* <MarginBox sx={{ width: "150px" }}>
-                            <Typography>Utility Bill 1</Typography>
-                            <SingleFileUpload
-                              index={3}
-                              imageArray={imageArray}
-                            />
-                          </MarginBox>
-                          <MarginBox sx={{ width: "150px" }}>
-                            <Typography>Utility Bill 2</Typography>
-                            <SingleFileUpload
-                              index={4}
-                              imageArray={imageArray}
-                            />
-                          </MarginBox>
-                          <MarginBox sx={{ width: "150px" }}>
-                            <Typography>Account Statement</Typography>
-                            <SingleFileUpload
-                              index={5}
-                              imageArray={imageArray}
-                            />
-                          </MarginBox> */}
+                              <Box>
+                                <Typography
+                                  variant="h5"
+                                  color="primary"
+                                  sx={{ fontWeight: "bold" }}
+                                >
+                                  Account Information
+                                </Typography>
+                                <MarginBox>
+                                  <TextField
+                                    disabled={!onlinePaymentOption}
+                                    fullWidth
+                                    label="Bank Title"
+                                    variant="standard"
+                                    value={bankTitle}
+                                    onChange={(e) => {
+                                      setbankTitle(e.target.value);
+                                    }}
+                                  />
+                                </MarginBox>
+                                <MarginBox>
+                                  <TextField
+                                    disabled={!onlinePaymentOption}
+                                    fullWidth
+                                    label="Account Title"
+                                    variant="standard"
+                                    value={accountTitle}
+                                    onChange={(e) => {
+                                      setaccountTitle(e.target.value);
+                                    }}
+                                  />
+                                </MarginBox>
+                                <MarginBox>
+                                  <TextField
+                                    disabled={!onlinePaymentOption}
+                                    fullWidth
+                                    label="Account Number"
+                                    variant="standard"
+                                    value={accountNumber}
+                                    onChange={(e) => {
+                                      setaccountNumber(e.target.value);
+                                    }}
+                                  />
+                                </MarginBox>
+                              </Box>
+                              <Box sx={{}}>
+                                <MarginBox>
+                                  <FormControlLabel
+                                    label={
+                                      <Typography
+                                        color="primary"
+                                        sx={{
+                                          fontWeight: "bold",
+                                          fontSize: "20px",
+                                        }}
+                                      >
+                                        Advance Payments
+                                      </Typography>
+                                    }
+                                    control={
+                                      <Switch
+                                        disabled={!onlinePaymentOption}
+                                        checked={advancePaymentOption}
+                                        onChange={advancePaymentswitchChange}
+                                      />
+                                    }
+                                  />
+                                </MarginBox>
+                                {!onlinePaymentOption && (
+                                  <Typography color="red" ml={1}>
+                                    Advance payments can only be enabled with
+                                    online payments
+                                  </Typography>
+                                )}
+                                <>
+                                  <Typography
+                                    variant="h4"
+                                    color="primary"
+                                    sx={{ fontWeight: "bold" }}
+                                  >
+                                    Advance Payment Information
+                                  </Typography>
+                                  <Box>
+                                    <MarginBox>
+                                      <Inputs
+                                        sx={{}}
+                                        disabled={
+                                          !(
+                                            onlinePaymentOption &&
+                                            advancePaymentOption
+                                          )
+                                        }
+                                        label="Minimum Amount"
+                                        variant="standard"
+                                        value={advancePaymentCriteria}
+                                        helperText="Amount is the minimum invoice for advance
+                                payment.Should be Minimum PKR 1."
+                                        onChange={(e) => {
+                                          setadvancePaymentCriteria(
+                                            e.target.value
+                                          );
+                                        }}
+                                      />
+                                    </MarginBox>
+                                    <MarginBox>
+                                      <Inputs
+                                        disabled={
+                                          !(
+                                            onlinePaymentOption &&
+                                            advancePaymentOption
+                                          )
+                                        }
+                                        label="Advance Payment"
+                                        placeholder="50"
+                                        fullWidth
+                                        variant="standard"
+                                        value={advancePaymentAmount}
+                                        helperText="Should be Minimum 1%."
+                                        InputProps={{
+                                          endAdornment: (
+                                            <InputAdornment position="end">
+                                              %
+                                            </InputAdornment>
+                                          ),
+                                        }}
+                                        onChange={(e) => {
+                                          setadvancePaymentAmount(
+                                            e.target.value
+                                          );
+                                        }}
+                                      />
+                                    </MarginBox>
+                                  </Box>
+                                </>
+                              </Box>
+                              <MarginBox>
+                                <Button
+                                  variant="contained"
+                                  onClick={(e) => {
+                                    setupdateCheck(true);
+                                  }}
+                                >
+                                  Update Information
+                                </Button>
+                              </MarginBox>
+                              {updateCheck && (
+                                <Box>
+                                  <MarginBox>
+                                    <TextField
+                                      fullWidth
+                                      type="password"
+                                      label="Enter Your Password"
+                                      variant="standard"
+                                      value={password}
+                                      onChange={(e) => {
+                                        setpassword(e.target.value);
+                                      }}
+                                    />
+                                  </MarginBox>
+                                  <MarginBox>
+                                    <Button
+                                      variant="contained"
+                                      onClick={(e) => {
+                                        sellerService
+                                          .editUserDetails({
+                                            accountNumber,
+                                            accountTitle,
+                                            bankTitle,
+                                            phone,
+                                            storeName,
+                                            password,
+                                            sameCityDeliveryCharge,
+                                            diffCityDeliveryCharge,
+                                            onlinePaymentOption,
+                                            advancePaymentAmount,
+                                            advancePaymentCriteria,
+                                            advancePayment:
+                                              advancePaymentOption,
+                                          })
+                                          .then((data) => {
+                                            getSellerInfo();
+                                            setupdateCheck(false);
+                                            toast.success(data.data, {
+                                              position:
+                                                toast.POSITION.BOTTOM_LEFT,
+                                            });
+                                          })
+                                          .catch((err) => {
+                                            toast.error(err.response.data, {
+                                              position:
+                                                toast.POSITION.BOTTOM_LEFT,
+                                            });
+                                          });
+                                      }}
+                                    >
+                                      confirm
+                                    </Button>
+                                  </MarginBox>
+                                </Box>
+                              )}
                             </Box>
                           </Box>
                         </Box>
-
-                        {/* <Box
-                      sx={{
-                        width: "50%",
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Box
-                        m={5}
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <MarginBox>
-                          <Typography>Profile Picture</Typography>
-                          <SingleFileUpload index={0} imageArray={imageArray} />
-                        </MarginBox>
-                        <MarginBox>
-                          <Typography>CNIC Front</Typography>
-                          <SingleFileUpload index={1} imageArray={imageArray} />
-                        </MarginBox>
-                        <MarginBox>
-                          <Typography>CNIC Back</Typography>
-                          <SingleFileUpload index={2} imageArray={imageArray} />
-                        </MarginBox>
                       </Box>
-                    </Box> */}
-                      </Box>
-
-                      <MarginBox>
-                        <Button
-                          variant="contained"
-                          onClick={(e) => {
-                            sellerService
-                              .editUserDetails({
-                                phone,
-
-                                storeName,
-                                sameCityDeliveryCharge,
-                                diffCityDeliveryCharge,
-                                onlinePaymentOption,
-                              })
-                              .then((data) => {
-                                console.log(data);
-                                getSellerInfo();
-                                toast.success("Changes Saved Successfully", {
-                                  position: toast.POSITION.BOTTOM_LEFT,
-                                });
-                              })
-                              .catch((err) => {
-                                console.log(err);
-                                toast.error(err.response.data, {
-                                  position: toast.POSITION.BOTTOM_LEFT,
-                                });
-                              });
-                          }}
-                        >
-                          Add Information
-                        </Button>
-                      </MarginBox>
                     </CardContent>
                   </Card>
                 </Box>

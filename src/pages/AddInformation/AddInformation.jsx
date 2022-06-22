@@ -13,6 +13,7 @@ import {
   CardContent,
   Switch,
   Typography,
+  InputAdornment,
 } from "@mui/material";
 import { toast } from "react-toastify";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
@@ -20,6 +21,7 @@ import { MarginBox } from "../../Styles/StyledBoxes";
 import { SingleFileUpload } from "../../Components/AddSingleFile/SingleFileUpload";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
+import { Inputs } from "../../Styles/StyledInputs";
 
 export default function AddInformation(props) {
   const [progress, setprogress] = useState();
@@ -37,6 +39,7 @@ export default function AddInformation(props) {
   const [address, setAddress] = useState("");
   const [storeName, setStoreName] = useState("");
   const [onlinePaymentOption, setonlinePaymentOption] = useState(false);
+  const [advancePaymentOption, setadvancePaymentOption] = useState(false);
   const [sameCityDeliveryCharge, setDeliveryCharge] = useState();
   const [diffCityDeliveryCharge, setDifDeliveryCharge] = useState();
   const [images, setImages] = useState([]);
@@ -45,6 +48,8 @@ export default function AddInformation(props) {
   const [accountNumber, setaccountNumber] = useState("");
   const [accountTitle, setaccountTitle] = useState("");
   const [bankTitle, setbankTitle] = useState("");
+  const [advancePaymentAmount, setadvancePaymentAmount] = useState();
+  const [advancePaymentCriteria, setadvancePaymentCriteria] = useState();
 
   const [loading, setloading] = useState(false);
 
@@ -66,12 +71,15 @@ export default function AddInformation(props) {
     formData.append("address", address);
     formData.append("storeName", storeName);
     formData.append("onlinePaymentOption", onlinePaymentOption);
+    formData.append("advancePayment", advancePaymentOption);
     formData.append("sameCityDeliveryCharge", sameCityDeliveryCharge);
     formData.append("diffCityDeliveryCharge", diffCityDeliveryCharge);
     formData.append("ntn", NTN);
     formData.append("accountNumber", accountNumber);
     formData.append("accountTitle", accountTitle);
     formData.append("bankTitle", bankTitle);
+    formData.append("advancePaymentAmount", advancePaymentAmount);
+    formData.append("advancePaymentCriteria", advancePaymentCriteria);
 
     for (let i = 0; i < images.length; i++) {
       formData.append("image", images[i]);
@@ -114,6 +122,12 @@ export default function AddInformation(props) {
 
   const switchChange = (event) => {
     setonlinePaymentOption(event.target.checked);
+    if (!event.target.checked) {
+      setadvancePaymentOption(event.target.checked);
+    }
+  };
+  const advancePaymentswitchChange = (event) => {
+    setadvancePaymentOption(event.target.checked);
   };
 
   return (
@@ -146,10 +160,10 @@ export default function AddInformation(props) {
                           alignItems: "start",
                           justifyContent: "space-between",
 
-                          height: "200px",
+                          height: { sm: "250px", md: "200px", lg: "200px" },
                         }}
                       >
-                        <Box>
+                        <Box sx={{ width: "50%" }}>
                           <Box sx={{ display: "flex" }}>
                             <MarginBox>
                               <TextField
@@ -174,7 +188,7 @@ export default function AddInformation(props) {
                           </Box>
                           <Box sx={{ display: "flex" }}>
                             <MarginBox>
-                              <TextField
+                              <Inputs
                                 type="number"
                                 label="CNIC"
                                 value={cnic}
@@ -205,6 +219,8 @@ export default function AddInformation(props) {
                             display: "flex",
                             flexWrap: "wrap",
                             justifyContent: "space-between",
+
+                            width: "50%",
                           }}
                         >
                           <MarginBox sx={{ width: "150px" }}>
@@ -244,7 +260,7 @@ export default function AddInformation(props) {
                           justifyContent: "space-between",
                         }}
                       >
-                        <Box>
+                        <Box sx={{ Width: "50%" }}>
                           <Box sx={{ display: "flex" }}>
                             <MarginBox>
                               {" "}
@@ -259,7 +275,14 @@ export default function AddInformation(props) {
                             </MarginBox>
                             <MarginBox>
                               <FormControl
-                                sx={{ width: "200px", maxWidth: "200px" }}
+                                sx={{
+                                  width: {
+                                    xs: "50px",
+                                    sm: "50px",
+                                    md: "100px",
+                                    lg: "200px",
+                                  },
+                                }}
                               >
                                 <InputLabel variant="standard">City</InputLabel>
 
@@ -282,7 +305,7 @@ export default function AddInformation(props) {
                           </Box>
                           <Box sx={{ display: "flex" }}>
                             <MarginBox>
-                              <TextField
+                              <Inputs
                                 type="number"
                                 label="Delivery charges"
                                 helperText=" Same city Delivery Charges"
@@ -294,7 +317,7 @@ export default function AddInformation(props) {
                               />
                             </MarginBox>
                             <MarginBox>
-                              <TextField
+                              <Inputs
                                 type="number"
                                 label="Delivery charges"
                                 helperText="Different city Delivery Charges"
@@ -341,9 +364,7 @@ export default function AddInformation(props) {
                           </Box>
                           <Box>
                             <MarginBox>
-                              <FormLabel component="legend">
-                                Online Payments
-                              </FormLabel>
+                              <FormLabel>Online Payments</FormLabel>
                               <Switch
                                 checked={onlinePaymentOption}
                                 onChange={switchChange}
@@ -400,12 +421,15 @@ export default function AddInformation(props) {
                             )}
                           </Box>
                         </Box>
+
                         <Box
                           mr={5}
                           sx={{
                             display: "flex",
                             flexWrap: "wrap",
                             justifyContent: "space-between",
+                            alignItems: "start",
+                            Width: "50%",
                           }}
                         >
                           <MarginBox sx={{ width: "150px" }}>
@@ -429,6 +453,82 @@ export default function AddInformation(props) {
                               imageArray={imageArray}
                             />
                           </MarginBox>
+                        </Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "start",
+                          justifyContent: "space-between",
+
+                          width: { sm: "50%", md: "40%", lg: "35%", xl: "30%" },
+                        }}
+                      >
+                        <Box sx={{}}>
+                          <MarginBox>
+                            <FormLabel>Advance Payments</FormLabel>
+                            <Switch
+                              disabled={!onlinePaymentOption}
+                              checked={advancePaymentOption}
+                              onChange={advancePaymentswitchChange}
+                            />
+                          </MarginBox>
+                          {!onlinePaymentOption && (
+                            <Typography color="red" ml={1}>
+                              Advance payments can only be enabled with online
+                              payments
+                            </Typography>
+                          )}
+                          {advancePaymentOption && onlinePaymentOption ? (
+                            <>
+                              {" "}
+                              <Typography
+                                variant="h4"
+                                color="primary"
+                                sx={{ fontWeight: "bold" }}
+                              >
+                                Advance Payment Information
+                              </Typography>
+                              <Box>
+                                <MarginBox>
+                                  <Inputs
+                                    sx={{}}
+                                    fullWidth
+                                    label="Minimum Amount"
+                                    variant="standard"
+                                    value={advancePaymentCriteria}
+                                    helperText="Amount is the minimum invoice for advance
+                                payment.Should be Minimum PKR 1."
+                                    onChange={(e) => {
+                                      setadvancePaymentCriteria(e.target.value);
+                                    }}
+                                  />
+                                </MarginBox>
+                                <MarginBox>
+                                  <Inputs
+                                    label="Advance Payment"
+                                    placeholder="50"
+                                    fullWidth
+                                    variant="standard"
+                                    value={advancePaymentAmount}
+                                    helperText="Should be Minimum 1%."
+                                    InputProps={{
+                                      endAdornment: (
+                                        <InputAdornment position="end">
+                                          %
+                                        </InputAdornment>
+                                      ),
+                                    }}
+                                    onChange={(e) => {
+                                      setadvancePaymentAmount(e.target.value);
+                                    }}
+                                  />
+                                </MarginBox>
+                              </Box>
+                            </>
+                          ) : (
+                            <></>
+                          )}
                         </Box>
                       </Box>
                     </Box>
