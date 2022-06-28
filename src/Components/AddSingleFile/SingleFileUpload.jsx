@@ -6,8 +6,8 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 const Image = styled.img`
   float: left;
-  width: 100px;
-  height: 100px;
+    width: 100px;
+    height: 100px;
   margin: 5px;
   border: 1px solid #ddd;
 `;
@@ -20,7 +20,7 @@ const SingleFileUpload = (props) => {
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        SetImagePreview(reader.result);
+        SetImagePreview(reader.result); 
       }
     };
     console.log(image);

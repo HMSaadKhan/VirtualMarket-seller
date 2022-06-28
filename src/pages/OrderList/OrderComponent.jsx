@@ -17,7 +17,8 @@ import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   heading: {
-    color: "red",
+    color: "#c9485b",
+    fontWeight: "bold",
   },
   text: {
     color: "black",
@@ -70,7 +71,9 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
             <CardContent>
               <FlexBox>
                 <FlexBox>
-                  <Typography className={classes.heading}>Order# </Typography>
+                  <Typography className={classes.heading}>
+                    Order# &nbsp;{" "}
+                  </Typography>
                   <Typography className={classes.text}>{order._id}</Typography>
                 </FlexBox>
                 <FlexBox>
@@ -84,7 +87,8 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
           </Card>
           <Typography
             ml={1}
-            sx={{ fontSize: "20px", fontWeight: "bold", color: "red" }}
+            color="primary"
+            sx={{ fontSize: "20px", fontWeight: "bold" }}
           >
             Ordered Products
           </Typography>
@@ -103,8 +107,9 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
             }}
           >
             <Typography
+              color="primary"
               ml={1}
-              sx={{ fontSize: "20px", fontWeight: "bold", color: "red" }}
+              sx={{ fontSize: "20px", fontWeight: "bold" }}
             >
               Shipping Details
             </Typography>
@@ -139,8 +144,9 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
               </CardContent>
             </Card>
             <Typography
+              color="primary"
               ml={1}
-              sx={{ fontSize: "20px", fontWeight: "bold", color: "red" }}
+              sx={{ fontSize: "20px", fontWeight: "bold" }}
             >
               Billing Details
             </Typography>
@@ -190,15 +196,8 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
             <Box m={1}>
               {order.status === "SHIPPING" ? (
                 <Button
+                  variant="contained"
                   value="RETURNED"
-                  sx={{
-                    color: "#FFFF",
-                    backgroundColor: "#FF0000",
-                    "&:hover": {
-                      backgroundColor: "#b22222",
-                      color: "#ffff",
-                    },
-                  }}
                   onClick={(e) => {
                     ChangeOrderStatus(order._id, e.target.value);
                     history.push("/orders/" + order.status);
@@ -218,15 +217,8 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
               <Box m={1}>
                 {" "}
                 <Button
+                  variant="contained"
                   value={buttonLabel}
-                  sx={{
-                    color: "#FFFF",
-                    backgroundColor: "#FF0000",
-                    "&:hover": {
-                      backgroundColor: "#b22222",
-                      color: "#ffff",
-                    },
-                  }}
                   onClick={(e) => {
                     ChangeOrderStatus(order._id, e.target.value);
                     history.push("/orders/" + order.status);

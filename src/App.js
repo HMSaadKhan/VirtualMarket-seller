@@ -6,7 +6,12 @@ import Home from "./pages/home/Home";
 import Orders from "./pages/OrderList/Orders";
 import SellerProduct from "./pages/sellerProducts/SellerProduct";
 import UserProfile from "./pages/SellerProfile/UserProfile";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import AddProduct from "./pages/AddProducts/AddProduct";
 import ProductUpdate from "./pages/productUpdate/Productupdate";
 import Login from "./pages/LoginPage/Login";
@@ -19,8 +24,8 @@ import "react-toastify/dist/ReactToastify.css";
 import AddInformation from "./pages/AddInformation/AddInformation";
 import checkSingleFile from "./Components/AddSingleFile/checkSignleFile";
 import ProductInformation from "./pages/productUpdate/ProductInformation";
-
-import WarrantyList from "./pages/Warranty/WarrantyList";
+import NotFound from "./pages/NotFound/NotFound";
+import Warranty from "./pages/Warranty/Warranty";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./Styles/myStyleSheet";
 import Verify from "./Contexts/Verification/Verify";
@@ -29,6 +34,7 @@ import OrdersDetails from "./pages/OrderList/OrdersDetails";
 import AprovalWait from "./pages/AdminMessages/AprovalWait";
 import SellerBlocked from "./pages/AdminMessages/SellerBlocked";
 import SocketAPI from "./Contexts/SocketAPI/SocketAPi";
+import WarrantyDetails from "./pages/Warranty/WarrantyDetails";
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -46,7 +52,11 @@ function App() {
                 path={["/:some/orderdetails/:id", "/orderdetails/:id"]}
                 component={OrdersDetails}
               />
-              <Route path="/warranty/:status" component={WarrantyList} />
+              <Route
+                path={["/warrantydetails/:id"]}
+                component={WarrantyDetails}
+              />
+              <Route path="/warranty/:status" component={Warranty} />
               <Route path="/products/:page?" component={SellerProduct} />
               <Route path="/sellerprofile" component={UserProfile} />
               <Route path="/addproduct" component={AddProduct} />
@@ -65,7 +75,9 @@ function App() {
               <Route path="/add-information" exact component={AddInformation} />
               <Route path="/approvalWait" exact component={AprovalWait} />
               <Route path="/blocked" exact component={SellerBlocked} />
+              <Route path="/not-found" component={NotFound} />
               <Route path="/" exact component={Home} />
+              <Redirect to="/not-found" />
             </Switch>
           </Router>
         </Verify>

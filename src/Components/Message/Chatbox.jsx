@@ -21,29 +21,33 @@ import chatService from "../../Services/ChatServices";
 import jwtDecode from "jwt-decode";
 import sellerServices from "../../Services/SellerServices";
 import { SocketAPIContext } from "../../Contexts/SocketAPI/SocketAPi";
+import CircularProgress from "@mui/material";
+import ChatLoading from "../LoadingScreen/ChatLoading";
 
 export default function ChatBox({ bool, setbool, anchor }) {
   const [chats, setchats] = React.useState([]);
   const [chatid, setchatid] = React.useState();
   const [chatperson, setchatperson] = useState();
+  const [error, seterror] = useState();
   const socket = React.useContext(SocketAPIContext);
-  // const [anchor, setanchor] = React.useState();
-  console.log("chat box run");
-  //const anchorContext = useContext(ChatAnchorContext);
-  //console.log(anchorContext);
+  const [loading, setloading] = useState(false);
   const ref = React.useRef();
 
   const [msgbool, setmsgbool] = React.useState(false);
   React.useEffect(() => {
+    setloading(true);
     setchats([]);
     chatService
       .getChats()
       .then((chats) => {
         console.log(chats);
         setchats(chats.data);
+        setloading(false);
       })
       .catch((error) => {
         console.log(error.response);
+        setloading(false);
+        seterror(error.response.data);
       });
   }, [bool]);
   React.useEffect(() => {
@@ -106,6 +110,7 @@ export default function ChatBox({ bool, setbool, anchor }) {
             <CloseIcon />
           </IconButton>
         </Box>
+        <ChatLoading bool={loading} />
       </Box>
       <Box>
         {chats.length > 0 ? (
@@ -178,7 +183,7 @@ export default function ChatBox({ bool, setbool, anchor }) {
             color="primary"
             sx={{ fontWeight: "bold", marginTop: "100px" }}
           >
-            No Chats
+            {error}
           </Typography>
         )}
       </Box>

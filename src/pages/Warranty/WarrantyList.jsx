@@ -1,68 +1,91 @@
-import React, { useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import React from "react";
+import { Box, Typography, Card, CardContent } from "@mui/material/";
 
-import warrantyServices from "../../Services/WarrantyServices";
-import WarrantyComponent from "./WarrantyComponent";
-import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
-import EmailVerification from "../../AuthWrapper/EmailVerification";
-import { MidPager } from "../../Styles/MidPager";
-import WarrantyMenu from "./WarrantyMenu";
-
-export default function WarrantyList(props) {
-  const [WarrantyDetails, setWarrantyDetails] = useState([]);
-  const [loading, setloading] = useState(false);
-  const [error, seterror] = useState("");
-  const status = props.match.params.status;
-  const getwarranties = () => {
-    setloading(true);
-    warrantyServices
-      .getWarranty(status)
-      .then((data) => {
-        setWarrantyDetails(data.data);
-        setloading(false);
-        seterror("");
-      })
-      .catch((data) => {
-        setloading(false);
-
-        seterror(data.response.data);
-        console.log(data.response);
-      });
-  };
-  useEffect(getwarranties, [status]);
-
+import moment from "moment";
+import { styled } from "@mui/material/styles";
+import { Link } from "react-router-dom";
+const HeadingText = styled(Typography)({
+  fontWeight: "bold",
+});
+export default function WarrantyList({ warrantyDetails }) {
+  console.log(warrantyDetails);
   return (
-    <EmailVerification>
-      <LoadingScreen bool={loading} />
+    <Box sx={{ marginLeft: "200px" }}>
+      <Box m={2}>
+        <Card sx={{ backgroundColor: "#eeeeee" }}>
+          <CardContent
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box sx={{ width: "100%" }}>
+              <HeadingText color="primary">warranty ID</HeadingText>
+            </Box>
 
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Box sx={{ width: "100%" }}>
-          <Box>
-            <WarrantyMenu />
-          </Box>
-          <Box>
-            {error.length > 0 ? (
-              <Box sx={{ width: "100%" }}>
-                <MidPager name={error} />
-              </Box>
-            ) : (
-              <>
-                <WarrantyComponent
-                  WarrantyDetails={WarrantyDetails}
-                  warranties={getwarranties}
-                  status={status}
-                />
-              </>
-            )}
-          </Box>
-        </Box>
+            <Box sx={{ width: "100%" }}>
+              <HeadingText align="center" color="primary">
+                Product Name
+              </HeadingText>
+            </Box>
+            <Box sx={{ width: "100%" }}>
+              <HeadingText color="primary" align="center">
+                Ordered Quantity
+              </HeadingText>
+            </Box>
+
+            <Box sx={{ width: "100%" }}>
+              <HeadingText align="center" color="primary">
+                Action
+              </HeadingText>
+            </Box>
+          </CardContent>
+        </Card>
       </Box>
-    </EmailVerification>
+      <Box>
+        {warrantyDetails.map((warranty) => {
+          return (
+            <Box m={2}>
+              <Card>
+                <CardContent
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    aligItems: "center",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: { xs: "10ch", sm: "15ch", md: "100%", lg: "100%" },
+                    }}
+                  >
+                    <Typography noWrap>{warranty._id}</Typography>
+                  </Box>
+
+                  <Box sx={{ width: "100%" }}>
+                    <Typography align="center">
+                      {warranty.productName}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ width: "100%" }}>
+                    <Typography align="center">
+                      {"Qty: " + warranty.quantity}
+                    </Typography>
+                  </Box>
+
+                  <Box sx={{ width: "100%" }}>
+                    <Typography align="center">
+                      <Link to={"/warrantyDetails/" + warranty._id}>
+                        View Details
+                      </Link>
+                    </Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Box>
+          );
+        })}
+      </Box>
+    </Box>
   );
 }

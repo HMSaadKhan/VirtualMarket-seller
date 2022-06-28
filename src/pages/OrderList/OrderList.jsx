@@ -21,11 +21,7 @@ export default function OrderList({ orderDetails }) {
             <Box sx={{ width: "100%" }}>
               <HeadingText color="primary">Order ID</HeadingText>
             </Box>
-            <Box sx={{ width: "100%" }}>
-              <HeadingText align="center" color="primary">
-                Order Payment
-              </HeadingText>
-            </Box>
+
             <Box sx={{ width: "100%" }}>
               <HeadingText align="center" color="primary">
                 Order Status
@@ -61,12 +57,14 @@ export default function OrderList({ orderDetails }) {
                     aligItems: "center",
                   }}
                 >
-                  <Box sx={{ width: "100%" }}>
-                    <Typography align="center">{order._id}</Typography>
+                  <Box
+                    sx={{
+                      width: { xs: "5ch", sm: "10ch", md: "20ch", lg: "100%" },
+                    }}
+                  >
+                    <Typography noWrap>{order._id}</Typography>
                   </Box>
-                  <Box sx={{ width: "100%" }}>
-                    <Typography align="center">{order.type}</Typography>
-                  </Box>
+
                   <Box sx={{ width: "100%" }}>
                     <Typography align="center">{order.status}</Typography>
                   </Box>

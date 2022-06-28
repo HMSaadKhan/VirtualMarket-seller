@@ -2,7 +2,7 @@ import { styled } from "@mui/material/styles";
 import { Typography, Box } from "@mui/material";
 
 const BG = styled(Box)({
-  backgroundColor: "red",
+  backgroundColor: "#c9485b",
   color: "white",
 });
 const InnerText = styled(Typography)({
