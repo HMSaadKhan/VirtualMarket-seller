@@ -8,6 +8,7 @@ class MessageServices extends GenericService {
     super();
   }
   sendMessage = (id, data) => axios.post("messages/replyText/" + id, data);
+  sendImage = (id, image) => axios.post("messages/replyImage/" + id, image);
   getMessage = (id) => axios.get("messages/getsellermessages/" + id);
 }
 let messageServices = new MessageServices();

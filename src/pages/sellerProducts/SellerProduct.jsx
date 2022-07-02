@@ -68,10 +68,13 @@ const SellerProducts = (props) => {
               <ProductCard
                 products={sellerProducts}
                 handleDelete={handleDelete}
+                totalpages={totalpages}
+                page={pageRef.current}
+                setPage={setPage}
               />
             </Box>
           </Box>
-          <Box
+          {/* <Box
             sx={{
               display: "flex",
               justifyContent: "center",
@@ -88,7 +91,7 @@ const SellerProducts = (props) => {
                 props.history.push("/products/" + pageRef.current);
               }}
             />
-          </Box>
+          </Box> */}
         </Box>
       </EmailVerification>
     </IsLoggedin>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material/";
+import { Box } from "@mui/material/";
 import orderService from "../../Services/OrderService";
 import OrderMenu from "./OrderMenu";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";

@@ -8,6 +8,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { styled } from "@mui/material/styles";
 import { Divider } from "@mui/material";
 import PageHeader from "../../Components/PageHeader";
+import { Pagination } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
 
@@ -24,7 +25,7 @@ const ProductText = styled(Typography)({
 const DataText = styled(Typography)({
   align: "center",
 });
-const ProductCard = ({ products, handleDelete }) => {
+const ProductCard = ({ products, handleDelete, totalpages, page, setPage }) => {
   const classes = useStyles();
   const history = useHistory();
   console.log(products);
@@ -77,6 +78,24 @@ const ProductCard = ({ products, handleDelete }) => {
             <Divider />
           </CardContent>
         </Card>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography align="center">Page: {page}</Typography>
+        <Pagination
+          size="large"
+          count={totalpages}
+          page={page}
+          onChange={(e, value) => {
+            setPage(value);
+            history.push("/products/" + parseInt(page));
+          }}
+        />
       </Box>
       <Box>
         {products.map((product) => {

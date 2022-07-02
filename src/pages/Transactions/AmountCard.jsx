@@ -9,7 +9,6 @@ import { MidPager } from "../../Styles/MidPager";
 const ProductText = styled(Typography)({
   align: "center",
   fontWeight: "bold",
-  color: "red",
 });
 const DataText = styled(Typography)({
   align: "center",
@@ -22,7 +21,8 @@ const TransactionCard = ({ transactions, Balance }) => {
         <Card>
           <CardContent>
             <Typography
-              sx={{ fontWeight: "bold", color: "red", fontSize: "20px" }}
+              color="primary"
+              sx={{ fontWeight: "bold", fontSize: "20px" }}
             >
               {"Balance : PKR " + Balance}
             </Typography>
@@ -39,16 +39,22 @@ const TransactionCard = ({ transactions, Balance }) => {
             }}
           >
             <Box sx={{ width: "100%" }}>
-              <ProductText>Transaction ID</ProductText>
+              <ProductText color="primary">Transaction ID</ProductText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <ProductText align="center">Transaction Amount</ProductText>
+              <ProductText color="primary" align="center">
+                Transaction Amount
+              </ProductText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <ProductText align="center">Transaction Date</ProductText>
+              <ProductText color="primary" align="center">
+                Transaction Date
+              </ProductText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <ProductText align="center">Status</ProductText>
+              <ProductText color="primary" align="center">
+                Status
+              </ProductText>
             </Box>
           </CardContent>
         </Card>

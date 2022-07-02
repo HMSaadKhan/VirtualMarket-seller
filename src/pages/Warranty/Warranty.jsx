@@ -49,15 +49,15 @@ export default function Warranty(props) {
             <WarrantyMenu />
           </Box>
           <Box>
-            {error.length > 0 ? (
+            {/* {error.length > 0 ? (
               <Box sx={{ width: "100%" }}>
                 <MidPager name={error} />
               </Box>
             ) : (
-              <>
-                <WarrantyList warrantyDetails={WarrantyDetails} />
-              </>
-            )}
+              <> */}
+            <WarrantyList warrantyDetails={WarrantyDetails} error={error} />
+            {/* </>
+            )} */}
           </Box>
         </Box>
       </Box>

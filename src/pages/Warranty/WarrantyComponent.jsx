@@ -31,7 +31,7 @@ export default function WarrantyComponent({ warranty }) {
   console.log(warranty);
   const classes = useStyles();
   const history = useHistory();
-  const response = ["DENIED", "REPLACED", "REPAIRED"];
+  const response = ["REFUND", "REPLACED", "REPAIRED", "DENIED"];
 
   const [bool, setbool] = useState(false);
   const [respond, setrespond] = useState(null);
@@ -108,12 +108,11 @@ export default function WarrantyComponent({ warranty }) {
                     </Typography>
                   </Box>
                   <StyledBox sx={{ width: "25%" }}>
-                    {warranty.status === "RESPONDED" ||
-                    warranty.status === "IN-WARRANTY" ? (
+                    {warranty.status !== "REQUESTED" ? (
                       <>
                         {" "}
                         <Typography align="left" className={classes.heading}>
-                          {warranty.warranty.status}
+                          {warranty.status}
                         </Typography>
                       </>
                     ) : (
@@ -151,7 +150,7 @@ export default function WarrantyComponent({ warranty }) {
                   )}
                 </StyledBox>
               </CardContent>
-            </Card>
+            </Card>{" "}
             {warranty.status === "IN-WARRANTY" ||
             warranty.status === "EXPIRED" ? (
               <></>

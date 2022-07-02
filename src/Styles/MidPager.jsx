@@ -7,7 +7,6 @@ export const OuterCounter = styled(Container)({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  marginLeft: "220px",
 });
 
 const InnerText = styled(Typography)({

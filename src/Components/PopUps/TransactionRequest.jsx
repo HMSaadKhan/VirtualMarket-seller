@@ -39,9 +39,6 @@ export default function TransactionRequest({ bool, setbool, gettransaction }) {
     setloading(true);
     transactionServices
       .withdrawRequest({
-        accountNumber,
-        accountTitle,
-        bankTitle,
         amount,
       })
       .then((data) => {
@@ -67,33 +64,6 @@ export default function TransactionRequest({ bool, setbool, gettransaction }) {
         <DialogContent>
           <div className={classes.root}>
             <Box>
-              <TextField
-                label="Bank Title"
-                fullWidth
-                multiline
-                value={bankTitle}
-                onChange={(e) => {
-                  setbankTitle(e.target.value);
-                }}
-              />
-              <TextField
-                label="Account Title"
-                fullWidth
-                multiline
-                value={accountTitle}
-                onChange={(e) => {
-                  setaccountTitle(e.target.value);
-                }}
-              />
-              <TextField
-                label="Account Number"
-                fullWidth
-                multiline
-                value={accountNumber}
-                onChange={(e) => {
-                  setaccountNumber(e.target.value);
-                }}
-              />
               <TextField
                 label="Amount"
                 fullWidth

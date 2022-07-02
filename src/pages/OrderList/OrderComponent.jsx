@@ -76,12 +76,16 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
                   </Typography>
                   <Typography className={classes.text}>{order._id}</Typography>
                 </FlexBox>
-                <FlexBox>
-                  <Typography className={classes.heading}>
-                    Order Type
-                  </Typography>
-                  <Typography className={classes.text}>{order.type}</Typography>
-                </FlexBox>
+                {order.Transaction && (
+                  <FlexBox>
+                    <Typography className={classes.heading}>
+                      Transaction ID&nbsp;
+                    </Typography>
+                    <Typography className={classes.text}>
+                      {order.Transaction}
+                    </Typography>
+                  </FlexBox>
+                )}
               </FlexBox>
             </CardContent>
           </Card>
@@ -106,6 +110,55 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
               flexDirection: "column",
             }}
           >
+            <Typography
+              color="primary"
+              ml={1}
+              sx={{ fontSize: "20px", fontWeight: "bold" }}
+            >
+              Billing Details
+            </Typography>
+            <Card>
+              <CardContent>
+                <FlexBox>
+                  <Typography className={classes.heading}>Sub Total</Typography>
+                  <Typography className={classes.text}>
+                    PKR. {order.subTotal}
+                  </Typography>
+                </FlexBox>
+                <FlexBox>
+                  <Typography className={classes.heading}>
+                    Delivery Charge
+                  </Typography>
+                  <Typography className={classes.text}>
+                    PKR. {order.deliveryCharge}
+                  </Typography>
+                </FlexBox>
+                <Divider />
+                <FlexBox>
+                  <Typography className={classes.heading}>Total</Typography>
+                  <Typography className={classes.text}>
+                    PKR.{order.total}
+                  </Typography>
+                </FlexBox>
+                <Divider />
+                <FlexBox>
+                  <Typography className={classes.heading}>
+                    Advance Payment
+                  </Typography>
+                  <Typography className={classes.text}>
+                    PKR.{order.advance}
+                  </Typography>
+                </FlexBox>
+                <FlexBox>
+                  <Typography className={classes.heading}>
+                    Cash On Delivery
+                  </Typography>
+                  <Typography className={classes.text}>
+                    PKR.{order.cashOnDelivery}
+                  </Typography>
+                </FlexBox>
+              </CardContent>
+            </Card>
             <Typography
               color="primary"
               ml={1}
@@ -139,38 +192,6 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
                   <Typography className={classes.heading}>Phone </Typography>
                   <Typography className={classes.text}>
                     {order.buyerContact}
-                  </Typography>
-                </FlexBox>
-              </CardContent>
-            </Card>
-            <Typography
-              color="primary"
-              ml={1}
-              sx={{ fontSize: "20px", fontWeight: "bold" }}
-            >
-              Billing Details
-            </Typography>
-            <Card>
-              <CardContent>
-                <FlexBox>
-                  <Typography className={classes.heading}>Sub Total</Typography>
-                  <Typography className={classes.text}>
-                    PKR. {order.subTotal}
-                  </Typography>
-                </FlexBox>
-                <FlexBox>
-                  <Typography className={classes.heading}>
-                    Delivery Charge
-                  </Typography>
-                  <Typography className={classes.text}>
-                    PKR. {order.deliveryCharge}
-                  </Typography>
-                </FlexBox>
-                <Divider />
-                <FlexBox>
-                  <Typography className={classes.heading}>Total</Typography>
-                  <Typography className={classes.text}>
-                    PKR.{order.total}
                   </Typography>
                 </FlexBox>
               </CardContent>

@@ -3,29 +3,24 @@ import React from "react";
 import {
   Box,
   Menu,
-  Card,
   Typography,
-  Button,
   TextField,
-  CardContent,
   IconButton,
   Avatar,
 } from "@mui/material";
-import moment from "moment";
-import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
-import offerService from "../../Services/OfferService";
 import { useHistory } from "react-router-dom";
-import { MidPager } from "../../Styles/MidPager";
 import messageService from "../../Services/MessageServices";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import SendIcon from "@mui/icons-material/Send";
 import { styled } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
 import { SocketAPIContext } from "../../Contexts/SocketAPI/SocketAPi";
 import { makeStyles } from "@mui/styles";
 import MsgLoading from "../LoadingScreen/MsgLoading";
+import ImageMsg from "./ImageMsg";
+import OfferMsg from "./OfferMsg";
+import TextMsg from "./TextMsg";
 
 const useStyles = makeStyles({
   image: {
@@ -115,33 +110,31 @@ export default function ChatMessages({
     const msg = {
       sender: "SELLER",
       createdAt: new Date(),
-      content: msgText.trim(),
+      content: msgText,
       type: "TEXT",
     };
     socket.emit("sendmsg", {
       senderID: chatperson.Buyer._id,
       receiverID: chatperson.Seller,
-      msg: msgText.trim(),
+      msg: msgText,
       roomID: chatId,
     });
-    if (msgText.trim().length > 0) {
-      messageService
-        .sendMessage(chatId, { content: msgText })
-        .then((chats) => {
-          setmessages([msg, ...messages]);
-          setmsgText("");
-          console.log(chats.data);
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
-    }
+    messageService
+      .sendMessage(chatId, { content: msgText })
+      .then((chats) => {
+        setmessages([msg, ...messages]);
+        setmsgText("");
+        console.log(chats.data);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   };
   const sendImage = async () => {
     const data = new FormData();
     data.append("image", image);
     const msg = {
-      sender: "BUYER",
+      sender: "SELLER",
       createdAt: new Date(),
       type: "IMAGE",
     };
@@ -257,7 +250,6 @@ export default function ChatMessages({
           sx={{
             height: "90%",
             overflowY: "scroll",
-
             display: "flex",
             flexDirection: "column-reverse",
           }}
@@ -281,216 +273,23 @@ export default function ChatMessages({
                     sx={{ display: "flex", justifyContent: "space-between" }}
                     // ref={ref}
                   >
-                    {message?.sender === "BUYER" ? (
+                    {message?.sender === "SELLER" ? (
                       <Box
                         sx={{
                           display: "flex",
                           width: "100%",
-                          justifyContent: "left",
+                          justifyContent: "right",
                           padding: "10px",
                         }}
                       >
-                        {message.type === "OFFER" ? (
-                          <>
-                            <Card
-                              sx={{
-                                backgroundColor: "#fafafa",
-                                width: "80%",
-                              }}
-                            >
-                              <CardContent>
-                                <Box
-                                  sx={{
-                                    display: "flex",
-                                    justifyContent: "left",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  {" "}
-                                  <Box>
-                                    <img
-                                      className={classes.image}
-                                      src={message.Offer.Product.images[0].link}
-                                      alt=""
-                                    />
-                                  </Box>
-                                  <Box>
-                                    <Box sx={{ width: "100%" }}>
-                                      <Typography
-                                        sx={{
-                                          color: "#ba6a62",
-                                          fontWeight: "bold",
-                                        }}
-                                      >
-                                        {message.Offer.Product.name}
-                                      </Typography>
-                                    </Box>
-                                    <Box sx={{ width: "100%" }}>
-                                      <FlexBox>
-                                        <Typography
-                                          sx={{
-                                            color: "#ba6a62",
-                                            fontWeight: "bold",
-                                          }}
-                                        >
-                                          Brand:
-                                        </Typography>
-                                        <Typography>
-                                          {message.Offer.Product.brand}
-                                        </Typography>
-                                      </FlexBox>
-                                    </Box>
-                                  </Box>
-                                </Box>
-                                <Box justifyContent="left">
-                                  <FlexBox>
-                                    <Typography
-                                      sx={{
-                                        color: "#ba6a62",
-                                        fontWeight: "bold",
-                                      }}
-                                    >
-                                      Offered Price:&nbsp;
-                                    </Typography>
-                                    <Typography>
-                                      {message.Offer.price + " PKR"}
-                                    </Typography>
-                                  </FlexBox>{" "}
-                                  <FlexBox>
-                                    <Typography
-                                      sx={{
-                                        color: "#ba6a62",
-                                        fontWeight: "bold",
-                                      }}
-                                    >
-                                      Quantity:&nbsp;
-                                    </Typography>
-                                    <Typography>
-                                      {message.Offer.quantity + " pieces"}
-                                    </Typography>
-                                  </FlexBox>
-                                  <FlexBox>
-                                    <Typography
-                                      sx={{
-                                        color: "#ba6a62",
-                                        fontWeight: "bold",
-                                      }}
-                                    >
-                                      Offer Status:&nbsp;
-                                    </Typography>
-                                    <Typography>
-                                      {message.Offer.status}
-                                    </Typography>
-                                  </FlexBox>
-                                </Box>
-                                <Box sx={{ display: "flex" }}>
-                                  <Button
-                                    sx={{
-                                      margin: "5px",
-                                    }}
-                                    color="success"
-                                    variant="contained"
-                                    fullWidth
-                                    startIcon={<DoneIcon />}
-                                    onClick={() => {
-                                      offerService
-                                        .offerReply(message.Offer._id, {
-                                          status: "ACCEPT",
-                                        })
-                                        .catch((error) => {
-                                          console.log(error.response);
-                                        });
-                                    }}
-                                  ></Button>
-                                  <Button
-                                    sx={{
-                                      backgroundColor: "red",
-                                      margin: "5px",
-                                    }}
-                                    variant="contained"
-                                    fullWidth
-                                    startIcon={<CloseIcon />}
-                                    onClick={() => {
-                                      offerService
-                                        .offerReply(message.Offer._id, {
-                                          status: "REFUSE",
-                                        })
-                                        .catch((error) => {
-                                          console.log(error.response);
-                                        });
-                                    }}
-                                  ></Button>
-                                </Box>
-                              </CardContent>
-                              <Typography
-                                pr={1}
-                                pb={1}
-                                align="right"
-                                sx={{ fontSize: "10px" }}
-                              >
-                                {moment(message.Offer.createdAt).format("LT")}
-                              </Typography>
-                            </Card>
-                          </>
-                        ) : (
-                          <>
-                            {message.type === "IMAGE" ? (
-                              <>
-                                <Box>
-                                  <Card
-                                    sx={{
-                                      backgroundColor: "#ba6a63",
-                                      // margin: "10px",
-                                      minWidth: "100px",
-                                      maxWidth: "300px",
-                                      padding: "5px",
-                                    }}
-                                  >
-                                    <Box>
-                                      <img
-                                        className={classes.imagemsg}
-                                        src={message.content}
-                                        alt="image"
-                                      />
-                                    </Box>
-
-                                    <Typography
-                                      align="right"
-                                      sx={{ fontSize: "10px", color: "white" }}
-                                    >
-                                      {moment(message.createdAt).format("LT")}
-                                    </Typography>
-                                  </Card>
-                                </Box>
-                              </>
-                            ) : (
-                              <>
-                                {" "}
-                                <Box>
-                                  <Card
-                                    sx={{
-                                      backgroundColor: "#ba6a63",
-                                      // margin: "10px",
-                                      minWidth: "100px",
-                                      maxWidth: "300px",
-                                      padding: "5px",
-                                    }}
-                                  >
-                                    <Typography align="left">
-                                      {message.content}
-                                    </Typography>
-
-                                    <Typography
-                                      align="right"
-                                      sx={{ fontSize: "10px", color: "white" }}
-                                    >
-                                      {moment(message.createdAt).format("LT")}
-                                    </Typography>
-                                  </Card>
-                                </Box>
-                              </>
-                            )}
-                          </>
+                        {message.type === "IMAGE" && (
+                          <ImageMsg message={message} />
+                        )}
+                        {message.type === "OFFER" && (
+                          <OfferMsg message={message} />
+                        )}
+                        {message.type === "TEXT" && (
+                          <TextMsg message={message} />
                         )}
                       </Box>
                     ) : (
@@ -500,25 +299,18 @@ export default function ChatMessages({
                             display: "flex",
                             width: "100%",
                             justifyContent: "left",
+                            m: 1,
                           }}
                         >
-                          <Card
-                            sx={{
-                              backgroundColor: "#fafafa",
-                              margin: "5px",
-                              minWidth: "100px",
-                              maxWidth: "300px",
-                              padding: "5px",
-                            }}
-                          >
-                            <Typography align="left">
-                              {message.content ? message.content : <></>}
-                            </Typography>
-
-                            <Typography align="right" sx={{ fontSize: "10px" }}>
-                              {moment(message.createdAt).format("LT")}
-                            </Typography>
-                          </Card>
+                          {message.type === "IMAGE" && (
+                            <ImageMsg message={message} />
+                          )}
+                          {message.type === "OFFER" && (
+                            <OfferMsg message={message} />
+                          )}
+                          {message.type === "TEXT" && (
+                            <TextMsg message={message} />
+                          )}
                         </Box>
                       </>
                     )}
