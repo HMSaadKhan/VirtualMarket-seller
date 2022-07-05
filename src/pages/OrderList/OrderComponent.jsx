@@ -53,7 +53,6 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
     }
   };
   useEffect(ButtonLabel, [order.status]);
-  console.log(order);
 
   const FlexBox = styled(Box)({
     display: "flex",
@@ -89,13 +88,15 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
               </FlexBox>
             </CardContent>
           </Card>
-          <Typography
-            ml={1}
-            color="primary"
-            sx={{ fontSize: "20px", fontWeight: "bold" }}
-          >
-            Ordered Products
-          </Typography>
+          <Box>
+            <Typography
+              ml={1}
+              color="primary"
+              sx={{ fontSize: "20px", fontWeight: "bold" }}
+            >
+              Products
+            </Typography>
+          </Box>
           <Card sx={{}}>
             <CardContent>
               {order.items.map((items) => (
@@ -110,6 +111,20 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
               flexDirection: "column",
             }}
           >
+            <Typography
+              color="primary"
+              ml={1}
+              sx={{ fontSize: "20px", fontWeight: "bold" }}
+            >
+              Special Instruction
+            </Typography>
+            <Card sx={{}}>
+              <CardContent>
+                <Typography className={classes.text}>
+                  {order.specialInstructions}
+                </Typography>
+              </CardContent>
+            </Card>
             <Typography
               color="primary"
               ml={1}
@@ -214,22 +229,6 @@ export default function OrderComponent({ order, ChangeOrderStatus }) {
           </Box>
 
           <Box sx={{ display: "flex", marginLeft: "70%" }}>
-            <Box m={1}>
-              {order.status === "SHIPPING" ? (
-                <Button
-                  variant="contained"
-                  value="RETURNED"
-                  onClick={(e) => {
-                    ChangeOrderStatus(order._id, e.target.value);
-                    history.push("/orders/" + order.status);
-                  }}
-                >
-                  Returned
-                </Button>
-              ) : (
-                <></>
-              )}
-            </Box>
             {order.status === "CANCELED" ||
             order.status === "RETURNED" ||
             order.status === "DELIVERED" ? (

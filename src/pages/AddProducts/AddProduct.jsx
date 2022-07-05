@@ -15,7 +15,6 @@ import {
   CardContent,
   InputAdornment,
 } from "@mui/material";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { TextField } from "@mui/material";
 import { toast } from "react-toastify";
 import productService from "../../Services/ProductServices";
@@ -25,7 +24,6 @@ import { MarginBox } from "../../Styles/StyledBoxes";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 import { Inputs } from "../../Styles/StyledInputs";
-import SpecificationComponent from "./SpecificationComponent";
 
 export default function AddProduct(props) {
   const [progress, setprogress] = useState();
@@ -55,14 +53,12 @@ export default function AddProduct(props) {
 
   const handleChange = (event) => {
     setSampleOrder(event.target.value);
-    console.log(sampleOrder);
   };
 
   const getCategories = () => {
     productService
       .GetCategories()
       .then((data) => {
-        console.log(data);
         setCategories(data);
       })
       .catch((err) => {
@@ -95,7 +91,6 @@ export default function AddProduct(props) {
     productService
       .AddProduct(formData, config)
       .then((data) => {
-        console.log(data);
         setbool(false);
         props.history.push("/products");
         toast.success(data.data, {
@@ -103,12 +98,18 @@ export default function AddProduct(props) {
         });
       })
       .catch((err) => {
-        console.log(err);
         setbool(false);
         toast.error(err.response.data, {
           position: toast.POSITION.BOTTOM_LEFT,
         });
       });
+  };
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: "150px",
+      },
+    },
   };
 
   return (
@@ -170,10 +171,16 @@ export default function AddProduct(props) {
                               label="Product Price"
                               type="number"
                               variant="standard"
-                              placeholder="e.g. Electronics"
                               value={price}
                               onChange={(e) => {
                                 setPrice(e.target.value);
+                              }}
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    PKR.
+                                  </InputAdornment>
+                                ),
                               }}
                             />
                           </MarginBox>
@@ -188,6 +195,13 @@ export default function AddProduct(props) {
                               onChange={(e) => {
                                 setMinOrder(e.target.value);
                               }}
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    Pcs
+                                  </InputAdornment>
+                                ),
+                              }}
                             />
                           </MarginBox>
                           <MarginBox>
@@ -195,8 +209,14 @@ export default function AddProduct(props) {
                               Product category
                             </InputLabel>
                             <Select
+                              sx={{ width: "100%", maxHeight: "50px" }}
                               variant="standard"
                               value={category}
+                              MenuProps={{
+                                PaperProps: {
+                                  maxHeight: "150px",
+                                },
+                              }}
                               onChange={(e) => {
                                 selectChange(e);
                               }}
@@ -253,32 +273,36 @@ export default function AddProduct(props) {
                               onChange={(e) => {
                                 setStock(e.target.value);
                               }}
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    Pcs
+                                  </InputAdornment>
+                                ),
+                              }}
                             />
                           </MarginBox>
                           <MarginBox>
                             <Inputs
+                              type="number"
                               label="Warranty Period"
                               variant="standard"
-                              helperText="Enter in Days"
+                              helperText="Minimum 1 Day Check Warranty"
                               value={warrantyPeriod}
                               onChange={(e) => {
                                 setWarrantyPeriod(e.target.value);
+                              }}
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    Days
+                                  </InputAdornment>
+                                ),
                               }}
                             />
                           </MarginBox>
                         </Box>
                       </Box>
-                      <MarginBox>
-                        <TextField
-                          label="Product Description"
-                          multiline
-                          variant="standard"
-                          value={description}
-                          onChange={(e) => {
-                            setDescription(e.target.value);
-                          }}
-                        />
-                      </MarginBox>
                       <MarginBox>
                         <Typography
                           color="primary"
@@ -287,10 +311,19 @@ export default function AddProduct(props) {
                             fontSize: "20px",
                           }}
                         >
-                          Add Product Specifications
+                          Add Product Description
                         </Typography>
+                        <TextField
+                          label="Product Description"
+                          multiline
+                          variant="standard"
+                          value={description}
+                          helperText="e.g. Color, Size, Dimensions etc"
+                          onChange={(e) => {
+                            setDescription(e.target.value);
+                          }}
+                        />
                       </MarginBox>
-                      <SpecificationComponent />
                     </Box>
                     <Box
                       sx={{

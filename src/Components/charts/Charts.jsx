@@ -1,5 +1,6 @@
 import React from "react";
-import "./charts.css";
+
+import { Box, Card, Typography } from "@mui/material";
 import {
   LineChart,
   Line,
@@ -10,71 +11,26 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export default function Charts() {
-  const data = [
-    {
-      name: "Jan",
-      "Active Sales": 4000,
-    },
-    {
-      name: "Feb",
-      "Active Sales": 3000,
-    },
-    {
-      name: "Mar",
-      "Active Sales": 2000,
-    },
-    {
-      name: "Apr",
-      "Active Sales": 2780,
-    },
-    {
-      name: "May",
-      "Active Sales": 1890,
-    },
-    {
-      name: "Jun",
-      "Active Sales": 2390,
-    },
-    {
-      name: "Jul",
-      "Active Sales": 3490,
-    },
-    {
-      name: "Aug",
-      "Active Sales": 3290,
-    },
-    {
-      name: "Sep",
-      "Active Sales": 2800,
-    },
-    {
-      name: "Oct",
-      "Active Sales": 3800,
-    },
-    {
-      name: "Nov",
-      "Active Sales": 2800,
-    },
-    {
-      name: "Dec",
-      "Active Sales": 4200,
-    },
-  ];
-
+export default function Charts({ data }) {
   return (
-    <div className="chart">
-      <h3 className="chartTitle">Sales Analytics</h3>
+    <Box ml={2} mr={2} sx={{ marginLeft: "220px" }}>
+      <Card
+        sx={{ margin: "20px", padding: "20px", backgroundColor: "#fafafa" }}
+      >
+        <Typography variant="h5" color="primary" sx={{ fontWeight: "bold" }}>
+          Order Analytics
+        </Typography>
 
-      <ResponsiveContainer width="100%" aspect={4 / 1}>
-        <LineChart data={data}>
-          <XAxis dataKey="name" stroke="#000000" />
-          <Line type="monotone" dataKey="Active Sales" stroke="#FF0000" />
-          <Tooltip />
-          <CartesianGrid stroke="#e0dfdf" strokeDasharray="5 5" />
-          <Legend />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
+        <ResponsiveContainer width="100%" aspect={4 / 1}>
+          <LineChart data={data}>
+            <XAxis dataKey="name" stroke="#000000" />
+            <Line type="monotone" dataKey="Orders" stroke="#FF0000" />
+            <Tooltip />
+            <CartesianGrid stroke="#e0dfdf" strokeDasharray="5 5" />
+            <Legend />
+          </LineChart>
+        </ResponsiveContainer>
+      </Card>
+    </Box>
   );
 }

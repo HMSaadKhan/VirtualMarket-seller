@@ -3,8 +3,8 @@ import { TextField, Button, Box, Card, CardContent } from "@mui/material";
 import sellerService from "../../Services/SellerServices";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import { Container } from "../../Styles/StyledBoxes";
-
+import { toast } from "react-toastify";
+import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
@@ -16,7 +16,7 @@ const NewPassword = (props) => {
   const [password, setPassword] = React.useState("");
   const history = useHistory();
   const _id = props.match.params.id;
-
+  const [loading, setloading] = React.useState(false);
   return (
     <Box
       sx={{
@@ -26,6 +26,7 @@ const NewPassword = (props) => {
         paddingBottom: "5%",
       }}
     >
+      <LoadingScreen bool={loading} />
       <Card sx={{ minWidth: 300 }}>
         <CardContent>
           <Title>New Password</Title>
@@ -56,14 +57,23 @@ const NewPassword = (props) => {
             <Button
               variant="contained"
               onClick={(e) => {
+                setloading(true);
                 console.log(_id, otp, password);
                 sellerService
                   .resetPassword(_id, { otp, password }) //if gives error then check otp datatype
                   .then((data) => {
+                    setloading(false);
                     history.push("/Login");
+                    toast.success(data.message, {
+                      position: toast.POSITION.BOTTOM_LEFT,
+                    });
                   })
                   .catch((err) => {
-                    console.log(err);
+                    setloading(false);
+
+                    toast.error(err.response.data, {
+                      position: toast.POSITION.BOTTOM_LEFT,
+                    });
                   });
               }}
             >

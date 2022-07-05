@@ -89,18 +89,6 @@ export default function Sidebar(props) {
                 <StyledListItem disablePadding>
                   <StyledListItemButton
                     component={Link}
-                    to="/warranty/REQUESTED/"
-                    disabled={isdisable}
-                  >
-                    <ListItemIcon>
-                      <BuildIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Warranties" />
-                  </StyledListItemButton>
-                </StyledListItem>
-                <StyledListItem disablePadding>
-                  <StyledListItemButton
-                    component={Link}
                     to="/products/"
                     disabled={isdisable}
                   >
@@ -120,6 +108,18 @@ export default function Sidebar(props) {
                       <LocalShippingIcon />
                     </ListItemIcon>
                     <ListItemText primary="Orders" />
+                  </StyledListItemButton>
+                </StyledListItem>
+                <StyledListItem disablePadding>
+                  <StyledListItemButton
+                    component={Link}
+                    to="/warranty/REQUESTED/"
+                    disabled={isdisable}
+                  >
+                    <ListItemIcon>
+                      <BuildIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Warranties" />
                   </StyledListItemButton>
                 </StyledListItem>
                 <StyledListItem disablePadding>

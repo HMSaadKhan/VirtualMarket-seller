@@ -61,6 +61,7 @@ class OrderService extends GenericService {
           reject(err);
         });
     });
+  orderChart = () => axios.get("orders/getmonthlyorders");
 }
 
 let orderService = new OrderService();

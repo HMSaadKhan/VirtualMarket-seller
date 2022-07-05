@@ -27,11 +27,11 @@ const useStyles = makeStyles({
   },
 });
 
-export default function WarrantyComponent({ warranty }) {
+export default function WarrantyComponent({ warranty, Getwarranty }) {
   console.log(warranty);
   const classes = useStyles();
   const history = useHistory();
-  const response = ["REFUND", "REPLACED", "REPAIRED", "DENIED"];
+  const response = ["RETURNED", "REPLACED", "REPAIRED", "DENIED"];
 
   const [bool, setbool] = useState(false);
   const [respond, setrespond] = useState(null);
@@ -80,7 +80,7 @@ export default function WarrantyComponent({ warranty }) {
               color="primary"
               sx={{ fontSize: "20px", fontWeight: "bold" }}
             >
-              Claimed Product
+              Product
             </Typography>
             <Card sx={{ margin: "10px" }}>
               <CardContent>
@@ -98,7 +98,16 @@ export default function WarrantyComponent({ warranty }) {
                     </Typography>
                   </Box>
                   <Box sx={{ width: "50%" }}>
-                    <Typography align="left" className={classes.heading}>
+                    <Typography
+                      align="left"
+                      className={classes.heading}
+                      sx={{ cursor: "pointer", textDecoration: "underLine" }}
+                      onClick={(e) => {
+                        history.push(
+                          "/product-information/" + warranty.Product
+                        );
+                      }}
+                    >
                       {warranty.productName}
                     </Typography>
                   </Box>
@@ -143,6 +152,7 @@ export default function WarrantyComponent({ warranty }) {
                       setbool={setbool}
                       status={respond}
                       _id={warranty._id}
+                      Getwarranty={Getwarranty}
                       // warranties={warranties}
                     />
                   ) : (
@@ -161,14 +171,34 @@ export default function WarrantyComponent({ warranty }) {
                   color="primary"
                   sx={{ fontSize: "20px", fontWeight: "bold" }}
                 >
-                  Buyer's Comment
+                  Comments
                 </Typography>
                 <Card sx={{ margin: "10px" }}>
                   <CardContent>
-                    <Typography className={classes.heading}>
-                      Buyer Comment:
-                    </Typography>
-                    <Typography>{warranty.buyerComment}</Typography>
+                    {warranty.buyerComment && (
+                      <>
+                        <Typography className={classes.heading}>
+                          Buyer Comment:
+                        </Typography>
+                        <Typography>{warranty.buyerComment}</Typography>
+                      </>
+                    )}
+                    {warranty.sellerComment && (
+                      <>
+                        <Typography className={classes.heading}>
+                          Seller Comment:
+                        </Typography>
+                        <Typography>{warranty.sellerComment}</Typography>
+                      </>
+                    )}
+                    {warranty.adminComment && (
+                      <>
+                        <Typography className={classes.heading}>
+                          Admin Comment:
+                        </Typography>
+                        <Typography>{warranty.adminComment}</Typography>
+                      </>
+                    )}
                   </CardContent>
                 </Card>
                 <Typography

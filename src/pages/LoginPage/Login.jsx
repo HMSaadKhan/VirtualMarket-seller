@@ -25,8 +25,6 @@ const Login = (props) => {
     sellerService
       .login(email, password)
       .then((data) => {
-        console.log(data);
-
         window.location.href = "/";
         toast.success("Login Successfull", {
           position: toast.POSITION.BOTTOM_LEFT,
@@ -107,7 +105,7 @@ const Login = (props) => {
                   </Box>
                   <Box mt={1}>
                     <Typography>
-                      <Link to="/signup">Regiter as a new seller</Link>
+                      <Link to="/signup">Register as a new seller</Link>
                     </Typography>
                     <Link to="/forgotpassword">Forgot Password</Link>
                   </Box>

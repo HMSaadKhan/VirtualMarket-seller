@@ -22,15 +22,14 @@ const DeleteIcon = styled(CancelIcon)`
 const DisplayImage = (props) => {
   const { link, uploadImage, index, deleteImage } = props;
   const imageArray = (e, index) => {
-    console.log(index);
-    console.log(e);
     uploadImage(e);
   };
+
   return (
     <>
       {link[index] ? (
         <>
-          {" "}
+          {console.log(link)}
           <Image src={link[index].link} alt="image" />
           <DeleteIcon onClick={() => deleteImage(link[index].cloudinaryID)} />
         </>

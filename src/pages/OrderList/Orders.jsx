@@ -50,25 +50,7 @@ export default function Orders(props) {
           </Box>
 
           <Box sx={{ width: "100%" }}>
-            {!error.length > 0 ? (
-              <>
-                {orderDetails.length > 0 ? (
-                  <OrderList orderDetails={orderDetails} />
-                ) : (
-                  <></>
-                )}
-              </>
-            ) : (
-              <Box m={2}>
-                {/* <Typography
-                  align="center"
-                  sx={{ fontWeight: "bold", fontSize: "15px" }}
-                >
-                  {error}
-                </Typography> */}
-                <MidPager name={error} />
-              </Box>
-            )}
+            <OrderList orderDetails={orderDetails} error={error} />
           </Box>
 
           {/* <Box>

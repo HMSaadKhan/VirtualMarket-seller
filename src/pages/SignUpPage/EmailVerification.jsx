@@ -44,7 +44,7 @@ const ForgotPassword = (props) => {
             <Card sx={{ maxWidth: 300, padding: "20px" }}>
               <CardContent>
                 <Form>
-                  <Title>Verify Your Otp</Title>
+                  <Title>Verify Your Email</Title>
                   <Box mt={2} mb={2}>
                     <Button
                       variant="contained"

@@ -49,7 +49,10 @@ export default function WarrantyDetails(props) {
               <>
                 {warrantyDetails ? (
                   <>
-                    <WarrantyComponent warranty={warrantyDetails} />
+                    <WarrantyComponent
+                      warranty={warrantyDetails}
+                      Getwarranty={Getwarranty}
+                    />
                   </>
                 ) : (
                   <Box m={2}>

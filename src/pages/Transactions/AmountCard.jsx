@@ -17,8 +17,13 @@ const TransactionCard = ({ transactions, Balance }) => {
   return (
     <Box mt={10} ml={2} mr={2} sx={{ marginLeft: "220px" }}>
       <PageHeader heading={"TRANSACTIONS"} />
-      <Box sx={{ width: "20%", marginTop: "10px" }}>
-        <Card>
+      <Box
+        sx={{
+          width: "100%",
+          marginTop: "10px",
+        }}
+      >
+        <Card sx={{ display: "flex", justifyContent: "center" }}>
           <CardContent>
             <Typography
               color="primary"

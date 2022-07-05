@@ -45,13 +45,13 @@ const ProductCard = ({ products, handleDelete, totalpages, page, setPage }) => {
             }}
           >
             <Box sx={{ width: "100%" }}>
-              <ProductText color="primary">Product Image</ProductText>
+              <ProductText color="primary">Image</ProductText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <ProductText color="primary">Product Name</ProductText>
+              <ProductText color="primary">Name</ProductText>
             </Box>
             <Box sx={{ width: "100%" }}>
-              <ProductText color="primary">Product Brand</ProductText>
+              <ProductText color="primary">Brand</ProductText>
             </Box>
             <Box sx={{ width: "100%" }}>
               <ProductText align="center" color="primary">

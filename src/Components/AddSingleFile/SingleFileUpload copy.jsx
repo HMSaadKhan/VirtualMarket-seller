@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Box from "@mui/material/Box";
 import CancelIcon from "@mui/icons-material/Cancel";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import { IconButton } from "@mui/material";
 const Image = styled.img`
   float: left;
   width: 100px;
@@ -13,7 +14,8 @@ const Image = styled.img`
 `;
 
 const SingleFileUpload = (props) => {
-  const { index, imageArray } = props;
+  const { index, imageArray, images } = props;
+  console.log(`Index ${index}`);
   const [ImagePreview, SetImagePreview, imgprRef] = useState(null);
   const ImageSetting = (e) => {
     const image = e.target.files[0];
@@ -23,8 +25,9 @@ const SingleFileUpload = (props) => {
         SetImagePreview(reader.result);
       }
     };
-
+    console.log(image);
     reader.readAsDataURL(image);
+    console.log(index);
     imageArray(image, index);
   };
 
@@ -39,16 +42,20 @@ const SingleFileUpload = (props) => {
         </>
       ) : (
         <>
-          {/* <label htmlFor="file">
-            <AddPhotoAlternateIcon fontSize="large" />
-          </label> */}
+          <IconButton>
+            <label htmlFor="file">
+              <AddPhotoAlternateIcon fontSize="large" />
+            </label>
+          </IconButton>
           <form>
             <input
               type="file"
               id="file"
               accept="image/*"
+              style={{ display: "none" }}
               onChange={(e) => ImageSetting(e)}
             />
+            {console.log(images)}
           </form>
         </>
       )}

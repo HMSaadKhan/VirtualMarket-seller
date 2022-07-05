@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     objectFit: "contain",
   },
 });
-export default function OfferMsg({ message }) {
+export default function OfferMsg({ message, getMessages }) {
   const classes = useStyles();
   return (
     <div>
@@ -40,33 +40,50 @@ export default function OfferMsg({ message }) {
         }}
       >
         <CardContent>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "left",
-              alignItems: "center",
-            }}
-          >
-            {" "}
-            <Box>
-              <img
-                className={classes.image}
-                src={message.Offer.Product.images[0].link}
-                alt=""
-              />
-            </Box>
-            <Box>
-              <Box sx={{ width: "100%" }}>
-                <Typography
-                  sx={{
-                    color: "#ba6a62",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {message.Offer.Product.name}
-                </Typography>
+          {message.Offer.Product ? (
+            <>
+              {" "}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "left",
+                  alignItems: "center",
+                }}
+              >
+                <Box>
+                  <img
+                    className={classes.image}
+                    src={message.Offer.Product.images[0].link}
+                    alt=""
+                  />
+                </Box>
+                <Box>
+                  <Box sx={{ width: "100%" }}>
+                    <Typography
+                      sx={{
+                        color: "#ba6a62",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {message.Offer.Product.name}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ width: "100%" }}>
+                    <FlexBox>
+                      <Typography
+                        sx={{
+                          color: "#ba6a62",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Brand:
+                      </Typography>
+                      <Typography>{message.Offer.Product.brand}</Typography>
+                    </FlexBox>
+                  </Box>
+                </Box>
               </Box>
-              <Box sx={{ width: "100%" }}>
+              <Box justifyContent="left">
                 <FlexBox>
                   <Typography
                     sx={{
@@ -74,86 +91,77 @@ export default function OfferMsg({ message }) {
                       fontWeight: "bold",
                     }}
                   >
-                    Brand:
+                    Offered Price:&nbsp;
                   </Typography>
-                  <Typography>{message.Offer.Product.brand}</Typography>
+                  <Typography>{message.Offer.price + " PKR"}</Typography>
+                </FlexBox>{" "}
+                <FlexBox>
+                  <Typography
+                    sx={{
+                      color: "#ba6a62",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Quantity:&nbsp;
+                  </Typography>
+                  <Typography>{message.Offer.quantity + " pieces"}</Typography>
+                </FlexBox>
+                <FlexBox>
+                  <Typography
+                    sx={{
+                      color: "#ba6a62",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Offer Status:&nbsp;
+                  </Typography>
+                  <Typography>{message.Offer.status}</Typography>
                 </FlexBox>
               </Box>
-            </Box>
-          </Box>
-          <Box justifyContent="left">
-            <FlexBox>
-              <Typography
-                sx={{
-                  color: "#ba6a62",
-                  fontWeight: "bold",
-                }}
-              >
-                Offered Price:&nbsp;
-              </Typography>
-              <Typography>{message.Offer.price + " PKR"}</Typography>
-            </FlexBox>{" "}
-            <FlexBox>
-              <Typography
-                sx={{
-                  color: "#ba6a62",
-                  fontWeight: "bold",
-                }}
-              >
-                Quantity:&nbsp;
-              </Typography>
-              <Typography>{message.Offer.quantity + " pieces"}</Typography>
-            </FlexBox>
-            <FlexBox>
-              <Typography
-                sx={{
-                  color: "#ba6a62",
-                  fontWeight: "bold",
-                }}
-              >
-                Offer Status:&nbsp;
-              </Typography>
-              <Typography>{message.Offer.status}</Typography>
-            </FlexBox>
-          </Box>
-          <Box sx={{ display: "flex" }}>
-            <Button
-              sx={{
-                margin: "5px",
-              }}
-              color="success"
-              variant="contained"
-              fullWidth
-              startIcon={<DoneIcon />}
-              onClick={() => {
-                offerService
-                  .offerReply(message.Offer._id, {
-                    status: "ACCEPT",
-                  })
-                  .catch((error) => {
-                    console.log(error.response);
-                  });
-              }}
-            ></Button>
-            <Button
-              sx={{
-                backgroundColor: "red",
-                margin: "5px",
-              }}
-              variant="contained"
-              fullWidth
-              startIcon={<CloseIcon />}
-              onClick={() => {
-                offerService
-                  .offerReply(message.Offer._id, {
-                    status: "REFUSE",
-                  })
-                  .catch((error) => {
-                    console.log(error.response);
-                  });
-              }}
-            ></Button>
-          </Box>
+              <Box sx={{ display: "flex" }}>
+                <Button
+                  disabled={message.Offer.status === "PENDING" ? false : true}
+                  sx={{
+                    margin: "5px",
+                  }}
+                  color="success"
+                  variant="contained"
+                  fullWidth
+                  startIcon={<DoneIcon />}
+                  onClick={() => {
+                    offerService
+                      .offerReply(message.Offer._id, {
+                        status: "ACCEPT",
+                      })
+                      .then(() => {
+                        getMessages();
+                      });
+                  }}
+                ></Button>
+                <Button
+                  disabled={message.Offer.status === "PENDING" ? false : true}
+                  sx={{
+                    backgroundColor: "red",
+                    margin: "5px",
+                  }}
+                  variant="contained"
+                  fullWidth
+                  startIcon={<CloseIcon />}
+                  onClick={() => {
+                    offerService
+                      .offerReply(message.Offer._id, {
+                        status: "REFUSE",
+                      })
+                      .then(() => {
+                        getMessages();
+                      });
+                  }}
+                ></Button>
+              </Box>
+            </>
+          ) : (
+            <Typography color="primary">Offer No Longer Available</Typography>
+          )}
         </CardContent>
         <Typography pr={1} pb={1} align="right" sx={{ fontSize: "10px" }}>
           {moment(message.Offer.createdAt).format("LT")}

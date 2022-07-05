@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable no-use-before-define */
 import React from "react";
 import {
@@ -9,18 +10,17 @@ import {
   Avatar,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useHistory } from "react-router-dom";
 import messageService from "../../Services/MessageServices";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import SendIcon from "@mui/icons-material/Send";
-import { styled } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { SocketAPIContext } from "../../Contexts/SocketAPI/SocketAPi";
+// import { SocketAPIContext } from "../../Contexts/SocketAPI/SocketAPi";
 import { makeStyles } from "@mui/styles";
 import MsgLoading from "../LoadingScreen/MsgLoading";
 import ImageMsg from "./ImageMsg";
 import OfferMsg from "./OfferMsg";
 import TextMsg from "./TextMsg";
+import "../../Styles/hidescrollBar.css";
 
 const useStyles = makeStyles({
   image: {
@@ -47,21 +47,15 @@ export default function ChatMessages({
   anchor,
   setchatbool,
 }) {
-  const history = useHistory();
   const classes = useStyles();
   const ref = React.useRef();
   const [messages, setmessages] = React.useState([]);
   const [msgText, setmsgText] = React.useState("");
-  const socket = React.useContext(SocketAPIContext);
+  // const socket = React.useContext(SocketAPIContext);
   const [image, setImage] = React.useState();
   const [loading, setloading] = React.useState(false);
+  console.log(bool);
 
-  const FlexBox = styled(Box)({
-    display: "flex",
-    alignItems: "center",
-    margin: "5px",
-    flexWrap: "wrap",
-  });
   const [ImagePreview, SetImagePreview] = React.useState(null);
   const ImageSetting = (e) => {
     const image = e.target.files[0];
@@ -97,14 +91,15 @@ export default function ChatMessages({
     ref?.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, msgText]);
 
-  React.useEffect(() => {
-    socket.on("receivemsg", (senderID, receiverID, msg, roomID) => {
-      console.log(senderID, receiverID, msg, roomID);
-      if (chatId === roomID) {
-        setmessages([msg, ...messages]);
-      }
-    });
-  }, [socket]);
+  // React.useEffect(() => {
+  //   socket.on("receivemsg", ({ senderID, receiverID, msg, roomID }) => {
+  //     console.log(senderID, receiverID, msg, roomID);
+  //     if (chatId === roomID) {
+  //       console.log(messages);
+  //       setmessages([msg, ...messages]);
+  //     }
+  //   });
+  // }, [socket]);
 
   const send = () => {
     const msg = {
@@ -113,12 +108,12 @@ export default function ChatMessages({
       content: msgText,
       type: "TEXT",
     };
-    socket.emit("sendmsg", {
-      senderID: chatperson.Buyer._id,
-      receiverID: chatperson.Seller,
-      msg: msgText,
-      roomID: chatId,
-    });
+    // socket.emit("sendmsg", {
+    //   senderID: chatperson.Buyer._id,
+    //   receiverID: chatperson.Seller,
+    //   msg: msg,
+    //   roomID: chatId,
+    // });
     messageService
       .sendMessage(chatId, { content: msgText })
       .then((chats) => {
@@ -138,12 +133,12 @@ export default function ChatMessages({
       createdAt: new Date(),
       type: "IMAGE",
     };
-    socket.emit("sendmsg", {
-      senderID: chatperson.Buyer,
-      receiverID: chatperson.Seller._id,
-      msg: msg,
-      roomID: chatId,
-    });
+    // socket.emit("sendmsg", {
+    //   senderID: chatperson.Buyer,
+    //   receiverID: chatperson.Seller._id,
+    //   msg: msg,
+    //   roomID: chatId,
+    // });
 
     await messageService
       .sendImage(chatId, data)
@@ -285,9 +280,7 @@ export default function ChatMessages({
                         {message.type === "IMAGE" && (
                           <ImageMsg message={message} />
                         )}
-                        {message.type === "OFFER" && (
-                          <OfferMsg message={message} />
-                        )}
+
                         {message.type === "TEXT" && (
                           <TextMsg message={message} />
                         )}
@@ -306,7 +299,10 @@ export default function ChatMessages({
                             <ImageMsg message={message} />
                           )}
                           {message.type === "OFFER" && (
-                            <OfferMsg message={message} />
+                            <OfferMsg
+                              message={message}
+                              getMessages={getMessages}
+                            />
                           )}
                           {message.type === "TEXT" && (
                             <TextMsg message={message} />
@@ -374,6 +370,9 @@ export default function ChatMessages({
               value={msgText}
               onChange={(e) => {
                 setmsgText(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                e.stopPropagation();
               }}
               onKeyPress={(e) => {
                 if (e.key === "Enter") {

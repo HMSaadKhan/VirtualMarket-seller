@@ -2,18 +2,12 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
 import { makeStyles } from "@material-ui/styles";
-import { styled } from "@mui/material/styles";
-import CancelIcon from "@mui/icons-material/Cancel";
 import warrantyServices from "../../Services/WarrantyServices";
 import { NameBar } from "../../Styles/NameBar";
 import { MarginBox } from "../../Styles/StyledBoxes";
-
-const StyledButton = styled(Button)({});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,9 +21,9 @@ export default function WarrantyComment({
   setbool,
   status,
   warranties,
+  Getwarranty,
 }) {
   const classes = useStyles();
-  console.log(status);
   const handleClose = () => {
     setbool(false);
   };
@@ -39,9 +33,8 @@ export default function WarrantyComment({
     warrantyServices
       .giveResponse(_id, { comment, status })
       .then((data) => {
-        console.log(data.data);
         handleClose();
-        warranties();
+        Getwarranty();
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -68,14 +61,14 @@ export default function WarrantyComment({
             <Box sx={{ display: "flex", justifyContent: "right" }}>
               <MarginBox>
                 {" "}
-                <StyledButton variant="contained" onClick={respond}>
-                  Claim
-                </StyledButton>
+                <Button variant="contained" onClick={respond}>
+                  Confirm
+                </Button>
               </MarginBox>
               <MarginBox>
-                <StyledButton variant="contained" onClick={handleClose}>
+                <Button variant="contained" onClick={handleClose}>
                   Cancel
-                </StyledButton>
+                </Button>
               </MarginBox>
             </Box>
           </div>

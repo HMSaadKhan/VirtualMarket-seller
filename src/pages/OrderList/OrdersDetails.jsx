@@ -8,7 +8,6 @@ import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 
 export default function OrderDetails(props) {
   const id = props.match.params.id;
-  console.log(id);
 
   const [orderDetails, setorderDetails] = useState();
   const [loading, setloading] = useState(false);
@@ -20,7 +19,6 @@ export default function OrderDetails(props) {
       .GetOrderDetails(id)
       .then((data) => {
         setloading(false);
-        console.log(data);
         setorderDetails(data);
         seterror("");
       })

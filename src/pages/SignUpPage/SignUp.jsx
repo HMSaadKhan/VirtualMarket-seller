@@ -6,6 +6,7 @@ import {
   Box,
   CardContent,
   Typography,
+  Checkbox,
 } from "@mui/material";
 import sellerService from "../../Services/SellerServices";
 import { toast } from "react-toastify";
@@ -20,6 +21,11 @@ const Register = (props) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setCPassword] = React.useState("");
+  const [checked, setChecked] = React.useState(true);
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
 
   const SignUpFunction = () => {
     sellerService
@@ -27,6 +33,7 @@ const Register = (props) => {
         email,
         password,
         confirmPassword,
+        terms: checked,
       })
       .then((res) => {
         toast.success(res.data, {
@@ -48,10 +55,10 @@ const Register = (props) => {
         sx={{
           display: "flex",
           justifyContent: "center",
-         marginTop:"200px"
+          marginTop: "200px",
         }}
       >
-        <Card sx={{ maxWidth: 350, minWidth: 350 }}>
+        <Card sx={{ maxWidth: 350, minWidth: 400 }}>
           <CardContent>
             <ColumnBox>
               <Title>Sign Up</Title>
@@ -117,7 +124,21 @@ const Register = (props) => {
                   CREATE
                 </Button>
               </Box>
-              <Typography mt={1}>
+
+              <Box sx={{ display: "flex", alignItems: "center" }} mt={1}>
+                <Checkbox checked={checked} onChange={handleChange} />
+                <Typography sx={{ fontSize: "11px" }}>
+                  I have read and agree to the &nbsp;
+                </Typography>
+                <Typography
+                  sx={{ fontSize: "11px" }}
+                  component={Link}
+                  to={"terms-and-conditions"}
+                >
+                  terms of use and privacy statement
+                </Typography>
+              </Box>
+              <Typography mt={1} ml={1}>
                 Already have an account? <Link to="/Login">Login</Link>
               </Typography>
             </ColumnBox>

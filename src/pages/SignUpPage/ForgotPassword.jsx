@@ -56,7 +56,7 @@ const ForgotPassword = (props) => {
                     .forgotPassword(email)
                     .then((data) => {
                       setloading(false);
-                      console.log(data._id);
+                      
                       history.push("/resetPassword/" + data._id);
                       toast.success(data.message, {
                         position: toast.POSITION.BOTTOM_LEFT,
@@ -64,7 +64,7 @@ const ForgotPassword = (props) => {
                     })
                     .catch((err) => {
                       setloading(false);
-                      console.log(err);
+
                       toast.error(err.response.data, {
                         position: toast.POSITION.BOTTOM_LEFT,
                       });

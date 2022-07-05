@@ -74,7 +74,12 @@ export default function WarrantyList({ warrantyDetails, error }) {
 
                       <Box sx={{ width: "100%" }}>
                         <Typography align="center">
-                          {warranty.productName}
+                          <Link
+                            to={"/product-information/" + warranty.Product}
+                            sx={{ color: "black" }}
+                          >
+                            {warranty.productName}
+                          </Link>
                         </Typography>
                       </Box>
                       <Box sx={{ width: "100%" }}>

@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import { SingleFileUpload } from "./SingleFileUpload";
 import useState from "react-usestateref";
-import LoadingScreen from "../LoadingScreen/LoadingScreen";
 import { DisplayImage } from "./DisplayImage";
+import { Box } from "@mui/material";
 export default function CheckSignleFile() {
   const [images, setImages, imagesRef] = useState([]);
 
   let temp = images;
   const imageArray = (e, index) => {
-    console.log(index);
-    console.log(e);
+    console.log("index" + index);
+    console.log("photo" + e);
     temp[index] = e;
     console.log(temp);
     setImages(temp);
@@ -34,18 +34,22 @@ export default function CheckSignleFile() {
 
   return (
     <div>
-      {/* <SingleFileUpload index={0} imageArray={imageArray} /> */}
-      <br />
-      <br />
-      <br />
-      <LoadingScreen Loading={true} />
-      <br />
-      <br />
-      <br />
-      {/* <SingleFileUpload index={1} imageArray={imageArray} /> */}
-      {imagesArray.map((image, index) => (
+      <Box
+        sx={{ display: "flex", justifyContent: "center", paddingTop: "200px" }}
+      >
+        <SingleFileUpload index={0} imageArray={imageArray} />
+        <br />
+        <br />
+        <br />
+
+        <br />
+        <br />
+        <br />
+        <SingleFileUpload index={1} imageArray={imageArray} />
+        {/* {imagesArray.map((image, index) => (
         <DisplayImage link={image} index={index} imageArray={imageArray} />
-      ))}
+      ))} */}
+      </Box>
     </div>
   );
 }

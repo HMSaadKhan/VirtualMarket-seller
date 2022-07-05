@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { styled } from "@mui/material/styles";
-
 import {
   TextField,
   Box,
@@ -16,6 +14,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  InputAdornment,
 } from "@mui/material";
 import { toast } from "react-toastify";
 import productService from "../../Services/ProductServices";
@@ -63,13 +62,11 @@ export default function Productupdate(props) {
   }, []);
   const handleChange = (event) => {
     setSampleOrder(event.target.value);
-    console.log(sampleOrder);
   };
 
   const onDelete = (cloudinaryID) => {
     setloading(true);
 
-    console.log(cloudinaryID);
     productService
       .deleteProductImage(_id, { cloudinaryID })
       .then((data) => {
@@ -88,7 +85,6 @@ export default function Productupdate(props) {
     productService
       .GetCategories()
       .then((data) => {
-        console.log(data);
         setCategories(data);
       })
       .catch((err) => {
@@ -158,7 +154,7 @@ export default function Productupdate(props) {
   return (
     <IsLoggedin>
       <EmailVerification>
-        <LoadingScreen Loading={loading} />
+        <LoadingScreen bool={loading} />
         <Box
           sx={{
             display: "flex",
@@ -195,7 +191,7 @@ export default function Productupdate(props) {
                           justifyContent: "space-between",
                         }}
                       >
-                        <Box>
+                        <Box sx={{ width: "100%" }}>
                           <MarginBox>
                             <TextField
                               label="Product Name"
@@ -211,13 +207,19 @@ export default function Productupdate(props) {
                               label="Product Price"
                               type="number"
                               variant="standard"
-                              placeholder="e.g. Electronics"
                               value={price}
                               InputLabelProps={{
                                 shrink: price?.value ? false : true,
                               }}
                               onChange={(e) => {
                                 setPrice(e.target.value);
+                              }}
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    PKR.
+                                  </InputAdornment>
+                                ),
                               }}
                             />
                           </MarginBox>
@@ -234,6 +236,13 @@ export default function Productupdate(props) {
                               }}
                               onChange={(e) => {
                                 setMinOrder(e.target.value);
+                              }}
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    Pcs
+                                  </InputAdornment>
+                                ),
                               }}
                             />
                           </MarginBox>
@@ -280,7 +289,7 @@ export default function Productupdate(props) {
                             </FormControl>
                           </MarginBox>
                         </Box>
-                        <Box>
+                        <Box sx={{ width: "100%" }}>
                           <MarginBox>
                             <TextField
                               label="Product Brand"
@@ -304,6 +313,13 @@ export default function Productupdate(props) {
                               onChange={(e) => {
                                 setStock(e.target.value);
                               }}
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    Pcs
+                                  </InputAdornment>
+                                ),
+                              }}
                             />
                           </MarginBox>
                           <MarginBox>
@@ -317,6 +333,13 @@ export default function Productupdate(props) {
                               }}
                               onChange={(e) => {
                                 setWarrantyPeriod(e.target.value);
+                              }}
+                              InputProps={{
+                                startAdornment: (
+                                  <InputAdornment position="start">
+                                    Days
+                                  </InputAdornment>
+                                ),
                               }}
                             />
                           </MarginBox>
@@ -338,7 +361,7 @@ export default function Productupdate(props) {
                     </Box>
                     <Box
                       sx={{
-                        width: "40%",
+                        width: "50%",
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",

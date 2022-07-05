@@ -22,6 +22,7 @@ import { SingleFileUpload } from "../../Components/AddSingleFile/SingleFileUploa
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 import { Inputs } from "../../Styles/StyledInputs";
+import InfoAdded from "../../AuthWrapper/InfoAdded";
 
 export default function AddInformation(props) {
   const [progress, setprogress] = useState();
@@ -61,7 +62,6 @@ export default function AddInformation(props) {
 
   const send = () => {
     setloading(true);
-    console.log(images);
     const formData = new FormData();
     formData.append("fName", fName);
     formData.append("lName", lName);
@@ -85,7 +85,6 @@ export default function AddInformation(props) {
       formData.append("image", images[i]);
     }
 
-    console.log(formData);
     sellerService
       .addDetails(formData, config)
       .then((data) => {
@@ -104,15 +103,9 @@ export default function AddInformation(props) {
   };
 
   const getCities = () => {
-    sellerService
-      .GetCities()
-      .then((data) => {
-        console.log(data);
-        setcities(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    sellerService.GetCities().then((data) => {
+      setcities(data);
+    });
   };
   React.useEffect(getCities, []);
 
@@ -133,284 +126,430 @@ export default function AddInformation(props) {
   return (
     <IsLoggedin>
       <EmailVerification>
-        <LoadingScreen bool={loading} progress={progress} />
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Box sx={{ width: "100%" }}>
-            <Box mt={10} ml={2} mr={2} sx={{ marginLeft: "220px" }}>
-              <Card sx={{}}>
-                <CardContent>
-                  <Typography
-                    variant="h4"
-                    color="primary"
-                    sx={{ fontWeight: "bold" }}
-                  >
-                    Personal Information
-                  </Typography>
-                  <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-                    <Box sx={{ width: "100%" }}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "start",
-                          justifyContent: "space-between",
+        <InfoAdded>
+          <LoadingScreen bool={loading} progress={progress} />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ width: "100%" }}>
+              <Box mt={10} ml={2} mr={2} sx={{ marginLeft: "220px" }}>
+                <Card sx={{}}>
+                  <CardContent>
+                    <Typography
+                      variant="h4"
+                      color="primary"
+                      sx={{ fontWeight: "bold" }}
+                    >
+                      Personal Information
+                    </Typography>
+                    <Box
+                      sx={{ display: "flex", justifyContent: "space-around" }}
+                    >
+                      <Box sx={{ width: "100%" }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "start",
+                            justifyContent: "space-between",
 
-                          height: { sm: "250px", md: "200px", lg: "200px" },
-                        }}
-                      >
-                        <Box sx={{ width: "50%" }}>
-                          <Box sx={{ display: "flex" }}>
-                            <MarginBox>
-                              <TextField
-                                value={fName}
-                                label="First Name"
-                                variant="standard"
-                                onChange={(e) => {
-                                  setfName(e.target.value);
-                                }}
+                            height: { sm: "250px", md: "300px", lg: "200px" },
+                          }}
+                        >
+                          <Box sx={{ width: "50%" }}>
+                            <Box sx={{ display: "flex" }}>
+                              <MarginBox>
+                                <TextField
+                                  value={fName}
+                                  label="First Name"
+                                  variant="standard"
+                                  onChange={(e) => {
+                                    setfName(e.target.value);
+                                  }}
+                                />
+                              </MarginBox>
+                              <MarginBox>
+                                <TextField
+                                  label="Last Name"
+                                  value={lName}
+                                  variant="standard"
+                                  onChange={(e) => {
+                                    setlName(e.target.value);
+                                  }}
+                                />
+                              </MarginBox>
+                            </Box>
+                            <Box sx={{ display: "flex" }}>
+                              <MarginBox>
+                                <Inputs
+                                  type="number"
+                                  label="CNIC"
+                                  value={cnic}
+                                  variant="standard"
+                                  helperText="e.g. 3520265935693"
+                                  onChange={(e) => {
+                                    setCnic(e.target.value);
+                                  }}
+                                />
+                              </MarginBox>
+                              <MarginBox>
+                                <TextField
+                                  type="number"
+                                  label="Phone No"
+                                  variant="standard"
+                                  helperText="03XXXXXXXXX "
+                                  value={phone}
+                                  onChange={(e) => {
+                                    setPhone(e.target.value);
+                                  }}
+                                />
+                              </MarginBox>
+                            </Box>
+                          </Box>
+                          <Box
+                            mr={5}
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              width: { lg: "100%", md: "70%" },
+
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            <MarginBox
+                              sx={{ width: "150px", height: { md: "140px" } }}
+                            >
+                              <Typography>Profile Picture</Typography>
+                              <SingleFileUpload
+                                index={0}
+                                imageArray={imageArray}
                               />
                             </MarginBox>
-                            <MarginBox>
-                              <TextField
-                                label="Last Name"
-                                value={lName}
-                                variant="standard"
-                                onChange={(e) => {
-                                  setlName(e.target.value);
-                                }}
+                            <MarginBox sx={{ width: "150px" }}>
+                              <Typography>CNIC Front</Typography>
+                              <SingleFileUpload
+                                index={1}
+                                imageArray={imageArray}
+                              />
+                            </MarginBox>
+                            <MarginBox sx={{ width: "150px" }}>
+                              <Typography>CNIC Back</Typography>
+                              <SingleFileUpload
+                                index={2}
+                                imageArray={imageArray}
                               />
                             </MarginBox>
                           </Box>
-                          <Box sx={{ display: "flex" }}>
-                            <MarginBox>
-                              <Inputs
-                                type="number"
-                                label="CNIC"
-                                value={cnic}
+                        </Box>
+                        <Typography
+                          variant="h4"
+                          color="primary"
+                          sx={{ fontWeight: "bold" }}
+                        >
+                          Business Information
+                        </Typography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "start",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <Box sx={{ Width: "50%" }}>
+                            <Box sx={{ display: "flex" }}>
+                              <MarginBox>
+                                {" "}
+                                <TextField
+                                  label="Store Name"
+                                  variant="standard"
+                                  value={storeName}
+                                  onChange={(e) => {
+                                    setStoreName(e.target.value);
+                                  }}
+                                />
+                              </MarginBox>
+                              <MarginBox>
+                                <FormControl
+                                  sx={{
+                                    width: {
+                                      xs: "50px",
+                                      sm: "50px",
+                                      md: "100px",
+                                      lg: "200px",
+                                    },
+                                  }}
+                                >
+                                  <InputLabel variant="standard">
+                                    City
+                                  </InputLabel>
+
+                                  <Select
+                                    fullWidth
+                                    variant="standard"
+                                    value={city}
+                                    onChange={(e) => {
+                                      selectChange(e);
+                                    }}
+                                  >
+                                    {cities.map((item) => (
+                                      <MenuItem key={item} value={item._id}>
+                                        {item.name}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                </FormControl>
+                              </MarginBox>
+                            </Box>
+                            <Box sx={{ display: "flex" }}>
+                              <MarginBox>
+                                <Inputs
+                                  type="number"
+                                  label="Delivery charges"
+                                  helperText=" Same city Delivery Charges"
+                                  variant="standard"
+                                  value={sameCityDeliveryCharge}
+                                  onChange={(e) => {
+                                    setDeliveryCharge(e.target.value);
+                                  }}
+                                  InputProps={{
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        PKR.
+                                      </InputAdornment>
+                                    ),
+                                  }}
+                                />
+                              </MarginBox>
+                              <MarginBox>
+                                <Inputs
+                                  type="number"
+                                  label="Delivery charges"
+                                  helperText="Different city Delivery Charges"
+                                  variant="standard"
+                                  value={diffCityDeliveryCharge}
+                                  onChange={(e) => {
+                                    setDifDeliveryCharge(e.target.value);
+                                  }}
+                                  InputProps={{
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        PKR.
+                                      </InputAdornment>
+                                    ),
+                                  }}
+                                />
+                              </MarginBox>
+                            </Box>
+
+                            <Box
+                              sx={{
+                                marginLeft: "10px",
+                                marginRight: "10px",
+                              }}
+                            >
+                              <TextField
+                                fullWidth
+                                label="NTN"
                                 variant="standard"
-                                helperText="e.g. 3520265935693"
+                                value={NTN}
                                 onChange={(e) => {
-                                  setCnic(e.target.value);
+                                  setNTN(e.target.value);
                                 }}
                               />
-                            </MarginBox>
-                            <MarginBox>
+                            </Box>
+                            <Box
+                              sx={{
+                                marginLeft: "10px",
+                                marginRight: "10px",
+                              }}
+                            >
                               <TextField
-                                type="number"
-                                label="Phone No"
+                                fullWidth
+                                label="Shop Address"
                                 variant="standard"
-                                helperText="03XXXXXXXXX "
-                                value={phone}
+                                value={address}
                                 onChange={(e) => {
-                                  setPhone(e.target.value);
+                                  setAddress(e.target.value);
                                 }}
+                              />
+                            </Box>
+                            <Box>
+                              <MarginBox>
+                                <FormLabel>Online Payments</FormLabel>
+                                <Switch
+                                  checked={onlinePaymentOption}
+                                  onChange={switchChange}
+                                />
+                              </MarginBox>
+                              {onlinePaymentOption ? (
+                                <>
+                                  {" "}
+                                  <Box>
+                                    <Typography
+                                      variant="h4"
+                                      color="primary"
+                                      sx={{ fontWeight: "bold" }}
+                                    >
+                                      Account Information
+                                    </Typography>
+                                    <MarginBox>
+                                      <TextField
+                                        fullWidth
+                                        label="Bank Title"
+                                        variant="standard"
+                                        value={bankTitle}
+                                        onChange={(e) => {
+                                          setbankTitle(e.target.value);
+                                        }}
+                                      />
+                                    </MarginBox>
+                                    <MarginBox>
+                                      <TextField
+                                        fullWidth
+                                        label="Account Title"
+                                        variant="standard"
+                                        value={accountTitle}
+                                        onChange={(e) => {
+                                          setaccountTitle(e.target.value);
+                                        }}
+                                      />
+                                    </MarginBox>
+                                    <MarginBox>
+                                      <TextField
+                                        fullWidth
+                                        label="Account Number"
+                                        variant="standard"
+                                        value={accountNumber}
+                                        onChange={(e) => {
+                                          setaccountNumber(e.target.value);
+                                        }}
+                                      />
+                                    </MarginBox>
+                                  </Box>
+                                </>
+                              ) : (
+                                <></>
+                              )}
+                            </Box>
+                          </Box>
+
+                          <Box
+                            mr={5}
+                            sx={{
+                              display: "flex",
+                              flexWrap: "wrap",
+                              justifyContent: "space-between",
+                              width: "70%",
+                            }}
+                          >
+                            <MarginBox
+                              sx={{ width: "150px", height: { md: "140px" } }}
+                            >
+                              <Typography>Utility Bill 1</Typography>
+                              <SingleFileUpload
+                                index={3}
+                                imageArray={imageArray}
+                              />
+                            </MarginBox>
+                            <MarginBox sx={{ width: "150px" }}>
+                              <Typography>Utility Bill 2</Typography>
+                              <SingleFileUpload
+                                index={4}
+                                imageArray={imageArray}
+                              />
+                            </MarginBox>
+                            <MarginBox sx={{ width: "150px" }}>
+                              <Typography>Account Statement</Typography>
+                              <SingleFileUpload
+                                index={5}
+                                imageArray={imageArray}
                               />
                             </MarginBox>
                           </Box>
                         </Box>
                         <Box
-                          mr={5}
                           sx={{
                             display: "flex",
-                            flexWrap: "wrap",
+                            alignItems: "start",
                             justifyContent: "space-between",
 
-                            width: "50%",
+                            width: {
+                              sm: "50%",
+                              md: "40%",
+                              lg: "35%",
+                              xl: "30%",
+                            },
                           }}
                         >
-                          <MarginBox sx={{ width: "150px" }}>
-                            <Typography>Profile Picture</Typography>
-                            <SingleFileUpload
-                              index={0}
-                              imageArray={imageArray}
-                            />
-                          </MarginBox>
-                          <MarginBox sx={{ width: "150px" }}>
-                            <Typography>CNIC Front</Typography>
-                            <SingleFileUpload
-                              index={1}
-                              imageArray={imageArray}
-                            />
-                          </MarginBox>
-                          <MarginBox sx={{ width: "150px" }}>
-                            <Typography>CNIC Back</Typography>
-                            <SingleFileUpload
-                              index={2}
-                              imageArray={imageArray}
-                            />
-                          </MarginBox>
-                        </Box>
-                      </Box>
-                      <Typography
-                        variant="h4"
-                        color="primary"
-                        sx={{ fontWeight: "bold" }}
-                      >
-                        Business Information
-                      </Typography>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "start",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Box sx={{ Width: "50%" }}>
-                          <Box sx={{ display: "flex" }}>
+                          <Box sx={{}}>
                             <MarginBox>
-                              {" "}
-                              <TextField
-                                label="Store Name"
-                                variant="standard"
-                                value={storeName}
-                                onChange={(e) => {
-                                  setStoreName(e.target.value);
-                                }}
-                              />
-                            </MarginBox>
-                            <MarginBox>
-                              <FormControl
-                                sx={{
-                                  width: {
-                                    xs: "50px",
-                                    sm: "50px",
-                                    md: "100px",
-                                    lg: "200px",
-                                  },
-                                }}
-                              >
-                                <InputLabel variant="standard">City</InputLabel>
-
-                                <Select
-                                  fullWidth
-                                  variant="standard"
-                                  value={city}
-                                  onChange={(e) => {
-                                    selectChange(e);
-                                  }}
-                                >
-                                  {cities.map((item) => (
-                                    <MenuItem key={item} value={item._id}>
-                                      {item.name}
-                                    </MenuItem>
-                                  ))}
-                                </Select>
-                              </FormControl>
-                            </MarginBox>
-                          </Box>
-                          <Box sx={{ display: "flex" }}>
-                            <MarginBox>
-                              <Inputs
-                                type="number"
-                                label="Delivery charges"
-                                helperText=" Same city Delivery Charges"
-                                variant="standard"
-                                value={sameCityDeliveryCharge}
-                                onChange={(e) => {
-                                  setDeliveryCharge(e.target.value);
-                                }}
-                              />
-                            </MarginBox>
-                            <MarginBox>
-                              <Inputs
-                                type="number"
-                                label="Delivery charges"
-                                helperText="Different city Delivery Charges"
-                                variant="standard"
-                                value={diffCityDeliveryCharge}
-                                onChange={(e) => {
-                                  setDifDeliveryCharge(e.target.value);
-                                }}
-                              />
-                            </MarginBox>
-                          </Box>
-
-                          <Box
-                            sx={{
-                              marginLeft: "10px",
-                              marginRight: "10px",
-                            }}
-                          >
-                            <TextField
-                              fullWidth
-                              label="NTN"
-                              variant="standard"
-                              value={NTN}
-                              onChange={(e) => {
-                                setNTN(e.target.value);
-                              }}
-                            />
-                          </Box>
-                          <Box
-                            sx={{
-                              marginLeft: "10px",
-                              marginRight: "10px",
-                            }}
-                          >
-                            <TextField
-                              fullWidth
-                              label="Shop Address"
-                              variant="standard"
-                              value={address}
-                              onChange={(e) => {
-                                setAddress(e.target.value);
-                              }}
-                            />
-                          </Box>
-                          <Box>
-                            <MarginBox>
-                              <FormLabel>Online Payments</FormLabel>
+                              <FormLabel>Advance Payments</FormLabel>
                               <Switch
-                                checked={onlinePaymentOption}
-                                onChange={switchChange}
+                                disabled={!onlinePaymentOption}
+                                checked={advancePaymentOption}
+                                onChange={advancePaymentswitchChange}
                               />
                             </MarginBox>
-                            {onlinePaymentOption ? (
+                            {!onlinePaymentOption && (
+                              <Typography color="red" ml={1}>
+                                Advance payments can only be enabled with online
+                                payments
+                              </Typography>
+                            )}
+                            {advancePaymentOption && onlinePaymentOption ? (
                               <>
                                 {" "}
+                                <Typography
+                                  variant="h4"
+                                  color="primary"
+                                  sx={{ fontWeight: "bold" }}
+                                >
+                                  Advance Payment Information
+                                </Typography>
                                 <Box>
-                                  <Typography
-                                    variant="h4"
-                                    color="primary"
-                                    sx={{ fontWeight: "bold" }}
-                                  >
-                                    Account Information
-                                  </Typography>
                                   <MarginBox>
-                                    <TextField
+                                    <Inputs
+                                      sx={{}}
                                       fullWidth
-                                      label="Bank Title"
+                                      label="Minimum Amount"
                                       variant="standard"
-                                      value={bankTitle}
+                                      value={advancePaymentCriteria}
+                                      helperText="Amount is the minimum invoice for advance
+                                payment.Should be Minimum PKR 1."
                                       onChange={(e) => {
-                                        setbankTitle(e.target.value);
+                                        setadvancePaymentCriteria(
+                                          e.target.value
+                                        );
+                                      }}
+                                      InputProps={{
+                                        startAdornment: (
+                                          <InputAdornment position="start">
+                                            PKR
+                                          </InputAdornment>
+                                        ),
                                       }}
                                     />
                                   </MarginBox>
                                   <MarginBox>
-                                    <TextField
+                                    <Inputs
+                                      label="Advance Payment"
+                                      placeholder="50"
                                       fullWidth
-                                      label="Account Title"
                                       variant="standard"
-                                      value={accountTitle}
-                                      onChange={(e) => {
-                                        setaccountTitle(e.target.value);
+                                      value={advancePaymentAmount}
+                                      helperText="Should be Minimum 1%."
+                                      InputProps={{
+                                        endAdornment: (
+                                          <InputAdornment position="end">
+                                            %
+                                          </InputAdornment>
+                                        ),
                                       }}
-                                    />
-                                  </MarginBox>
-                                  <MarginBox>
-                                    <TextField
-                                      fullWidth
-                                      label="Account Number"
-                                      variant="standard"
-                                      value={accountNumber}
                                       onChange={(e) => {
-                                        setaccountNumber(e.target.value);
+                                        setadvancePaymentAmount(e.target.value);
                                       }}
                                     />
                                   </MarginBox>
@@ -421,119 +560,9 @@ export default function AddInformation(props) {
                             )}
                           </Box>
                         </Box>
-
-                        <Box
-                          mr={5}
-                          sx={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            justifyContent: "space-between",
-                            alignItems: "start",
-                            Width: "50%",
-                          }}
-                        >
-                          <MarginBox sx={{ width: "150px" }}>
-                            <Typography>Utility Bill 1</Typography>
-                            <SingleFileUpload
-                              index={3}
-                              imageArray={imageArray}
-                            />
-                          </MarginBox>
-                          <MarginBox sx={{ width: "150px" }}>
-                            <Typography>Utility Bill 2</Typography>
-                            <SingleFileUpload
-                              index={4}
-                              imageArray={imageArray}
-                            />
-                          </MarginBox>
-                          <MarginBox sx={{ width: "150px" }}>
-                            <Typography>Account Statement</Typography>
-                            <SingleFileUpload
-                              index={5}
-                              imageArray={imageArray}
-                            />
-                          </MarginBox>
-                        </Box>
                       </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "start",
-                          justifyContent: "space-between",
 
-                          width: { sm: "50%", md: "40%", lg: "35%", xl: "30%" },
-                        }}
-                      >
-                        <Box sx={{}}>
-                          <MarginBox>
-                            <FormLabel>Advance Payments</FormLabel>
-                            <Switch
-                              disabled={!onlinePaymentOption}
-                              checked={advancePaymentOption}
-                              onChange={advancePaymentswitchChange}
-                            />
-                          </MarginBox>
-                          {!onlinePaymentOption && (
-                            <Typography color="red" ml={1}>
-                              Advance payments can only be enabled with online
-                              payments
-                            </Typography>
-                          )}
-                          {advancePaymentOption && onlinePaymentOption ? (
-                            <>
-                              {" "}
-                              <Typography
-                                variant="h4"
-                                color="primary"
-                                sx={{ fontWeight: "bold" }}
-                              >
-                                Advance Payment Information
-                              </Typography>
-                              <Box>
-                                <MarginBox>
-                                  <Inputs
-                                    sx={{}}
-                                    fullWidth
-                                    label="Minimum Amount"
-                                    variant="standard"
-                                    value={advancePaymentCriteria}
-                                    helperText="Amount is the minimum invoice for advance
-                                payment.Should be Minimum PKR 1."
-                                    onChange={(e) => {
-                                      setadvancePaymentCriteria(e.target.value);
-                                    }}
-                                  />
-                                </MarginBox>
-                                <MarginBox>
-                                  <Inputs
-                                    label="Advance Payment"
-                                    placeholder="50"
-                                    fullWidth
-                                    variant="standard"
-                                    value={advancePaymentAmount}
-                                    helperText="Should be Minimum 1%."
-                                    InputProps={{
-                                      endAdornment: (
-                                        <InputAdornment position="end">
-                                          %
-                                        </InputAdornment>
-                                      ),
-                                    }}
-                                    onChange={(e) => {
-                                      setadvancePaymentAmount(e.target.value);
-                                    }}
-                                  />
-                                </MarginBox>
-                              </Box>
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </Box>
-                      </Box>
-                    </Box>
-
-                    {/* <Box
+                      {/* <Box
                       sx={{
                         width: "50%",
                         display: "flex",
@@ -562,18 +591,19 @@ export default function AddInformation(props) {
                         </MarginBox>
                       </Box>
                     </Box> */}
-                  </Box>
+                    </Box>
 
-                  <MarginBox>
-                    <Button variant="contained" onClick={() => send()}>
-                      Add Information
-                    </Button>
-                  </MarginBox>
-                </CardContent>
-              </Card>
+                    <MarginBox>
+                      <Button variant="contained" onClick={() => send()}>
+                        Add Information
+                      </Button>
+                    </MarginBox>
+                  </CardContent>
+                </Card>
+              </Box>
             </Box>
           </Box>
-        </Box>
+        </InfoAdded>
       </EmailVerification>
     </IsLoggedin>
   );

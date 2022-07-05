@@ -5,7 +5,6 @@ import {
   TextField,
   Button,
   Box,
-  FormLabel,
   InputLabel,
   Select,
   MenuItem,
@@ -17,9 +16,8 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import Switch from "@mui/material/Switch";
-
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { styled } from "@mui/material/styles";
 import { MarginBox } from "../../Styles/StyledBoxes";
 import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
@@ -44,7 +42,6 @@ export default function UserProfile() {
   const [bankTitle, setbankTitle] = useState("");
   const [password, setpassword] = useState("");
   const [updateCheck, setupdateCheck] = useState(false);
-
   const [advancePaymentOption, setadvancePaymentOption] = useState(false);
   const [advancePaymentAmount, setadvancePaymentAmount] = useState();
   const [advancePaymentCriteria, setadvancePaymentCriteria] = useState();
@@ -137,7 +134,7 @@ export default function UserProfile() {
                 alignItems: "center",
               }}
             >
-              <Box sx={{ width: "70%" }}>
+              <Box sx={{ width: "80%" }}>
                 <Box mt={9} ml={2} mr={2} sx={{ marginLeft: "220px" }}>
                   <Card sx={{}}>
                     <CardContent>
@@ -237,6 +234,7 @@ export default function UserProfile() {
                                     <input
                                       type="file"
                                       id="file"
+                                      accept="image/*"
                                       onChange={(e) => {
                                         setImage(e.target.files[0]);
                                       }}
@@ -452,7 +450,7 @@ export default function UserProfile() {
                                           fontSize: "20px",
                                         }}
                                       >
-                                        Advance Payments
+                                        Advance Payments Required
                                       </Typography>
                                     }
                                     control={
@@ -472,7 +470,7 @@ export default function UserProfile() {
                                 )}
                                 <>
                                   <Typography
-                                    variant="h4"
+                                    variant="h5"
                                     color="primary"
                                     sx={{ fontWeight: "bold" }}
                                   >
@@ -530,6 +528,17 @@ export default function UserProfile() {
                                     </MarginBox>
                                   </Box>
                                 </>
+                              </Box>
+                              <Box sx={{ display: "flex" }}>
+                                <Typography>
+                                  I have read and agree to the &nbsp;
+                                </Typography>
+                                <Typography
+                                  component={Link}
+                                  to={"terms-and-conditions"}
+                                >
+                                  terms of use and privacy statement
+                                </Typography>
                               </Box>
                               <MarginBox>
                                 <Button
