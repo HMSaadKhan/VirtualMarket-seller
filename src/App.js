@@ -35,6 +35,7 @@ import AprovalWait from "./pages/AdminMessages/AprovalWait";
 import SellerBlocked from "./pages/AdminMessages/SellerBlocked";
 import SocketAPI from "./Contexts/SocketAPI/SocketAPi";
 import WarrantyDetails from "./pages/Warranty/WarrantyDetails";
+import Terms from "./Components/Terms";
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -75,6 +76,7 @@ function App() {
               <Route path="/add-information" exact component={AddInformation} />
               <Route path="/approvalWait" exact component={AprovalWait} />
               <Route path="/blocked" exact component={SellerBlocked} />
+              <Route path="/terms-and-conditions" component={Terms} />
               <Route path="/not-found" component={NotFound} />
               <Route path="/" exact component={Home} />
               <Redirect to="/not-found" />

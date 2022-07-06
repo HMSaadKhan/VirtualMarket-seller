@@ -11,7 +11,7 @@ const orderStatus = [
   "PACKAGING",
   "SHIPPING",
   "DELIVERED",
-  "RETURNED",
+  "CANCELLED",
 ];
 export default function OrderMenu() {
   const history = useHistory();

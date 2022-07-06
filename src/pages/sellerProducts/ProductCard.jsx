@@ -5,12 +5,15 @@ import { useHistory } from "react-router-dom";
 import { Box, IconButton, Card, CardContent, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import InventoryIcon from "@mui/icons-material/Inventory";
 import { styled } from "@mui/material/styles";
 import { Divider } from "@mui/material";
 import PageHeader from "../../Components/PageHeader";
 import { Pagination } from "@mui/material";
 
 import { makeStyles } from "@mui/styles";
+import StockPopup from "../../Components/PopUps/StockPopup";
+import ConfirmPopup from "../../Components/PopUps/ConfirmPopup";
 
 const useStyles = makeStyles({
   image: {
@@ -25,12 +28,30 @@ const ProductText = styled(Typography)({
 const DataText = styled(Typography)({
   align: "center",
 });
-const ProductCard = ({ products, handleDelete, totalpages, page, setPage }) => {
+
+const ProductCard = ({
+  products,
+  handleDelete,
+  totalpages,
+  page,
+  setPage,
+  getSellerProducts,
+}) => {
   const classes = useStyles();
   const history = useHistory();
-  console.log(products);
+  const [stockpopup, setstockpopup] = React.useState(false);
+
+  const [productId, setproductId] = React.useState();
+
   return (
     <Box mt={10} ml={2} mr={2} sx={{ marginLeft: "220px" }}>
+      <StockPopup
+        bool={stockpopup}
+        setbool={setstockpopup}
+        getSellerProducts={getSellerProducts}
+        productId={productId}
+      />
+
       <Box>
         <PageHeader heading={"PRODUCTS"} />
         <Card
@@ -206,6 +227,14 @@ const ProductCard = ({ products, handleDelete, totalpages, page, setPage }) => {
                         }}
                       >
                         <DeleteIcon />
+                      </IconButton>
+                      <IconButton
+                        onClick={(e) => {
+                          setproductId(product._id);
+                          setstockpopup(true);
+                        }}
+                      >
+                        <InventoryIcon />
                       </IconButton>
                     </Box>
                   </Box>

@@ -8,9 +8,7 @@ import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
-import Typography from "@mui/material/Typography";
 import useState from "react-usestateref";
-import Pagination from "@mui/material/Pagination";
 
 const SellerProducts = (props) => {
   const [loading, setloading] = useState(false);
@@ -32,8 +30,9 @@ const SellerProducts = (props) => {
       })
       .catch((error) => {
         setloading(false);
+        setSellerProducts([]);
 
-        console.log(error);
+        console.log(error.response.data);
         window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       });
   };
@@ -72,6 +71,7 @@ const SellerProducts = (props) => {
                 totalpages={totalpages}
                 page={pageRef.current}
                 setPage={setPage}
+                getSellerProducts={getSellerProducts}
               />
             </Box>
           </Box>

@@ -23,6 +23,7 @@ import EmailVerification from "../../AuthWrapper/EmailVerification";
 import IsLoggedin from "../../AuthWrapper/IsLoggedin";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import { Inputs } from "../../Styles/StyledInputs";
+import PasswordPopup from "../../Components/PopUps/PasswordPopup";
 
 export default function UserProfile() {
   const [city, setCity] = useState("");
@@ -75,6 +76,38 @@ export default function UserProfile() {
       });
   };
   React.useEffect(getSellerInfo, []);
+
+  const editUserDetails = () => {
+    sellerService
+      .editUserDetails({
+        accountNumber,
+        accountTitle,
+        bankTitle,
+        phone,
+        storeName,
+        password,
+        sameCityDeliveryCharge,
+        diffCityDeliveryCharge,
+        onlinePaymentOption,
+        advancePaymentAmount,
+        advancePaymentCriteria,
+        advancePayment: advancePaymentOption,
+      })
+      .then((data) => {
+        getSellerInfo();
+        setupdateCheck(false);
+        toast.success(data.data, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+        setpassword("");
+      })
+      .catch((err) => {
+        toast.error(err.response.data, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      });
+  };
+
   const send = async (event) => {
     setloading(true);
     const data = new FormData();
@@ -84,6 +117,7 @@ export default function UserProfile() {
       .then((data) => {
         setloading(false);
         getSellerInfo();
+
         toast.success(data.data, {
           position: toast.POSITION.BOTTOM_LEFT,
         });
@@ -124,6 +158,13 @@ export default function UserProfile() {
   return (
     <IsLoggedin>
       <EmailVerification>
+        <PasswordPopup
+          bool={updateCheck}
+          setbool={setupdateCheck}
+          password={password}
+          setpassword={setpassword}
+          editUserDetails={editUserDetails}
+        />
         <LoadingScreen bool={loading} />
         {sellerInfo ? (
           <>
@@ -243,7 +284,11 @@ export default function UserProfile() {
                                 </form>
                               </MarginBox>
                               <Box ml={5}>
-                                <Button variant="contained" onClick={send}>
+                                <Button
+                                  disabled={image ? false : true}
+                                  variant="contained"
+                                  onClick={send}
+                                >
                                   Update Image
                                 </Button>
                               </Box>
@@ -550,61 +595,6 @@ export default function UserProfile() {
                                   Update Information
                                 </Button>
                               </MarginBox>
-                              {updateCheck && (
-                                <Box>
-                                  <MarginBox>
-                                    <TextField
-                                      fullWidth
-                                      type="password"
-                                      label="Enter Your Password"
-                                      variant="standard"
-                                      value={password}
-                                      onChange={(e) => {
-                                        setpassword(e.target.value);
-                                      }}
-                                    />
-                                  </MarginBox>
-                                  <MarginBox>
-                                    <Button
-                                      variant="contained"
-                                      onClick={(e) => {
-                                        sellerService
-                                          .editUserDetails({
-                                            accountNumber,
-                                            accountTitle,
-                                            bankTitle,
-                                            phone,
-                                            storeName,
-                                            password,
-                                            sameCityDeliveryCharge,
-                                            diffCityDeliveryCharge,
-                                            onlinePaymentOption,
-                                            advancePaymentAmount,
-                                            advancePaymentCriteria,
-                                            advancePayment:
-                                              advancePaymentOption,
-                                          })
-                                          .then((data) => {
-                                            getSellerInfo();
-                                            setupdateCheck(false);
-                                            toast.success(data.data, {
-                                              position:
-                                                toast.POSITION.BOTTOM_LEFT,
-                                            });
-                                          })
-                                          .catch((err) => {
-                                            toast.error(err.response.data, {
-                                              position:
-                                                toast.POSITION.BOTTOM_LEFT,
-                                            });
-                                          });
-                                      }}
-                                    >
-                                      confirm
-                                    </Button>
-                                  </MarginBox>
-                                </Box>
-                              )}
                             </Box>
                           </Box>
                         </Box>

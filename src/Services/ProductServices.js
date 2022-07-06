@@ -107,6 +107,7 @@ class ProductService extends GenericService {
           reject(err);
         });
     });
+  updateStock = (id, data) => axios.patch("products/updatestock/" + id, data);
 }
 let productService = new ProductService();
 export default productService;

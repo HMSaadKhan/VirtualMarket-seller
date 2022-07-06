@@ -27,7 +27,7 @@ export default function SellerBlocked() {
             <Typography
               sx={{ color: "black", fontWeight: "bold", fontSize: "15px" }}
             >
-              contact @ virtualmarket@admin.com
+              contact @ virtualmarket06@gmail.com
             </Typography>
           </Box>
         </Box>
