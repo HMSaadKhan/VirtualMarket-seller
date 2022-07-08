@@ -170,7 +170,7 @@ const ProductCard = ({
                         )}
                       </DataText>
                     </Box>
-                    {console.log(product.status)}
+
                     <Box
                       sx={{
                         width: "100%",
